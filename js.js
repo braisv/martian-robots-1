@@ -1,6 +1,16 @@
 var botModule = (function () {
 
-	var _turnBot = function ( angle, direction ) {
+	var botObj = function( name, xPos, yPos, orientation, status ) {
+		this.name = name;
+//    this.xPos = xPos;
+//    this.yPos = yPos;
+//    this.orientation = orientation;
+		this.position = { x:xPos, y:yPos, o:orientation.toUpperCase() };
+		this.status = (status === false) ? " LOST" : "";
+		this.getBotInfo = _getBotInfo(this.name, this.position, this.status);
+	};
+  
+  var _turnBot = function ( angle, direction ) {
 		if(direction.toLowerCase() === "r") {
 			angle = (angle == 180) ? -90 : angle + 90;
 		}
@@ -32,16 +42,6 @@ var botModule = (function () {
 		return statusStr;
 	};
 	
-	var botObj = function( name, xPos, yPos, orientation, status ) {
-		this.name = name;
-//    this.xPos = xPos;
-//    this.yPos = yPos;
-//    this.orientation = orientation;
-		this.position = { x:xPos, y:yPos, o:orientation.toUpperCase() };
-		this.status = (status === false) ? " LOST" : "";
-		this.getBotInfo = _getBotInfo(this.name, this.position, this.status);
-	};
-  
   var moveBot = function (botName, positionStr, instructionsStr) {
     var limit = 100;
     var posArr = positionStr.split(" ");
