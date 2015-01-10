@@ -1,38 +1,71 @@
 var botModule = (function () {
-
-	var botObj = function( name, xPos, yPos, orientation, status ) {
+  
+  var _cardinalPoints = { 
+    points: { N:0, E:90, S:180, W:270 },
+    getPointName: function(findDegree) {
+      for (var p in this.points) {
+        if (findDegree === this.points[p]) {
+          return p;
+        }
+      }
+    },
+    getDegree: function(findPoint) {
+      for (var p in this.points) {
+        if (findPoint === p) {
+          return this.points[p];
+        }
+      }  
+    }
+  };
+  
+	var robot = function( name, xPos, yPos, orientation, status ) {
 		this.name = name;
-//    this.xPos = xPos;
-//    this.yPos = yPos;
-//    this.orientation = orientation;
-		this.position = { x:xPos, y:yPos, o:orientation.toUpperCase() };
-		this.status = (status === false) ? " LOST" : "";
-		this.getBotInfo = _getBotInfo(this.name, this.position, this.status);
+		this.xPos = xPos;
+		this.yPos = yPos;
+		this.orientation = orientation.toUpperCase();
+		this.status = status;
+		this.statusStr = (status === false) ? " LOST" : "";
 	};
   
-  var _turnBot = function ( angle, direction ) {
-		if(direction.toLowerCase() === "r") {
-			angle = (angle == 180) ? -90 : angle + 90;
+  
+  var _turnBot = function(orientation, direction) {
+    var angle = _cardinalPoints.getDegree(orientation);
+    
+		if(direction.toUpperCase() === "R") {
+			angle = (angle === 270) ? 0 : angle + 90;
 		}
-		else if (direction.toLowerCase() === "l") {
-			angle = (angle == -180) ? 90 : angle - 90;
+		else if (direction.toUpperCase() === "L") {
+			angle = (angle === 0) ? 270 : angle - 90;
 		}
-		return angle;
+		
+    return _cardinalPoints.getPointName(angle);
 	};
-	
-	var _getOrientation = function (degrees) {
-		switch (degrees) {
-        case 0:
-          return "N";
-        case 90:
-          return "E";
-        case -90:
-          return "W";
-        case 180:
-        case -180:
-          return "S";
+  
+  var _moveBot = function(bot) {
+    var xBounds = 5, yBounds = 3;
+//    console.log("%s; x: %s, y: %s", bot.name, bot.xPos, bot.yPos);
+    
+    switch (bot.orientation) {
+        case "N":
+          bot.yPos = parseInt(bot.yPos, 10) + 1;
+          break;
+        case "S":
+          bot.yPos = parseInt(bot.yPos, 10) - 1;
+          break;
+        case "E":
+          bot.xPos = parseInt(bot.xPos, 10) + 1;
+          break;
+        case "W":
+          bot.xPos = parseInt(bot.xPos, 10) - 1;
+          break;
     }
-	};
+    
+    if(bot.xPos < 0 || bot.xPos > xBounds || bot.yPos < 0 || bot.yPos > yBounds) {
+      bot.status = false;
+//      console.log("lost val; x: %s, y: %s", bot.xPos, bot.yPos);
+    }
+  
+  };
 	
 	var _getBotInfo = function( name, position, status ) {
 		var statusStr = "Bot: " + name + "\n";
@@ -42,54 +75,55 @@ var botModule = (function () {
 		return statusStr;
 	};
 	
-  var moveBot = function (botName, positionStr, instructionsStr) {
+  var instructBot = function (botName, positionStr, instructionsStr) {
     var limit = 100;
     var posArr = positionStr.split(" ");
     
-    var robot = new botObj(botName, posArr[0], posArr[1], posArr[2], true);
+    var bot = new robot(botName, posArr[0], posArr[1], posArr[2], true);
     
-    insArr = instructionsStr.split("", limit);
+    var insArr = instructionsStr.split("", limit);
     
-    for (var i = -1; i < limit; i++) {
-//      _processMotion(insArr[i]);
+    for (var i = 0; i < limit; i++) {
+      if(_processMotion(insArr[i], bot) === false) {
+        break;
+      }
     }
     
-//    var _processMotion = function (str) {
-//      switch (str) {
-//        case "L":
-//          robot.orientation = 
-//        case 90:
-//          return "E";
-//        case -90:
-//          return "W";
-//        case 180:
-//        case -180:
-//          return "S";
-//      }
-//    };
+    var botStatusStr = bot.xPos + " " + bot.yPos + " " + bot.orientation + " " + bot.status;
+//    botStatusStr += " " + bot.statusStr;
+        
+    return botStatusStr;
   };
 	
-	var myObjectLiteral = {
-    someMethod:  function () {
-
-    },
-    anotherMethod:  function () {
-      
+  var _processMotion = function (str, bot) {
+    switch (str) {
+      case "L":
+      case "R":
+        bot.orientation = _turnBot(bot.orientation,str);
+        break;
+      case "F":
+        _moveBot(bot);
+        break;
     }
+
+    return bot.status;
   };
   
   return {
-		publicObject: myObjectLiteral,
 		testTurnBot: _turnBot,
-		testOrientation: _getOrientation,
-		botObj: botObj
+		robot: robot,
+    instructBot: instructBot
   };
 
 })();
 
-var botOne = new botModule.botObj("bot1", 1, 1, "e", true);
-console.log(botOne.getBotInfo);
-console.log(botOne.position);
+console.log(botModule.instructBot("bot1", "1 1 E", "RFRFRFRF"));
+console.log(botModule.instructBot("bot2", "3 2 N", "FRRFLLFFRRFLL"));
+console.log(botModule.instructBot("bot3", "0 3 W", "LLFFFLFLFL"));
 
-var botTwo = new botModule.botObj("bot2", 6, 3, "n", false);
-console.log(botTwo.getBotInfo);
+//var botOne = new botModule.robot("bot1", 1, 1, "e", true);
+//console.log(botOne.getBotInfo);
+//console.log(botOne.position);
+//
+//var botTwo = new botModule.robot("bot2", 6, 3, "n", false);
+//console.log(botTwo.getBotInfo);
