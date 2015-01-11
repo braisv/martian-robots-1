@@ -1,5 +1,7 @@
 var botModule = (function () {
   
+  var lostList = [];
+  
   var _cardinalPoints = { 
     points: { N:0, E:90, S:180, W:270 },
     getPointName: function(findDegree) {
@@ -27,7 +29,6 @@ var botModule = (function () {
 		this.statusStr = (status === false) ? " LOST" : "";
 	};
   
-  
   var _turnBot = function(orientation, direction) {
     var angle = _cardinalPoints.getDegree(orientation);
     
@@ -42,29 +43,57 @@ var botModule = (function () {
 	};
   
   var _moveBot = function(bot) {
-    var xBounds = 5, yBounds = 3;
+    var xBounds = 5, yBounds = 3, tempPos = 0;
 //    console.log("%s; x: %s, y: %s", bot.name, bot.xPos, bot.yPos);
     
     switch (bot.orientation) {
         case "N":
-          bot.yPos = parseInt(bot.yPos, 10) + 1;
+          tempPos = parseInt(bot.yPos, 10) + 1;
+          if(!_isPosSafe(tempPos,yBounds)) {
+            bot.status = false;
+          }
+          else {
+            bot.yPos = tempPos;
+          }
           break;
         case "S":
-          bot.yPos = parseInt(bot.yPos, 10) - 1;
+          tempPos = parseInt(bot.yPos, 10) - 1;
+          if(!_isPosSafe(tempPos,yBounds)) {
+            bot.status = false;
+          }
+          else {
+            bot.yPos = tempPos;
+          }
           break;
         case "E":
-          bot.xPos = parseInt(bot.xPos, 10) + 1;
+          tempPos = parseInt(bot.xPos, 10) + 1;
+          if(!_isPosSafe(tempPos,xBounds)) {
+            bot.status = false;
+          }
+          else {
+            bot.xPos = tempPos;
+          }
           break;
         case "W":
-          bot.xPos = parseInt(bot.xPos, 10) - 1;
+          tempPos = parseInt(bot.xPos, 10) - 1;
+          if(!_isPosSafe(tempPos,xBounds)) {
+            bot.status = false;
+          }
+          else {
+            bot.xPos = tempPos;
+          }
           break;
     }
     
-    if(bot.xPos < 0 || bot.xPos > xBounds || bot.yPos < 0 || bot.yPos > yBounds) {
-      bot.status = false;
-//      console.log("lost val; x: %s, y: %s", bot.xPos, bot.yPos);
-    }
+  };
   
+  var _isPosSafe = function(pos, posBounds) {
+    if(pos < 0 || pos > posBounds) {
+      return false;
+    }
+    else {
+      return true;
+    }
   };
 	
 	var _getBotInfo = function( name, position, status ) {
