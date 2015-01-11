@@ -34,11 +34,21 @@ var botModule = (function () {
 		this.orientation = orientation.toUpperCase();
 		this.isAlive = isAlive;
     this.isAliveStr = function() {
-      return (this.isAlive === false) ? " LOST" : "";
+      return (!this.isAlive) ? " LOST" : "";
     };
     this.output = function() {
       var outputStr = this.xPos + " " + this.yPos + " " + this.orientation + this.isAliveStr();
       return outputStr;
+    };
+    this.isBotValid = function() {
+      var maxCoord = 50;
+      if(!_isPosSafe(this.xPos , maxCoord) || !_isPosSafe(this.yPos, maxCoord)) {
+        console.log("Error creating '%s'. A single coordinate must be a positive number less than %s!", this.name, maxCoord);
+        return false;
+      }
+      else {
+        return true;
+      }
     };
 	};
   
@@ -49,18 +59,24 @@ var botModule = (function () {
     
     var bot = new robot(botName, posArr[0], posArr[1], posArr[2], true); // create a new robot based on instructions
     
-    instructionsStr = instructionsStr.substring(0,limit);
-    
-    for (var i = 0; i < instructionsStr.length; i++) {
-      if(_processMotion(instructionsStr.charAt(i), bot) === false) {
-        break;
+    // only process instructions if the bot is valid
+    if (bot.isBotValid()) {
+      instructionsStr = instructionsStr.substring(0,limit);
+      
+      for (var i = 0; i < instructionsStr.length; i++) {
+        if(_processMotion(instructionsStr.charAt(i).toUpperCase(), bot) === false) {
+          break;
+        }
       }
+      
+      return bot.output();
     }
-    
-    return bot.output();
+    else {
+      return "Failed to create '" + botName + "', please view logs.";
+    }
   };
 	
-  // determines which type of mvoe to execute: L/R/F
+  // determines which type of move to execute: L/R/F
   var _processMotion = function (char, bot) {
     switch (char) {
       case "L":
@@ -70,6 +86,8 @@ var botModule = (function () {
       case "F":
         _moveBot(bot);
         break;
+      default: 
+        console.log("Invalid character received while processing '" + bot.name + "', moving to next character.");
     }
 
     return bot.isAlive; // dealbreaking flag, halts looping on false
@@ -194,10 +212,11 @@ var botModule = (function () {
 
 console.log(botModule.instructBot("bot1", "1 1 E", "RFRFRFRF"));
 console.log(botModule.instructBot("bot2", "3 2 N", "FRRFLLFFRRFLL"));
+console.log(botModule.instructBot("bot4", "0 51 W", "LLFFFLFLFL"));
 console.log(botModule.instructBot("bot3", "0 3 W", "LLFFFLFLFL"));
 
-//var bot1 = new botModule.testRobot("testBot", 1, 1, "e", true);
-//console.log(bot1.output());
+//var bot1 = new botModule.testRobot("testBot", 1, 51, "e", true);
+//console.log(bot1());
 //
 //var bot2 = new botModule.testRobot("testBot", 3, 2, "n", false);
 //console.log(bot2.output());
