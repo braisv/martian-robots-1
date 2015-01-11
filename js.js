@@ -24,13 +24,22 @@ var botModule = (function () {
   };
   
   // robot definition
-	var robot = function( name, xPos, yPos, orientation, status ) {
+	var robot = function(name, xPos, yPos, orientation, isAlive) {
 		this.name = name;
-		this.xPos = xPos;
-		this.yPos = yPos;
+		this.xPos = parseInt(xPos, 10);
+		this.yPos = parseInt(yPos, 10);
+    this.coords = function() {
+      return this.xPos + ", " + this.yPos;
+    };
 		this.orientation = orientation.toUpperCase();
-		this.status = status;
-		this.statusStr = (status === false) ? " LOST" : "";
+		this.isAlive = isAlive;
+    this.isAliveStr = function() {
+      return (this.isAlive === false) ? " LOST" : "";
+    };
+    this.output = function() {
+      var outputStr = this.xPos + " " + this.yPos + " " + this.orientation + this.isAliveStr();
+      return outputStr;
+    };
 	};
   
   // parse and process bot instructions
@@ -40,17 +49,15 @@ var botModule = (function () {
     
     var bot = new robot(botName, posArr[0], posArr[1], posArr[2], true); // create a new robot based on instructions
     
-    var insArr = instructionsStr.split("", limit);
+    instructionsStr = instructionsStr.substring(0,limit);
     
-    // process instruction characters sequentially
-    for (var i = 0; i < limit; i++) {
-      if(_processMotion(insArr[i], bot) === false) {
+    for (var i = 0; i < instructionsStr.length; i++) {
+      if(_processMotion(instructionsStr.charAt(i), bot) === false) {
         break;
       }
     }
     
-    // status string
-    return bot.xPos + " " + bot.yPos + " " + bot.orientation + ((bot.status === false) ? " LOST" : "");
+    return bot.output();
   };
 	
   // determines which type of mvoe to execute: L/R/F
@@ -65,7 +72,7 @@ var botModule = (function () {
         break;
     }
 
-    return bot.status; // dealbreaking flag, halts looping on false
+    return bot.isAlive; // dealbreaking flag, halts looping on false
   };
   
   // turn bot L/R and return new orientaion
@@ -84,17 +91,16 @@ var botModule = (function () {
   
   var _moveBot = function(bot) {
     var xBounds = 5, yBounds = 3, tempPos = 0;
-    var posStr = bot.xPos + ", " + bot.yPos;
     
     // orientation determines which axis to increment/decrement along
     switch (bot.orientation) {
         case "N":
-          tempPos = parseInt(bot.yPos, 10) + 1;
-          switch (_hasScent(posStr, tempPos, yBounds)) {
+          tempPos = bot.yPos + 1;
+          switch (_hasScent(bot.coords(), tempPos, yBounds)) {
             case true:
               break;
             case false:
-              bot.status = false;
+              bot.isAlive = false;
               _lostList.push(bot.xPos + ", " + bot.yPos);
               break;
             case null:
@@ -103,12 +109,12 @@ var botModule = (function () {
           }
           break;
         case "S":
-          tempPos = parseInt(bot.yPos, 10) - 1;
-          switch (_hasScent(posStr, tempPos, yBounds)) {
+          tempPos = bot.yPos - 1;
+          switch (_hasScent(bot.coords(), tempPos, yBounds)) {
             case true:
               break;
             case false:
-              bot.status = false;
+              bot.isAlive = false;
               _lostList.push(bot.xPos + ", " + bot.yPos);
               break;
             case null:
@@ -117,12 +123,12 @@ var botModule = (function () {
           }
           break;
         case "E":
-          tempPos = parseInt(bot.xPos, 10) + 1;
-          switch (_hasScent(posStr, tempPos, xBounds)) {
+          tempPos = bot.xPos + 1;
+          switch (_hasScent(bot.coords(), tempPos, xBounds)) {
             case true:
               break;
             case false:
-              bot.status = false;
+              bot.isAlive = false;
               _lostList.push(bot.xPos + ", " + bot.yPos);
               break;
             case null:
@@ -131,11 +137,12 @@ var botModule = (function () {
           }
           break;
         case "W":
-          switch (_hasScent(posStr, tempPos, xBounds)) {
+          tempPos = bot.xPos - 1;
+          switch (_hasScent(bot.coords(), tempPos, xBounds)) {
             case true:
               break;
             case false:
-              bot.status = false;
+              bot.isAlive = false;
               _lostList.push(bot.xPos + ", " + bot.yPos);
               break;
             case null:
@@ -178,7 +185,8 @@ var botModule = (function () {
   };
 	
   return {
-		testMethod: _turnBot,
+		testMethod: robot,
+		testRobot: robot,
     instructBot: instructBot
   };
 
@@ -187,3 +195,9 @@ var botModule = (function () {
 console.log(botModule.instructBot("bot1", "1 1 E", "RFRFRFRF"));
 console.log(botModule.instructBot("bot2", "3 2 N", "FRRFLLFFRRFLL"));
 console.log(botModule.instructBot("bot3", "0 3 W", "LLFFFLFLFL"));
+
+//var bot1 = new botModule.testRobot("testBot", 1, 1, "e", true);
+//console.log(bot1.output());
+//
+//var bot2 = new botModule.testRobot("testBot", 3, 2, "n", false);
+//console.log(bot2.output());
