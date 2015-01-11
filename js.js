@@ -205,21 +205,8 @@ var botModule = (function () {
   };
 	
   return {
-		testMethod: robot,
-		testRobot: robot,
     defaults: defaults,
     instructBot: instructBot
   };
 
 })();
-
-console.log(botModule.instructBot("bot1", "1 1 E", "RFRFRFRF"));
-console.log(botModule.instructBot("bot2", "3 2 N", "FRRFLLFFRRFLL"));
-//console.log(botModule.instructBot("bot4", "0 51 W", "LLFFFLFLFL"));
-console.log(botModule.instructBot("bot3", "0 3 W", "LLFFFLFLFL"));
-
-//var bot1 = new botModule.testRobot("testBot", 1, 51, "e", true);
-//console.log(bot1());
-//
-//var bot2 = new botModule.testRobot("testBot", 3, 2, "n", false);
-//console.log(bot2.output());
