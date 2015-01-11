@@ -1,5 +1,9 @@
 var botModule = (function () {
   
+  var defaults = {
+    xBounds: 5, yBounds: 3, maxCoord: 50, maxInstruction: 100
+  };
+  
   var _lostList = []; //manages grid points of lost robots
   
   // cardinal points "map" with handy lookup methods
@@ -41,9 +45,8 @@ var botModule = (function () {
       return outputStr;
     };
     this.isBotValid = function() {
-      var maxCoord = 50;
-      if(!_isPosSafe(this.xPos , maxCoord) || !_isPosSafe(this.yPos, maxCoord)) {
-        console.log("Error creating '%s'. A single coordinate must be a positive number less than %s!", this.name, maxCoord);
+      if(!_isPosSafe(this.xPos , defaults.maxCoord) || !_isPosSafe(this.yPos, defaults.maxCoord)) {
+        console.log("Error creating '%s'. A single coordinate must be a positive number less than %s!", this.name, defaults.maxCoord);
         return false;
       }
       else {
@@ -54,14 +57,13 @@ var botModule = (function () {
   
   // parse and process bot instructions
   var instructBot = function (botName, positionStr, instructionsStr) {
-    var limit = 100; // instruction string limit
     var posArr = positionStr.split(" ");
     
     var bot = new robot(botName, posArr[0], posArr[1], posArr[2], true); // create a new robot based on instructions
     
     // only process instructions if the bot is valid
     if (bot.isBotValid()) {
-      instructionsStr = instructionsStr.substring(0,limit);
+      instructionsStr = instructionsStr.substring(0, defaults.maxInstruction);
       
       for (var i = 0; i < instructionsStr.length; i++) {
         if(_processMotion(instructionsStr.charAt(i).toUpperCase(), bot) === false) {
@@ -108,13 +110,13 @@ var botModule = (function () {
 	};
   
   var _moveBot = function(bot) {
-    var xBounds = 5, yBounds = 3, tempPos = 0;
+    var tempPos = 0;
     
     // orientation determines which axis to increment/decrement along
     switch (bot.orientation) {
         case "N":
           tempPos = bot.yPos + 1;
-          switch (_hasScent(bot.coords(), tempPos, yBounds)) {
+          switch (_hasScent(bot.coords(), tempPos, defaults.yBounds)) {
             case true:
               break;
             case false:
@@ -128,7 +130,7 @@ var botModule = (function () {
           break;
         case "S":
           tempPos = bot.yPos - 1;
-          switch (_hasScent(bot.coords(), tempPos, yBounds)) {
+          switch (_hasScent(bot.coords(), tempPos, defaults.yBounds)) {
             case true:
               break;
             case false:
@@ -142,7 +144,7 @@ var botModule = (function () {
           break;
         case "E":
           tempPos = bot.xPos + 1;
-          switch (_hasScent(bot.coords(), tempPos, xBounds)) {
+          switch (_hasScent(bot.coords(), tempPos, defaults.xBounds)) {
             case true:
               break;
             case false:
@@ -156,7 +158,7 @@ var botModule = (function () {
           break;
         case "W":
           tempPos = bot.xPos - 1;
-          switch (_hasScent(bot.coords(), tempPos, xBounds)) {
+          switch (_hasScent(bot.coords(), tempPos, defaults.xBounds)) {
             case true:
               break;
             case false:
@@ -194,7 +196,7 @@ var botModule = (function () {
   
   // checks if a single axis point is within bounds
   var _isPosSafe = function(pos, posBounds) {
-    if(pos < 0 || pos > posBounds) {
+    if(pos < 0 || pos > parseInt(posBounds, 10)) {
       return false;
     }
     else {
@@ -205,6 +207,7 @@ var botModule = (function () {
   return {
 		testMethod: robot,
 		testRobot: robot,
+    defaults: defaults,
     instructBot: instructBot
   };
 
@@ -212,7 +215,7 @@ var botModule = (function () {
 
 console.log(botModule.instructBot("bot1", "1 1 E", "RFRFRFRF"));
 console.log(botModule.instructBot("bot2", "3 2 N", "FRRFLLFFRRFLL"));
-console.log(botModule.instructBot("bot4", "0 51 W", "LLFFFLFLFL"));
+//console.log(botModule.instructBot("bot4", "0 51 W", "LLFFFLFLFL"));
 console.log(botModule.instructBot("bot3", "0 3 W", "LLFFFLFLFL"));
 
 //var bot1 = new botModule.testRobot("testBot", 1, 51, "e", true);
