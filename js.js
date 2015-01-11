@@ -83,16 +83,27 @@ var botModule = (function () {
     switch (char) {
       case "L":
       case "R":
-        bot.orientation = _turnBot(bot.orientation, char);
+        bot.orientation = robotCommands.turnBot(bot.orientation, char);
         break;
       case "F":
-        _moveBot(bot);
+        robotCommands.moveBot(bot);
         break;
       default: 
         console.log("Invalid character received while processing '" + bot.name + "', moving to next character.");
     }
 
     return bot.isAlive; // dealbreaking flag, halts looping on false
+  };
+  
+  // store command types in this object; this should support "bolting" on future commands. 
+  // _processMotion will need new keys to call new command types
+  var robotCommands = {
+    turnBot: function(orientation, char) {
+      return _turnBot(orientation, char);
+    },
+    moveBot: function(bot) {
+      _moveBot(bot);
+    }
   };
   
   // turn bot L/R and return new orientaion
