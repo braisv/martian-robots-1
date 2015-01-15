@@ -58,7 +58,7 @@ define(["underscore", "modules/common", "modules/robot"], function(_, common, ro
 				_robotCommands.moveBot(bot);
 				break;
 			default: 
-				console.log("Invalid character received while processing '" + bot.name + "', moving to next character.");
+				console.log("Invalid command received while processing '" + bot.name + "', moving to next character.");
 		}
 
 		return bot.isAlive; // dealbreaking flag, halts looping on false
@@ -105,25 +105,20 @@ define(["underscore", "modules/common", "modules/robot"], function(_, common, ro
   };
   
   var _moveBot = function(bot) {
-		var tempPos = 0;
 
 		// orientation determines which axis to increment/decrement along
 		switch (bot.orientation) {
 				case "N":
-					tempPos = bot.yPos + 1;
-          _processMotion(bot, tempPos, "y");
+          _processMotion(bot, (bot.yPos + 1), "y");
 					break;
 				case "S":
-					tempPos = bot.yPos - 1;
-					_processMotion(bot, tempPos, "y");
+					_processMotion(bot, (bot.yPos - 1), "y");
 					break;
 				case "E":
-					tempPos = bot.xPos + 1;
-					_processMotion(bot, tempPos, "x");
+					_processMotion(bot, (bot.xPos + 1), "x");
 					break;
 				case "W":
-					tempPos = bot.xPos - 1;
-					_processMotion(bot, tempPos, "x");
+					_processMotion(bot, (bot.xPos - 1), "x");
 					break;
 		}
 
