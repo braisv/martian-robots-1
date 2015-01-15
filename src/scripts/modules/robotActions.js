@@ -35,7 +35,7 @@ define(["underscore", "modules/common", "modules/robot"], function(_, common, ro
 			instructionsStr = instructionsStr.substring(0, common.defaults.maxInstruction);
 
 			for (var i = 0; i < instructionsStr.length; i++) {
-				if(_processMotion(instructionsStr.charAt(i).toUpperCase(), bot) === false) {
+				if(_processCommands(instructionsStr.charAt(i).toUpperCase(), bot) === false) {
 					break;
 				}
 			}
@@ -48,7 +48,7 @@ define(["underscore", "modules/common", "modules/robot"], function(_, common, ro
 	};
 
 	// determines which type of move to execute: L/R/F
-	var _processMotion = function (char, bot) {
+	var _processCommands = function (char, bot) {
 		switch (char) {
 			case "L":
 			case "R":
@@ -65,7 +65,7 @@ define(["underscore", "modules/common", "modules/robot"], function(_, common, ro
 	};
 
 	// store command types in this object; this should support "bolting" on future commands. 
-	// _processMotion will need new keys to call new command types
+	// _processCommands will need new keys to call new command types
 	var _robotCommands = {
 		turnBot: function(orientation, char) {
 			return _turnBot(orientation, char);
@@ -89,66 +89,41 @@ define(["underscore", "modules/common", "modules/robot"], function(_, common, ro
 		return _cardinalPoints.getPointName(angle); // orientation is defined in cardinal points so lets go back to that instead of angles
 	};
 
-	var _moveBot = function(bot) {
+	var _processMotion = function(bot, tempPos, axis) {
+    axis = axis.toLowerCase();
+    switch (_hasScent(bot.coords(), tempPos, common.defaults[axis + "Bounds"])) {
+        case true:
+          break;
+        case false:
+          bot.isAlive = false;
+          _lostList.push(bot.xPos + ", " + bot.yPos);
+          break;
+        case null:
+          bot[axis + "Pos"] = tempPos;
+          break;
+      }
+  };
+  
+  var _moveBot = function(bot) {
 		var tempPos = 0;
 
 		// orientation determines which axis to increment/decrement along
 		switch (bot.orientation) {
 				case "N":
 					tempPos = bot.yPos + 1;
-					switch (_hasScent(bot.coords(), tempPos, common.defaults.yBounds)) {
-						case true:
-							break;
-						case false:
-							bot.isAlive = false;
-							_lostList.push(bot.xPos + ", " + bot.yPos);
-							break;
-						case null:
-							bot.yPos = tempPos;
-							break;
-					}
+          _processMotion(bot, tempPos, "y");
 					break;
 				case "S":
 					tempPos = bot.yPos - 1;
-					switch (_hasScent(bot.coords(), tempPos, common.defaults.yBounds)) {
-						case true:
-							break;
-						case false:
-							bot.isAlive = false;
-							_lostList.push(bot.xPos + ", " + bot.yPos);
-							break;
-						case null:
-							bot.yPos = tempPos;
-							break;
-					}
+					_processMotion(bot, tempPos, "y");
 					break;
 				case "E":
 					tempPos = bot.xPos + 1;
-					switch (_hasScent(bot.coords(), tempPos, common.defaults.xBounds)) {
-						case true:
-							break;
-						case false:
-							bot.isAlive = false;
-							_lostList.push(bot.xPos + ", " + bot.yPos);
-							break;
-						case null:
-							bot.xPos = tempPos;
-							break;
-					}
+					_processMotion(bot, tempPos, "x");
 					break;
 				case "W":
 					tempPos = bot.xPos - 1;
-					switch (_hasScent(bot.coords(), tempPos, common.defaults.xBounds)) {
-						case true:
-							break;
-						case false:
-							bot.isAlive = false;
-							_lostList.push(bot.xPos + ", " + bot.yPos);
-							break;
-						case null:
-							bot.xPos = tempPos;
-							break;
-					}
+					_processMotion(bot, tempPos, "x");
 					break;
 		}
 
