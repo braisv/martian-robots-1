@@ -1,4 +1,4 @@
-define(["modules/common"], function(common) {
+define(["common"], function(common) {
 	"use strict";
 
 	// robot definition

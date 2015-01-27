@@ -5,11 +5,11 @@ require.config({
 		}
 	},
 	paths: {
-		underscore: "third-party/underscore-min"
+		underscore: "../third-party/underscore-min"
 	}
 });
 
-require(["modules/robotActions"], function(robotActions) {
+require(["robotActions"], function(robotActions) {
 
 	console.log(robotActions.instructBot("bot1", "1 1 E", "RFRFRFRF"));
 	console.log(robotActions.instructBot("bot2", "3 2 N", "FRRFLLFFRRFLL"));

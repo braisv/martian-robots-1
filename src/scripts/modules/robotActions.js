@@ -1,4 +1,4 @@
-define(["underscore", "modules/common", "modules/robot"], function(_, common, robotObj) {
+define(["underscore", "common", "robot"], function(_, common, robotObj) {
 	"use strict";
 
 	var _lostList = []; //manages grid points of lost robots
