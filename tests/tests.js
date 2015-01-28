@@ -5,7 +5,7 @@ module('robotActions', {
   }
 });
 
-require(["modules/robotActions"], function(robotActions) {
+require(["robotActions"], function(robotActions) {
 	QUnit.test('instructBot()', function(assert) {
 		assert.strictEqual(robotActions.instructBot("bot1", "1 1 E", "RFRFRFRF"), "1 1 E", "Test: 1 1 E");
 		assert.strictEqual(robotActions.instructBot("bot2", "3 2 N", "FRRFLLFFRRFLL"), "3 3 N LOST", "Test: 3 2 N");

@@ -7,7 +7,7 @@ module.exports = function(grunt) {
           name: "main",
           baseUrl: "src/scripts/modules",
           mainConfigFile: "src/scripts/modules/main.js",
-          out: "src/scripts/main.min.js",
+          out: "src/scripts/main-min.js",
           generateSourceMaps: true,
           preserveLicenseComments: false,
           optimize: "uglify2"
@@ -28,9 +28,7 @@ module.exports = function(grunt) {
     }
   });
 
-//  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
-  
   grunt.loadNpmTasks('grunt-contrib-requirejs');
 
   grunt.registerTask('default', ['requirejs']);

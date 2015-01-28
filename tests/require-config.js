@@ -4,8 +4,8 @@ require.config({
 			exports: "_"
 		}
 	},
+	baseUrl: "../src/scripts/modules",
 	paths: {
-		underscore: "../src/scripts/third-party/underscore-min",
-		modules: "../src/scripts/modules"
+		underscore: "../third-party/underscore-min" //path relative to baseURL
 	}
 });
