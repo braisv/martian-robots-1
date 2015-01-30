@@ -6,6 +6,8 @@ require.config({
 	},
 	baseUrl: "../src/scripts/modules",
 	paths: {
-		underscore: "../third-party/underscore-min" //path relative to baseURL
+		//path relative to baseURL
+		underscore: "../third-party/underscore-min",
+		jquery: "../third-party/jquery-2.1.3.min"
 	}
 });

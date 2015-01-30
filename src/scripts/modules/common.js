@@ -5,8 +5,12 @@ define(["underscore"], function(_) {
 		xBounds: 5, yBounds: 3, maxCoord: 50, maxInstruction: 100
 	};
 	
+	/* 
+	 * [1-9] check if value is a positive number 
+	 * [0-9] check if value greater than 0
+	 */
 	var isNumber = function(value) {
-		if(/^(\-|\+)?([0-9]+|Infinity)$/.test(value))
+		if(/^(\-|\+)?([1-9]+|Infinity)$/.test(value))
 			return true;
 		return false;
 	}
