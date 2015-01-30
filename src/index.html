@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<title>Martian Robots | Byron Buckley</title>
 	<script src="scripts/third-party/require.js" data-main="scripts/main-min.js"></script>
+	<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -22,7 +23,8 @@ LLFFFLFLFL
 </p>
 -->
 
-<textarea id="input" rows="10" cols="50" placeholder="Put your instructions here.">
+<span class="input input--minoru">
+	<textarea class="input__field input__field--minoru" id="input" rows="10" cols="50" placeholder="Put your instructions here.">
 5 3
 1 1 E
 RFRFRFRF
@@ -32,9 +34,14 @@ FRRFLLFFRRFLL
 
 0 3 W
 LLFFFLFLFL 
-</textarea>
+	</textarea>
+	<label class="input__label input__label--minoru" for="input">
+		<span class="input__label-content input__label-content--minoru"></span>
+	</label>
+</span>
+
 <br>
-<button id="read-instructions">Run</button>
+<button id="read-instructions" class="btn btn-1 btn-1e">Run</button>
 <br>
 <h1>Output</h1>
 <div id="output">

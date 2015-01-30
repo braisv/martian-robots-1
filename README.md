@@ -1,8 +1,18 @@
-# README #
+# Martian Robots #
 
-The solution is provided as a unit test; running index.html will perform tests that validate the app output against the sample output.
+Martian Robots is a small app to demo some aspects of modern JavaScript development outside of DOM manipulation. Dependencies include:  
+- require.js + r.js  
+- underscore.js  
+- qunit  
+- jquery
 
-## Martian Robots ##
+### How to run ###  
+The app can be ran locally or at the provided URL. Read the about section below to understand what the app is about. See the sample input to understand how to instruct a robot.  
+- Locally: [download](https://bitbucket.org/komplexb/martian-robots/downloads) the repo and run `../src/index.html`.  
+- Online: Follow this url: http://komplexb.bitbucket.org/martian-robots/src/index.html  
+- A few tests are available at: `../tests/index.html`. 
+
+## About ##
 
 ### The Problem ###
 The surface of Mars can be modelled by a rectangular grid around which robots are able to

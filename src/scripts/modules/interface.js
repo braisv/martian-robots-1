@@ -51,7 +51,6 @@ define(["jquery", "robotActions", "common"], function($, robotActions, common) {
 		$("#read-instructions").click(function() {
 			console.log("Before: %s", inputStr);
 			if(isInstructionReadable(inputStr)) {
-//				$("#output").html("");
 				readTextArea(inputStr);
 				document.getElementById("input").value = "";
 			}
