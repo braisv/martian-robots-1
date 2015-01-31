@@ -6,7 +6,7 @@ Martian Robots is a small app to demo some aspects of modern JavaScript developm
 - qunit  
 - jquery
 
-### How to run ###  
+## How to run ##
 The app can be ran locally or at the provided URL. Read the about section below to understand what the app is about. See the sample input to understand how to instruct a robot.  
 - Locally: [Download](https://bitbucket.org/komplexb/martian-robots/downloads) the repo and run `../src/index.html`. 
 A few tests are available a `../tests/index.html`.  
