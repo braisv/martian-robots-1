@@ -1,4 +1,4 @@
-define(["robotActions", "common"], function(robotActions, common) {
+define(["robotActions", "common", "jquery"], function(robotActions, common, $) {
 	"use strict";
 	
 	var errorStr = "Your instructions are incorrectly formatted. Please remember that the first line of input is used as the upper-right bounds.";
@@ -46,7 +46,28 @@ define(["robotActions", "common"], function(robotActions, common) {
 		}
 	}
 	
-	var init = function() {
+	var getHelp = function() {
+			var full = $('#fullscreen');
+			$(full).data('state','open');
+			$('#get-help').click(function(){
+				console.log("help gotted?");
+				if($(full).data('state') == 'open'){
+					$(full).fadeIn(300);
+					$(full).data('state','close');
+					//console.log($(full).data('state') );
+				}
+			});
+			$('.close').click(function(e){
+				e.preventDefault();
+				if($(full).data('state') == 'close'){
+					$(full).fadeOut();
+					$(full).data('state','open');
+				 //console.log($(full).data('state') );
+				}
+			});  
+	}
+	
+	var runBtn = function() {
 		var inputArea = document.getElementById("input");
     
     document.getElementById("read-instructions").addEventListener("click", function(event) {
@@ -61,6 +82,11 @@ define(["robotActions", "common"], function(robotActions, common) {
         }
     }, false);
     
+	}
+	
+	var init = function() {
+		runBtn();
+		getHelp();
 	}
 		
 	return {

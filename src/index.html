@@ -11,6 +11,7 @@
 <span class="input input--minoru">
 <textarea class="input__field input__field--minoru" 
 id="input" rows="10" cols="50" placeholder="Put your instructions here.">
+<!--
 5 3
 1 1 E
 RFRFRFRF
@@ -20,6 +21,7 @@ FRRFLLFFRRFLL
 
 0 3 W
 LLFFFLFLFL
+-->
 </textarea>
 	<label class="input__label input__label--minoru" for="input">
 		<span class="input__label-content input__label-content--minoru"></span>
@@ -28,10 +30,39 @@ LLFFFLFLFL
 
 <br>
 <button id="read-instructions" class="btn btn-1 btn-1e">Run</button>
+<button id="get-help" class="btn btn-1 btn-1e">Help</button>
 <br>
 <h2>Output</h2>
 <div id="output">
 	
+</div>
+
+<div id="fullscreen">
+	 <a href="#" class="close">Close</a>
+	 <div class="wrap">
+		 <h1>Get Help</h1>
+		 <h3>Sample Input</h3>
+			<p>
+				5 3<br>
+				1 1 E<br>
+				RFRFRFRF<br>
+			</p>
+			<p>
+				3 2 N<br>
+				FRRFLLFFRRFLL<br>
+			</p>
+			<p>
+				0 3 W<br>
+				LLFFFLFLFL<br>
+			</p>
+
+			<h3>Sample Output</h3>
+			<p>
+				1 1 E<br>
+				3 3 N LOST<br>
+				2 3 S
+			</p>
+	</div>
 </div>
 </body>
 </html>

@@ -5,7 +5,8 @@ require.config({
 		}
 	},
 	paths: {
-		underscore: "../third-party/underscore-min"
+		underscore: "../third-party/underscore-min",
+		jquery: "../third-party/jquery-2.1.3.min"
 	}
 });
 
