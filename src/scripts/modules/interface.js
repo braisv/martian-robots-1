@@ -1,4 +1,4 @@
-define(["jquery", "robotActions", "common"], function($, robotActions, common) {
+define(["robotActions", "common"], function(robotActions, common) {
 	"use strict";
 	
 	var errorStr = "Your instructions are incorrectly formatted. Please remember that the first line of input is used as the upper-right bounds.";
@@ -42,22 +42,25 @@ define(["jquery", "robotActions", "common"], function($, robotActions, common) {
 				output = robotActions.instructBot("Bot ${i}", currentInstructionSet[0], currentInstructionSet[1]);
 			}
 
-			$("#output").append("<p>" + output + "</p>");
+      document.getElementById("output").innerHTML += "<p>" + output + "</p>";
 		}
 	}
 	
 	var init = function() {
-		var inputStr = document.getElementById("input").value;
-		$("#read-instructions").click(function() {
-			console.log("Before: %s", inputStr);
-			if(isInstructionReadable(inputStr)) {
-				readTextArea(inputStr);
-				document.getElementById("input").value = "";
-			}
-			else {
-				$("#output").html(errorStr);
-			}
-		});
+		var inputArea = document.getElementById("input");
+    
+    document.getElementById("read-instructions").addEventListener("click", function(event) {
+      document.getElementById("output").innerHTML = "";
+      
+      if(isInstructionReadable(inputArea.value)) {
+          readTextArea(inputArea.value);
+          inputArea.value = "";
+        }
+        else {
+          document.getElementById("output").innerHTML = errorStr;
+        }
+    }, false);
+    
 	}
 		
 	return {
