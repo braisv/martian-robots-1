@@ -73,18 +73,18 @@
 	position: relative;
 	z-index: 1;
 	display: inline-block;
-	margin: 1em;
+//	margin: 1em;
 	max-width: 400px;
-	width: calc(100% - 2em);
+//	width: calc(100% - 2em);
 	vertical-align: top;
 }
 
 .input__field {
 	position: relative;
 	display: block;
-	float: right;
-	padding: 0.8em;
-	width: 60%;
+//	float: right;
+//	padding: 0.8em;
+//	width: 60%;
 	border: none;
 	border-radius: 0;
 	background: #f0f0f0;
@@ -100,7 +100,7 @@
 
 .input__label {
 	display: inline-block;
-	float: right;
+//	float: right;
 	padding: 0 1em;
 	width: 40%;
 	color: #6a7989;
