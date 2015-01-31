@@ -27,7 +27,7 @@ require(["interface"], function(interface) {
 		var inputStr = "1 1 E \n RFRFRFRF";
 		assert.strictEqual(interface.testInstructions(inputStr), false, "less than 3 lines is invalid");
 		
-		var inputStr = "5 3 \n 1 1 E \n RFRFRFRF";
+		inputStr = "5 3 \n 1 1 E \n RFRFRFRF";
 		assert.strictEqual(interface.testInstructions(inputStr), true, "3 or more lines is safe to try and process");
 	});
 });

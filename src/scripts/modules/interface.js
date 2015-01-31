@@ -1,7 +1,7 @@
 define(["robotActions", "common", "jquery"], function(robotActions, common, $) {
 	"use strict";
 	
-	var errorStr = "Your instructions are incorrectly formatted. Please remember that the first line of input is used as the upper-right bounds.";
+	var errorStr = "Your instructions are incorrectly formatted. \n Please remember that the first line of input is used as the upper-right bounds.";
 	
 	/*
 	 * this function does NOT validate instructions.
@@ -9,9 +9,10 @@ define(["robotActions", "common", "jquery"], function(robotActions, common, $) {
 	 * 1. upper bounds
 	 * 2. robot position
 	 * 3. robot movement instructions 
-	 */ 
+	 */
+	
 	var isInstructionReadable = function(inputStr) {
-		if(inputStr.length == 0) {
+		if(inputStr.length === 0) {
 			return false;
 		}
 		if(inputStr.length > 0) {
@@ -23,7 +24,7 @@ define(["robotActions", "common", "jquery"], function(robotActions, common, $) {
 				return true;
 			}
 		}
-	}
+	};
 	
 	var readTextArea = function(inputStr) {
 		var inputArr = inputStr.split("\n\n");
@@ -44,17 +45,32 @@ define(["robotActions", "common", "jquery"], function(robotActions, common, $) {
 
       document.getElementById("output").innerHTML += "<p>" + output + "</p>";
 		}
-	}
+	};
+	
+	var sampleInput = function() {
+		var inputArea = document.getElementById("input");
+    var sampleInputStr = "5 3 \n\
+1 1 E \n\
+RFRFRFRF \n\n\
+3 2 N \n\
+FRRFLLFFRRFLL \n\n\
+0 3 W \n\
+LLFFFLFLFL";
+		
+		
+    document.getElementById("get-help").addEventListener("click", function(event) {
+			inputArea.value = sampleInputStr;
+	}, false);
+			
+	};
 	
 	var getHelp = function() {
 			var full = $('#fullscreen');
 			$(full).data('state','open');
-			$('#get-help').click(function(){
-				console.log("help gotted?");
+			$('#get-help').click(function() {
 				if($(full).data('state') == 'open'){
 					$(full).fadeIn(300);
 					$(full).data('state','close');
-					//console.log($(full).data('state') );
 				}
 			});
 			$('.close').click(function(e){
@@ -62,10 +78,9 @@ define(["robotActions", "common", "jquery"], function(robotActions, common, $) {
 				if($(full).data('state') == 'close'){
 					$(full).fadeOut();
 					$(full).data('state','open');
-				 //console.log($(full).data('state') );
 				}
 			});  
-	}
+	};
 	
 	var runBtn = function() {
 		var inputArea = document.getElementById("input");
@@ -82,16 +97,16 @@ define(["robotActions", "common", "jquery"], function(robotActions, common, $) {
         }
     }, false);
     
-	}
+	};
 	
 	var init = function() {
 		runBtn();
-		getHelp();
-	}
+		sampleInput();
+	};
 		
 	return {
 		testInstructions: isInstructionReadable,
 		init: init
-	}
+	};
 	
 });

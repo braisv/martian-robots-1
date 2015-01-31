@@ -10,7 +10,7 @@ require.config({
 	}
 });
 
-require(["robotActions", "interface", "common"], function(robotActions, interface, common) {
+require(["interface"], function(interface) {
 	
 	interface.init();
 	

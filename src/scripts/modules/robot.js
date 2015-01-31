@@ -36,6 +36,6 @@ define(["common"], function(common) {
 	
 	return {
 		robot: robot
-	}
+	};
 	
 });

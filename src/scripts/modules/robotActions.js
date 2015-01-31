@@ -26,13 +26,13 @@ define(["underscore", "common", "robot"], function(_, common, robotObj) {
 
 	// parse and process bot instructions
 	var instructBot = function (botName, positionStr, instructionsStr) {
-		var posArr = positionStr.split(" ");
+		var posArr = positionStr.trim().split(" ");
 
 		var bot = new robotObj.robot(botName, posArr[0], posArr[1], posArr[2], true); // create a new robot based on instructions
 
 		// only process instructions if the bot is valid
 		if (bot.isBotValid()) {
-			instructionsStr = instructionsStr.substring(0, common.defaults.maxInstruction);
+			instructionsStr = instructionsStr.trim().substring(0, common.defaults.maxInstruction);
 
 			for (var i = 0; i < instructionsStr.length; i++) {
 				if(_processCommands(instructionsStr.charAt(i).toUpperCase(), bot) === false) {

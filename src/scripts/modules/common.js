@@ -1,4 +1,4 @@
-define(["underscore"], function(_) {
+define(function() {
 	"use strict";
 	
 	var defaults = {
@@ -13,14 +13,14 @@ define(["underscore"], function(_) {
 		if(/^(\-|\+)?([1-9]+|Infinity)$/.test(value))
 			return true;
 		return false;
-	}
+	};
 	
 	var defaultsObj = function(xBounds, yBounds, maxCoord, maxInstruction) {
 		this.xBounds = isNumber(xBounds) ? 5 : parseInt(xBounds, 10);
 		this.yBounds = isNumber(yBounds) ? 3 : parseInt(yBounds, 10);
 		this.maxCord = isNumber(maxCord) ? 50 : parseInt(maxCord, 10);
 		this.maxInstruction = isNumber(maxInstruction) ? 100 : parseInt(maxInstruction, 10);
-	}
+	};
 	
 	var isPosSafe = function(pos, posBounds) {
 		if(pos < 0 || pos > parseInt(posBounds, 10)) {
@@ -35,5 +35,5 @@ define(["underscore"], function(_) {
 		isNumber: isNumber,
 		defaults: defaults,
 		isPosSafe: isPosSafe
-	}
+	};
 });
