@@ -12,6 +12,17 @@ module.exports = function(grunt) {
           preserveLicenseComments: false,
           optimize: "uglify2"
         }
+      }, 
+			dev: {
+        options: {
+          name: "main",
+          baseUrl: "src/scripts/modules",
+          mainConfigFile: "src/scripts/modules/main.js",
+          out: "src/scripts/main-min.js",
+          generateSourceMaps: true,
+          preserveLicenseComments: false,
+          optimize: "none"
+        }
       }
     },
     jshint: {
@@ -24,13 +35,13 @@ module.exports = function(grunt) {
     },
     watch: {
       files: ['src/scripts/modules/*.js'],
-      tasks: ['requirejs']
+      tasks: ['requirejs:dev']
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
 
-  grunt.registerTask('default', ['requirejs']);
+  grunt.registerTask('default', ['requirejs:compile']);
 
 };

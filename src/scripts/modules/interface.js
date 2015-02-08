@@ -1,4 +1,4 @@
-define(["robotActions", "common"], function(robotActions, common) {
+define(["robotActions", "common", "marsGrid"], function(robotActions, common, marsGrid) {
 	"use strict";
 	
 	var errorStr = "Your instructions are incorrectly formatted. \n Please remember that the first line of input is used as the upper-right bounds.";
@@ -79,67 +79,34 @@ LLFFFLFLFL";
     }, false);
     
 	};
-  
-  var drawChart = function() {
-    
-    var setBots = [
-      ['ID', 'X', 'Y', 'Orientation'],
-      ['Bot 1',    1,              1, 'E'],
-      ['Bot 2',    3,              2, 'N'],
-      ['Bot 3',    0,               3, 'W']
-    ];
-    
-    var moveBots = [
-      ['ID', 'X', 'Y', 'Orientation'],
-      ['Bot 1',    1,              1, 'E'],
-      ['Bot 2',    3,              3, 'N'],
-      ['Bot 3',    2,               3, 'S']
-    ];
+	
+	var chartMethods = function() {
+		document.getElementById("set-bots").addEventListener("click", function(event) {
+				var setBots = [
+					['ID', 'X', 'Y', 'Orientation'],
+					['Bot 1',    1,              1, 'E'],
+					['Bot 2',    3,              2, 'N'],
+					['Bot 3',    0,               3, 'W']
+				];
+				marsGrid.updateBotState(setBots);
+			}, false);
 
-    var data = google.visualization.arrayToDataTable(setBots);
-
-    var options = {
-      title: 'The Planet Mars as a Grid',
-      bubble: {textStyle: {fontSize: 11}},
-      animation: {
-        duration: 1000,
-        easing: 'inAndOut',
-        startup: true
-      },
-      series: {'N': {color: 'red'},
-               'E': {color: 'yellow'},
-               'S': {color: 'blue'},
-               'W': {color: 'green'}
-      }
-//      ,
-//      hAxis: {minValue: 0, maxValue: 5},
-//      vAxis: {minValue: 0, maxValue: 3}
-    };
-
-    var chart = new google.visualization.BubbleChart(document.getElementById('planet-mars'));
-    chart.draw(data, options);
-    
-    document.getElementById("set-bots").addEventListener("click", function(event) {
-      data = google.visualization.arrayToDataTable(setBots);
-      chart.draw(data, options);
-    }, false);
-    
-    document.getElementById("move-bots").addEventListener("click", function(event) {
-      data = google.visualization.arrayToDataTable(moveBots);
-      chart.draw(data, options);
-    }, false);
-  };
-  
-  var showChart = function() {
-    google.load("visualization", "1", {packages:["corechart"], callback: drawChart});
-    
-    
-  };
+		document.getElementById("move-bots").addEventListener("click", function(event) {
+				var moveBots = [
+					['ID', 'X', 'Y', 'Orientation'],
+					['Bot 1',    1,              1, 'E'],
+					['Bot 2',    3,              3, 'N'],
+					['Bot 3',    2,               3, 'S']
+				];
+				marsGrid.updateBotState(moveBots);
+			}, false);
+	};
 	
 	var init = function() {
 		runBtn();
 		sampleInput();
-    showChart();
+    marsGrid.initializeChart(document.getElementById('planet-mars'));
+		chartMethods();
 	};
 		
 	return {
