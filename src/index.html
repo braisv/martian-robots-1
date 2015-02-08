@@ -4,6 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<title>Martian Robots | Byron Buckley</title>
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 	<script src="scripts/third-party/require.js" data-main="scripts/main-min.js"></script>
 	<link rel="stylesheet" href="css/styles.css">
 </head>
@@ -19,14 +20,19 @@ id="input" rows="10" cols="50" placeholder="Put your instructions here.">
 </span>
 
 <br>
+<button id="get-help" class="btn btn-1 btn-1e">Sample Input</button><br>
 <button id="read-instructions" class="btn btn-1 btn-1e">Run</button><br>
-<button id="get-help" class="btn btn-1 btn-1e">Sample Input</button>
+<button id="set-bots" class="btn btn-1 btn-1e">Set Bots</button>&nbsp;
+<button id="move-bots" class="btn btn-1 btn-1e">Move Bots</button>
+
 <br>
 <!--<a href="https://bitbucket.org/komplexb/martian-robots" target="_blank">Read me</a>-->
 <h2>Output</h2>
 <div id="output">
 	
 </div>
+
+<div id="planet-mars" style="width: 900px; height: 500px;"></div>
 
 <div id="fullscreen">
 	 <a href="#" class="close">Close</a>
@@ -55,5 +61,6 @@ id="input" rows="10" cols="50" placeholder="Put your instructions here.">
 			</p>
 	</div>
 </div>
+
 </body>
 </html>
