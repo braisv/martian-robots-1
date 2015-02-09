@@ -1,7 +1,8 @@
-define(["underscore", "common", "robot"], function(_, common, robotObj) {
+define(["underscore", "common", "robot", "marsGrid"], function(_, common, robotObj, marsGrid) {
 	"use strict";
 
 	var _lostList = []; //manages grid points of lost robots
+	var setBots = [['ID', 'X', 'Y', 'Orientation']];
 
 	// cardinal points "map" with handy lookup methods
 	var _cardinalPoints = { 
@@ -29,17 +30,28 @@ define(["underscore", "common", "robot"], function(_, common, robotObj) {
 		var posArr = positionStr.trim().split(" ");
 
 		var bot = new robotObj.robot(botName, posArr[0], posArr[1], posArr[2], true); // create a new robot based on instructions
-
+		
 		// only process instructions if the bot is valid
 		if (bot.isBotValid()) {
+			setBots.push([positionStr, bot.xPos, bot.yPos, bot.orientation]);
+			marsGrid.updateBotState(setBots);
+			
 			instructionsStr = instructionsStr.trim().substring(0, common.defaults.maxInstruction);
-
+			
 			for (var i = 0; i < instructionsStr.length; i++) {
 				if(_processCommands(instructionsStr.charAt(i).toUpperCase(), bot) === false) {
 					break;
 				}
+				
+				setBots.pop();
+				setBots.push([positionStr, bot.xPos, bot.yPos, bot.orientation]);
+				marsGrid.updateBotState(setBots)
+//				window.setInterval(marsGrid.updateBotState(setBots), 2000);
 			}
-
+			
+			setBots.pop();
+			setBots.push([bot.output(), bot.xPos, bot.yPos, bot.orientation]);
+			marsGrid.updateBotState(setBots);
 			return bot.output();
 		}
 		else {

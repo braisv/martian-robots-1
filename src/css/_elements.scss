@@ -59,6 +59,18 @@
 	color: #0e83cd;
 }
 
+.btn-1e[disabled] {
+	border-color: #0e83cd;	
+	color: #0e83cd;
+	
+	&:hover, &:active {
+		cursor: default;
+	}
+	&:hover:after {
+		opacity: 0;
+	}
+}
+
 .btn-1e:hover:after {
 	height: 260%;
 	opacity: 1;

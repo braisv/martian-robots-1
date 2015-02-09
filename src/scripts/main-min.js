@@ -92,157 +92,6 @@ define('robot',["common"], function(common) {
 	};
 	
 });
-define('robotActions',["underscore", "common", "robot"], function(_, common, robotObj) {
-	
-
-	var _lostList = []; //manages grid points of lost robots
-
-	// cardinal points "map" with handy lookup methods
-	var _cardinalPoints = { 
-		points: { N:0, E:90, S:180, W:270 },
-
-		getPointName: function(findDegree) {
-			for (var p in this.points) {
-				if (findDegree === this.points[p]) {
-					return p;
-				}
-			}
-		},
-
-		getDegree: function(findPoint) {
-			for (var p in this.points) {
-				if (findPoint === p) {
-					return this.points[p];
-				}
-			}  
-		}
-	};
-
-	// parse and process bot instructions
-	var instructBot = function (botName, positionStr, instructionsStr) {
-		var posArr = positionStr.trim().split(" ");
-
-		var bot = new robotObj.robot(botName, posArr[0], posArr[1], posArr[2], true); // create a new robot based on instructions
-
-		// only process instructions if the bot is valid
-		if (bot.isBotValid()) {
-			instructionsStr = instructionsStr.trim().substring(0, common.defaults.maxInstruction);
-
-			for (var i = 0; i < instructionsStr.length; i++) {
-				if(_processCommands(instructionsStr.charAt(i).toUpperCase(), bot) === false) {
-					break;
-				}
-			}
-
-			return bot.output();
-		}
-		else {
-			return "Failed to create '" + botName + "', please view logs.";
-		}
-	};
-
-	// determines which type of move to execute: L/R/F
-	var _processCommands = function (char, bot) {
-		switch (char) {
-			case "L":
-			case "R":
-				bot.orientation = _robotCommands.turnBot(bot.orientation, char);
-				break;
-			case "F":
-				_robotCommands.moveBot(bot);
-				break;
-			default: 
-				console.log("Invalid command received while processing '" + bot.name + "', moving to next character.");
-		}
-
-		return bot.isAlive; // dealbreaking flag, halts looping on false
-	};
-
-	// store command types in this object; this should support "bolting" on future commands. 
-	// _processCommands will need new keys to call new command types
-	var _robotCommands = {
-		turnBot: function(orientation, char) {
-			return _turnBot(orientation, char);
-		},
-		moveBot: function(bot) {
-			_moveBot(bot);
-		}
-	};
-
-	// turn bot L/R and return new orientaion
-	var _turnBot = function(orientation, direction) {
-		var angle = _cardinalPoints.getDegree(orientation);
-
-		if(direction.toUpperCase() === "R") {
-			angle = (angle === 270) ? 0 : angle + 90; // make sure angle never becomes 360 since that value is not mapped
-		}
-		else if (direction.toUpperCase() === "L") {
-			angle = (angle === 0) ? 270 : angle - 90; // make sure angle never becomes 360 since that value is not mapped
-		}
-
-		return _cardinalPoints.getPointName(angle); // orientation is defined in cardinal points so lets go back to that instead of angles
-	};
-
-	var _processMotion = function(bot, tempPos, axis) {
-    axis = axis.toLowerCase();
-    switch (_hasScent(bot.coords(), tempPos, common.defaults[axis + "Bounds"])) {
-        case true:
-          break;
-        case false:
-          bot.isAlive = false;
-          _lostList.push(bot.xPos + ", " + bot.yPos);
-          break;
-        case null:
-          bot[axis + "Pos"] = tempPos;
-          break;
-      }
-  };
-  
-  var _moveBot = function(bot) {
-
-		// orientation determines which axis to increment/decrement along
-		switch (bot.orientation) {
-				case "N":
-          _processMotion(bot, (bot.yPos + 1), "y");
-					break;
-				case "S":
-					_processMotion(bot, (bot.yPos - 1), "y");
-					break;
-				case "E":
-					_processMotion(bot, (bot.xPos + 1), "x");
-					break;
-				case "W":
-					_processMotion(bot, (bot.xPos - 1), "x");
-					break;
-		}
-
-	};
-
-	var _hasScent = function(posStr, tempPos, posBounds) {
-
-		if (_.contains(_lostList, posStr) && !common.isPosSafe(tempPos,posBounds)) {
-			return true; 
-//      check if location has scent by looking in the lost list
-//      then if the next move is fatal, don't move robot
-		}
-		else {
-			if(!common.isPosSafe(tempPos,posBounds)) {
-				return false; 
-//         if location does NOT have a scent and the next move is fatal let it happen, 
-//        but add the location to the lost list and update the bot status to LOST
-			}
-			else {
-				return null; // if the next move is safe let it happen
-			}
-		}
-
-	};
-
-	return {
-		defaults: common.defaults,
-		instructBot: instructBot
-	};
-});
 /** @license
  * RequireJS plugin for async dependency load like JSONP and Google Maps
  * Author: Miller Medeiros
@@ -432,17 +281,190 @@ define('marsGrid',['common', 'goog!visualization,1,packages:[corechart,geochart]
 		initializeChart: initializeChart
 	};
 });
+define('robotActions',["underscore", "common", "robot", "marsGrid"], function(_, common, robotObj, marsGrid) {
+	
+
+	var _lostList = []; //manages grid points of lost robots
+	var setBots = [['ID', 'X', 'Y', 'Orientation']];
+
+	// cardinal points "map" with handy lookup methods
+	var _cardinalPoints = { 
+		points: { N:0, E:90, S:180, W:270 },
+
+		getPointName: function(findDegree) {
+			for (var p in this.points) {
+				if (findDegree === this.points[p]) {
+					return p;
+				}
+			}
+		},
+
+		getDegree: function(findPoint) {
+			for (var p in this.points) {
+				if (findPoint === p) {
+					return this.points[p];
+				}
+			}  
+		}
+	};
+
+	// parse and process bot instructions
+	var instructBot = function (botName, positionStr, instructionsStr) {
+		var posArr = positionStr.trim().split(" ");
+
+		var bot = new robotObj.robot(botName, posArr[0], posArr[1], posArr[2], true); // create a new robot based on instructions
+		
+		// only process instructions if the bot is valid
+		if (bot.isBotValid()) {
+			setBots.push([positionStr, bot.xPos, bot.yPos, bot.orientation]);
+			marsGrid.updateBotState(setBots);
+			
+			instructionsStr = instructionsStr.trim().substring(0, common.defaults.maxInstruction);
+			
+			for (var i = 0; i < instructionsStr.length; i++) {
+				if(_processCommands(instructionsStr.charAt(i).toUpperCase(), bot) === false) {
+					break;
+				}
+				
+				setBots.pop();
+				setBots.push([positionStr, bot.xPos, bot.yPos, bot.orientation]);
+				marsGrid.updateBotState(setBots)
+//				window.setInterval(marsGrid.updateBotState(setBots), 2000);
+			}
+			
+			setBots.pop();
+			setBots.push([bot.output(), bot.xPos, bot.yPos, bot.orientation]);
+			marsGrid.updateBotState(setBots);
+			return bot.output();
+		}
+		else {
+			return "Failed to create '" + botName + "', please view logs.";
+		}
+	};
+
+	// determines which type of move to execute: L/R/F
+	var _processCommands = function (char, bot) {
+		switch (char) {
+			case "L":
+			case "R":
+				bot.orientation = _robotCommands.turnBot(bot.orientation, char);
+				break;
+			case "F":
+				_robotCommands.moveBot(bot);
+				break;
+			default: 
+				console.log("Invalid command received while processing '" + bot.name + "', moving to next character.");
+		}
+
+		return bot.isAlive; // dealbreaking flag, halts looping on false
+	};
+
+	// store command types in this object; this should support "bolting" on future commands. 
+	// _processCommands will need new keys to call new command types
+	var _robotCommands = {
+		turnBot: function(orientation, char) {
+			return _turnBot(orientation, char);
+		},
+		moveBot: function(bot) {
+			_moveBot(bot);
+		}
+	};
+
+	// turn bot L/R and return new orientaion
+	var _turnBot = function(orientation, direction) {
+		var angle = _cardinalPoints.getDegree(orientation);
+
+		if(direction.toUpperCase() === "R") {
+			angle = (angle === 270) ? 0 : angle + 90; // make sure angle never becomes 360 since that value is not mapped
+		}
+		else if (direction.toUpperCase() === "L") {
+			angle = (angle === 0) ? 270 : angle - 90; // make sure angle never becomes 360 since that value is not mapped
+		}
+
+		return _cardinalPoints.getPointName(angle); // orientation is defined in cardinal points so lets go back to that instead of angles
+	};
+
+	var _processMotion = function(bot, tempPos, axis) {
+    axis = axis.toLowerCase();
+    switch (_hasScent(bot.coords(), tempPos, common.defaults[axis + "Bounds"])) {
+        case true:
+          break;
+        case false:
+          bot.isAlive = false;
+          _lostList.push(bot.xPos + ", " + bot.yPos);
+          break;
+        case null:
+          bot[axis + "Pos"] = tempPos;
+          break;
+      }
+  };
+  
+  var _moveBot = function(bot) {
+
+		// orientation determines which axis to increment/decrement along
+		switch (bot.orientation) {
+				case "N":
+          _processMotion(bot, (bot.yPos + 1), "y");
+					break;
+				case "S":
+					_processMotion(bot, (bot.yPos - 1), "y");
+					break;
+				case "E":
+					_processMotion(bot, (bot.xPos + 1), "x");
+					break;
+				case "W":
+					_processMotion(bot, (bot.xPos - 1), "x");
+					break;
+		}
+
+	};
+
+	var _hasScent = function(posStr, tempPos, posBounds) {
+
+		if (_.contains(_lostList, posStr) && !common.isPosSafe(tempPos,posBounds)) {
+			return true; 
+//      check if location has scent by looking in the lost list
+//      then if the next move is fatal, don't move robot
+		}
+		else {
+			if(!common.isPosSafe(tempPos,posBounds)) {
+				return false; 
+//         if location does NOT have a scent and the next move is fatal let it happen, 
+//        but add the location to the lost list and update the bot status to LOST
+			}
+			else {
+				return null; // if the next move is safe let it happen
+			}
+		}
+
+	};
+
+	return {
+		defaults: common.defaults,
+		instructBot: instructBot
+	};
+});
+/*
+ * Controls the UI
+ */
+
 define('interface',["robotActions", "common", "marsGrid"], function(robotActions, common, marsGrid) {
 	
 	
 	var errorStr = "Your instructions are incorrectly formatted. \n Please remember that the first line of input is used as the upper-right bounds.";
+	var instructionsQueue = [];
+	var initBotsBtn = document.getElementById("initialize-bots");
+	var inputArea = document.getElementById("input"), outputArea = document.getElementById("output");
+	var sampleInputBtn = document.getElementById("sample-input");
+	var moveBotsBtn = document.getElementById("move-bots");
 	
 	/*
-	 * this function does NOT validate instructions.
+	 * this function validates the format of instructions.
 	 * a readable instruction is one that has at least 3 lines. 
 	 * 1. upper bounds
 	 * 2. robot position
 	 * 3. robot movement instructions 
+	 * 
 	 */
 	
 	var isInstructionReadable = function(inputStr) {
@@ -460,7 +482,8 @@ define('interface',["robotActions", "common", "marsGrid"], function(robotActions
 		}
 	};
 	
-	var readTextArea = function(inputStr) {
+	var initializeBotPositions = function(inputStr) {
+		var setBots = [['ID', 'X', 'Y', 'Orientation']];
 		var inputArr = inputStr.split("\n\n");
 		var output;
 
@@ -468,22 +491,29 @@ define('interface',["robotActions", "common", "marsGrid"], function(robotActions
 			var currentInstructionSet = inputArr[i].split("\n");
 			// the first line of the first instruction sets the bounds
 			if (i === 0) {
-					var defaultsArr = currentInstructionSet[0].split(" ");
-					common.defaults.xBounds = common.isNumber(defaultsArr[0]) ? defaultsArr[0] : common.defaults.xBounds;
-					common.defaults.yBounds = common.isNumber(defaultsArr[1]) ? defaultsArr[1] : common.defaults.yBounds;
-					output = robotActions.instructBot("Bot ${i}", currentInstructionSet[1], currentInstructionSet[2]);
+				var defaultsArr = currentInstructionSet[0].split(" ");
+				common.defaults.xBounds = common.isNumber(defaultsArr[0]) ? defaultsArr[0] : common.defaults.xBounds;
+				common.defaults.yBounds = common.isNumber(defaultsArr[1]) ? defaultsArr[1] : common.defaults.yBounds;
+				var posArr = currentInstructionSet[1].trim().split(" ");
+				// args example ("1 1 E", 1, 1, "E")
+				setBots.push([currentInstructionSet[1], parseInt(posArr[0], 10), parseInt(posArr[1], 10), posArr[2]]); 
+				// args example (position string, instructions string)	
+				instructionsQueue.push([currentInstructionSet[1], currentInstructionSet[2]]); 
 			}
 			else {
-				output = robotActions.instructBot("Bot ${i}", currentInstructionSet[0], currentInstructionSet[1]);
+				var posArr = currentInstructionSet[0].trim().split(" ");
+				// args example ("1 1 E", 1, 1, "E")
+				setBots.push([currentInstructionSet[0], parseInt(posArr[0], 10), parseInt(posArr[1], 10), posArr[2]]);
+				// args example (position string, instructions string)	
+				instructionsQueue.push([currentInstructionSet[0], currentInstructionSet[1]]); 
 			}
-
-      document.getElementById("output").innerHTML += "<p>" + output + "</p>";
 		}
+		
+		marsGrid.updateBotState(setBots); 
 	};
 	
-	var sampleInput = function() {
-		var inputArea = document.getElementById("input");
-    var sampleInputStr = "5 3 \n\
+	var sampleInputBtnHandler = function() {
+    var sampleInputBtnStr = "5 3 \n\
 1 1 E \n\
 RFRFRFRF \n\n\
 3 2 N \n\
@@ -491,56 +521,57 @@ FRRFLLFFRRFLL \n\n\
 0 3 W \n\
 LLFFFLFLFL";
 		
-    document.getElementById("get-help").addEventListener("click", function(event) {
-			inputArea.value = sampleInputStr;
+    sampleInputBtn.addEventListener("click", function(event) {
+			inputArea.value = sampleInputBtnStr;
+			
     }, false);
 			
 	};
 	
-	var runBtn = function() {
+	var initBotsBtnHandler = function() {
 		var inputArea = document.getElementById("input");
-    
-    document.getElementById("read-instructions").addEventListener("click", function(event) {
-      document.getElementById("output").innerHTML = "";
+		initBotsBtn.addEventListener("click", function(event) {
+				
+			outputArea.innerHTML = "";
       
       if(isInstructionReadable(inputArea.value)) {
-          readTextArea(inputArea.value);
-          inputArea.value = "";
-        }
-        else {
-          document.getElementById("output").innerHTML = errorStr;
-        }
+				initializeBotPositions(inputArea.value);
+				moveBotsBtn.removeAttribute("disabled"); // enable move button
+			}
+			else {
+				outputArea.innerHTML = errorStr;
+			}
+			
+			}, false);
+	};
+	
+	var moveBotsBtnHandler = function() {
+    var inputArea = document.getElementById("input");
+    moveBotsBtn.addEventListener("click", function(event) {
+		outputArea.innerHTML = "";
+      
+			if(isInstructionReadable(inputArea.value)) {
+				for(var j = 0; j < instructionsQueue.length; j++) {
+					instruction = instructionsQueue[j];
+					// args: botName, initial position string, movement instructions
+					output = robotActions.instructBot("Bot #" + j, instruction[0], instruction[1]); 
+				}
+				inputArea.value = "";
+				moveBotsBtn.setAttribute("disabled","");
+			}
+			else {
+				outputArea.innerHTML = errorStr;
+			}
+		outputArea.innerHTML += "<p>" + output + "</p>";
     }, false);
     
 	};
 	
-	var chartMethods = function() {
-		document.getElementById("set-bots").addEventListener("click", function(event) {
-				var setBots = [
-					['ID', 'X', 'Y', 'Orientation'],
-					['Bot 1',    1,              1, 'E'],
-					['Bot 2',    3,              2, 'N'],
-					['Bot 3',    0,               3, 'W']
-				];
-				marsGrid.updateBotState(setBots);
-			}, false);
-
-		document.getElementById("move-bots").addEventListener("click", function(event) {
-				var moveBots = [
-					['ID', 'X', 'Y', 'Orientation'],
-					['Bot 1',    1,              1, 'E'],
-					['Bot 2',    3,              3, 'N'],
-					['Bot 3',    2,               3, 'S']
-				];
-				marsGrid.updateBotState(moveBots);
-			}, false);
-	};
-	
 	var init = function() {
-		runBtn();
-		sampleInput();
-    marsGrid.initializeChart(document.getElementById('planet-mars'));
-		chartMethods();
+		marsGrid.initializeChart(document.getElementById('planet-mars'));
+		initBotsBtnHandler();
+		moveBotsBtnHandler();
+		sampleInputBtnHandler();
 	};
 		
 	return {
