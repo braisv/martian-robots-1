@@ -44,7 +44,7 @@ define(["underscore", "common", "robot", "marsGrid"], function(_, common, robotO
 				}
 				
 				setBots.pop();
-				setBots.push([positionStr, bot.xPos, bot.yPos, bot.orientation]);
+				setBots.push([bot.output(), bot.xPos, bot.yPos, bot.orientation]);
 				marsGrid.updateBotState(setBots)
 //				window.setInterval(marsGrid.updateBotState(setBots), 2000);
 			}

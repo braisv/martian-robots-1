@@ -45,6 +45,7 @@ define(['common', 'goog!visualization,1,packages:[corechart,geochart]'], functio
   
 	var updateBotState = function(newState) {
 		data = google.visualization.arrayToDataTable(newState);
+    console.log(common.defaults.xBounds + " " + options);
 		chart.draw(data, options);
 	};	
 		

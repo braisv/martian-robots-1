@@ -8,30 +8,36 @@
 	<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-<h1>Martian Robots</h1>
-<span class="input input--minoru">
-<textarea class="input__field input__field--minoru" 
-id="input" rows="10" cols="50" placeholder="Put your instructions here.">
-</textarea>
-	<label class="input__label input__label--minoru" for="input">
-		<span class="input__label-content input__label-content--minoru"></span>
-	</label>
-</span>
+<div class="wrap">
+ <h1>Martian Robots</h1>
+   <div class="one-half">
+    <span class="input input--minoru">
+    <textarea class="input__field input__field--minoru" 
+    id="input" rows="10" cols="50" placeholder="Put your instructions here.">
+    </textarea>
+      <label class="input__label input__label--minoru" for="input">
+        <span class="input__label-content input__label-content--minoru"></span>
+      </label>
+    </span>
 
-<br>
+    <br>
 
-<button id="initialize-bots" class="btn btn-1 btn-1e">Initialize Bots</button>&nbsp;
-<button id="move-bots" class="btn btn-1 btn-1e" disabled>Move Bots</button><br>
-<button id="sample-input" class="btn btn-1 btn-1e">Sample Input</button><br>
+    <button id="initialize-bots" class="btn btn-1 btn-1e">Initialize Bots</button>&nbsp;
+    <button id="move-bots" class="btn btn-1 btn-1e" disabled>Move Bots</button><br>
+    <button id="sample-input" class="btn btn-1 btn-1e">Sample Input</button><br>
 
-<br>
-<!--<a href="https://bitbucket.org/komplexb/martian-robots" target="_blank">Read me</a>-->
-<h2>Output</h2>
-<div id="output">
-	
+    <br>
+<!--    <a href="https://bitbucket.org/komplexb/martian-robots" target="_blank">Read me</a>-->
+<!--    <h2>Output</h2>-->
+    <div id="output" class="output">
+
+    </div>
+  </div>
+  
+  <div class="one-half">
+    <div id="planet-mars" style="width: 500px; height: 450px;"></div>
+  </div>
 </div>
-
-<div id="planet-mars" style="width: 900px; height: 500px;"></div>
 
 <div id="fullscreen">
 	 <a href="#" class="close">Close</a>

@@ -268,6 +268,7 @@ define('marsGrid',['common', 'goog!visualization,1,packages:[corechart,geochart]
   
 	var updateBotState = function(newState) {
 		data = google.visualization.arrayToDataTable(newState);
+    console.log(common.defaults.xBounds + " " + options);
 		chart.draw(data, options);
 	};	
 		
@@ -327,7 +328,7 @@ define('robotActions',["underscore", "common", "robot", "marsGrid"], function(_,
 				}
 				
 				setBots.pop();
-				setBots.push([positionStr, bot.xPos, bot.yPos, bot.orientation]);
+				setBots.push([bot.output(), bot.xPos, bot.yPos, bot.orientation]);
 				marsGrid.updateBotState(setBots)
 //				window.setInterval(marsGrid.updateBotState(setBots), 2000);
 			}
@@ -529,7 +530,6 @@ LLFFFLFLFL";
 	};
 	
 	var initBotsBtnHandler = function() {
-		var inputArea = document.getElementById("input");
 		initBotsBtn.addEventListener("click", function(event) {
 				
 			outputArea.innerHTML = "";
@@ -546,15 +546,16 @@ LLFFFLFLFL";
 	};
 	
 	var moveBotsBtnHandler = function() {
-    var inputArea = document.getElementById("input");
+    var output = "";
+    
     moveBotsBtn.addEventListener("click", function(event) {
 		outputArea.innerHTML = "";
       
-			if(isInstructionReadable(inputArea.value)) {
+      if(isInstructionReadable(inputArea.value)) {
 				for(var j = 0; j < instructionsQueue.length; j++) {
 					instruction = instructionsQueue[j];
 					// args: botName, initial position string, movement instructions
-					output = robotActions.instructBot("Bot #" + j, instruction[0], instruction[1]); 
+					output += "<p>" + robotActions.instructBot("Bot #" + j, instruction[0], instruction[1]) + "</p>"; 
 				}
 				inputArea.value = "";
 				moveBotsBtn.setAttribute("disabled","");
@@ -562,7 +563,7 @@ LLFFFLFLFL";
 			else {
 				outputArea.innerHTML = errorStr;
 			}
-		outputArea.innerHTML += "<p>" + output + "</p>";
+//		outputArea.innerHTML = output;
     }, false);
     
 	};

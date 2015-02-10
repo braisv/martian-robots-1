@@ -83,7 +83,6 @@ LLFFFLFLFL";
 	};
 	
 	var initBotsBtnHandler = function() {
-		var inputArea = document.getElementById("input");
 		initBotsBtn.addEventListener("click", function(event) {
 				
 			outputArea.innerHTML = "";
@@ -100,15 +99,16 @@ LLFFFLFLFL";
 	};
 	
 	var moveBotsBtnHandler = function() {
-    var inputArea = document.getElementById("input");
+    var output = "";
+    
     moveBotsBtn.addEventListener("click", function(event) {
 		outputArea.innerHTML = "";
       
-			if(isInstructionReadable(inputArea.value)) {
+      if(isInstructionReadable(inputArea.value)) {
 				for(var j = 0; j < instructionsQueue.length; j++) {
 					instruction = instructionsQueue[j];
 					// args: botName, initial position string, movement instructions
-					output = robotActions.instructBot("Bot #" + j, instruction[0], instruction[1]); 
+					output += "<p>" + robotActions.instructBot("Bot #" + j, instruction[0], instruction[1]) + "</p>"; 
 				}
 				inputArea.value = "";
 				moveBotsBtn.setAttribute("disabled","");
@@ -116,7 +116,7 @@ LLFFFLFLFL";
 			else {
 				outputArea.innerHTML = errorStr;
 			}
-		outputArea.innerHTML += "<p>" + output + "</p>";
+//		outputArea.innerHTML = output;
     }, false);
     
 	};
