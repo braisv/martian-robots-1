@@ -1,16 +1,23 @@
 # Martian Robots #
 
-Martian Robots is a small app to demo some aspects of modern JavaScript development outside of DOM manipulation. Dependencies include:  
-- require.js + r.js  
+Martian Robots is a small app to demo some aspects of modern JavaScript development outside of typical jQuery styled DOM manipulation.  
+Dependencies include:  
+- require.js + r optimizer  
 - underscore.js  
+- google visualisation charts  
 - qunit  
-- jquery
 
 ### How to run ###  
-The app can be ran locally or at the provided URL. Read the about section below to understand what the app is about. See the sample input to understand how to instruct a robot.  
+The app can be ran locally or at the provided URL. Read the about section below to understand what the app is about. 
 - Locally: [Download](https://bitbucket.org/komplexb/martian-robots/downloads) the repo and run `../src/index.html`. 
 A few tests are available a `../tests/index.html`.  
 - Online: http://komplexb.bitbucket.org/martian-robots/index.html  
+
+### How to use ###
+1. Enter instructions or click "Sample Input" to insert instructions into the text area.  
+2. Click "Initialize Bots". This sets the robots to their initial positions on the planet. Valid instructions will enable the "Move Bots" button.  
+3. Click "Move Bots" to see the final position of the robots after processing the series of instructions.  
+4. To validate app functionality, read the extract below to come up with valid instructions. Manually trace your instructions on along the grid to determine the final position and output. Insert these instructions into the app and test the output against your manual output.  
 
 ## About ##
 
