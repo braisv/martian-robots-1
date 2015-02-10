@@ -99,8 +99,9 @@ LLFFFLFLFL";
 	};
 	
 	var moveBotsBtnHandler = function() {
-    var output = "";
-    
+    var output = "", bot;
+    var setBots = [['ID', 'X', 'Y', 'Orientation']]; 
+		
     moveBotsBtn.addEventListener("click", function(event) {
 		outputArea.innerHTML = "";
       
@@ -108,9 +109,11 @@ LLFFFLFLFL";
 				for(var j = 0; j < instructionsQueue.length; j++) {
 					instruction = instructionsQueue[j];
 					// args: botName, initial position string, movement instructions
-					output += "<p>" + robotActions.instructBot("Bot #" + j, instruction[0], instruction[1]) + "</p>"; 
+					bot = robotActions.instructBot("Bot #" + j, instruction[0], instruction[1]); 
+					setBots.push([bot.output(), bot.xPos, bot.yPos, bot.orientation]);
 				}
 				inputArea.value = "";
+				marsGrid.updateBotState(setBots);
 				moveBotsBtn.setAttribute("disabled",""); // disable move button
 			}
 			else {

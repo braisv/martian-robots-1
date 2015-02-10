@@ -2,11 +2,10 @@
  * defines the movement of a robot across the grid
  */
 
-define(["underscore", "common", "robot", "marsGrid"], function(_, common, robotObj, marsGrid) {
+define(["underscore", "common", "robot"], function(_, common, robotObj) {
 	"use strict";
 
 	var _lostList = []; //manages grid points of lost robots
-	var setBots = [['ID', 'X', 'Y', 'Orientation']];
 
 	// cardinal points "map" with handy lookup methods
 	var _cardinalPoints = { 
@@ -37,8 +36,6 @@ define(["underscore", "common", "robot", "marsGrid"], function(_, common, robotO
 		
 		// only process instructions if the bot is valid
 		if (bot.isBotValid()) {
-			setBots.push([positionStr, bot.xPos, bot.yPos, bot.orientation]);
-			marsGrid.updateBotState(setBots);
 			
 			instructionsStr = instructionsStr.trim().substring(0, common.defaults.maxInstruction);
 			
@@ -46,17 +43,8 @@ define(["underscore", "common", "robot", "marsGrid"], function(_, common, robotO
 				if(_processCommands(instructionsStr.charAt(i).toUpperCase(), bot) === false) {
 					break;
 				}
-				
-				setBots.pop();
-				setBots.push([bot.output(), bot.xPos, bot.yPos, bot.orientation]);
-				marsGrid.updateBotState(setBots)
-//				window.setInterval(marsGrid.updateBotState(setBots), 2000);
 			}
-			
-			setBots.pop();
-			setBots.push([bot.output(), bot.xPos, bot.yPos, bot.orientation]);
-			marsGrid.updateBotState(setBots);
-			return bot.output();
+			return bot;
 		}
 		else {
 			throw "Failed to create '" + botName + "', please view logs.";
