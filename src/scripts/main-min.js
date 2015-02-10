@@ -76,6 +76,10 @@ define('robot',["common"], function(common) {
 			return outputStr;
 		};
 		
+		this.id = function() {
+			return { name: this.name, output: this.output };
+		};
+		
 		this.isBotValid = function() {
 			if(!common.isPosSafe(this.xPos , common.defaults.maxCoord) || !common.isPosSafe(this.yPos, common.defaults.maxCoord)) {
 				console.log("Error creating '%s'. A single coordinate must be a positive number less than %s!", this.name, common.defaults.maxCoord);
@@ -258,8 +262,8 @@ define('marsGrid',['common', 'goog!visualization,1,packages:[corechart,geochart]
                'S': {color: 'blue'},
                'W': {color: 'green'}
       },
-      hAxis: {minValue: 0, maxValue: parseInt(common.defaults.xBounds, 10)},
-      vAxis: {minValue: 0, maxValue: parseInt(common.defaults.yBounds, 10)}
+      hAxis: {minValue: 0, maxValue: common.defaults.xBounds},
+      vAxis: {minValue: 0, maxValue: common.defaults.yBounds}
     };
 		
     chart.draw(data, options);
@@ -268,7 +272,8 @@ define('marsGrid',['common', 'goog!visualization,1,packages:[corechart,geochart]
   
 	var updateBotState = function(newState) {
 		data = google.visualization.arrayToDataTable(newState);
-    console.log(common.defaults.xBounds + " " + options);
+		options.hAxis.maxValue = common.defaults.xBounds; // update grid size just in case there's been a change to x bounds
+		options.vAxis.maxValue = common.defaults.yBounds; // update grid size just in case there's been a change to y bounds
 		chart.draw(data, options);
 	};	
 		

@@ -35,8 +35,8 @@ define(['common', 'goog!visualization,1,packages:[corechart,geochart]'], functio
                'S': {color: 'blue'},
                'W': {color: 'green'}
       },
-      hAxis: {minValue: 0, maxValue: parseInt(common.defaults.xBounds, 10)},
-      vAxis: {minValue: 0, maxValue: parseInt(common.defaults.yBounds, 10)}
+      hAxis: {minValue: 0, maxValue: common.defaults.xBounds},
+      vAxis: {minValue: 0, maxValue: common.defaults.yBounds}
     };
 		
     chart.draw(data, options);
@@ -45,7 +45,8 @@ define(['common', 'goog!visualization,1,packages:[corechart,geochart]'], functio
   
 	var updateBotState = function(newState) {
 		data = google.visualization.arrayToDataTable(newState);
-    console.log(common.defaults.xBounds + " " + options);
+		options.hAxis.maxValue = common.defaults.xBounds; // update grid size just in case there's been a change to x bounds
+		options.vAxis.maxValue = common.defaults.yBounds; // update grid size just in case there's been a change to y bounds
 		chart.draw(data, options);
 	};	
 		

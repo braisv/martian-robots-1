@@ -23,6 +23,10 @@ define(["common"], function(common) {
 			return outputStr;
 		};
 		
+		this.id = function() {
+			return { name: this.name, output: this.output };
+		};
+		
 		this.isBotValid = function() {
 			if(!common.isPosSafe(this.xPos , common.defaults.maxCoord) || !common.isPosSafe(this.yPos, common.defaults.maxCoord)) {
 				console.log("Error creating '%s'. A single coordinate must be a positive number less than %s!", this.name, common.defaults.maxCoord);
