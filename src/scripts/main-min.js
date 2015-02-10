@@ -12,6 +12,10 @@ define("underscore", (function (global) {
     };
 }(this)));
 
+/*
+ * utilty functions
+ */
+
 define('common',[],function() {
 	
 	
@@ -51,6 +55,10 @@ define('common',[],function() {
 		isPosSafe: isPosSafe
 	};
 });
+/*
+ * defines a robot and its current state
+ */
+
 define('robot',["common"], function(common) {
 	
 
@@ -257,10 +265,10 @@ define('marsGrid',['common', 'goog!visualization,1,packages:[corechart,geochart]
         easing: 'inAndOut',
         startup: true
       },
-      series: {'N': {color: 'red'},
-               'E': {color: 'yellow'},
-               'S': {color: 'blue'},
-               'W': {color: 'green'}
+      series: {'N': {color: '#fb0a2a'},
+               'E': {color: '#00aeef'},
+               'S': {color: '#062f3c'},
+               'W': {color: '#ffcc33'}
       },
       hAxis: {minValue: 0, maxValue: common.defaults.xBounds},
       vAxis: {minValue: 0, maxValue: common.defaults.yBounds}
@@ -287,6 +295,10 @@ define('marsGrid',['common', 'goog!visualization,1,packages:[corechart,geochart]
 		initializeChart: initializeChart
 	};
 });
+/*
+ * defines the movement of a robot across the grid
+ */
+
 define('robotActions',["underscore", "common", "robot", "marsGrid"], function(_, common, robotObj, marsGrid) {
 	
 
@@ -344,7 +356,7 @@ define('robotActions',["underscore", "common", "robot", "marsGrid"], function(_,
 			return bot.output();
 		}
 		else {
-			return "Failed to create '" + botName + "', please view logs.";
+			throw "Failed to create '" + botName + "', please view logs.";
 		}
 	};
 
@@ -563,7 +575,7 @@ LLFFFLFLFL";
 					output += "<p>" + robotActions.instructBot("Bot #" + j, instruction[0], instruction[1]) + "</p>"; 
 				}
 				inputArea.value = "";
-				moveBotsBtn.setAttribute("disabled","");
+				moveBotsBtn.setAttribute("disabled",""); // disable move button
 			}
 			else {
 				outputArea.innerHTML = errorStr;
@@ -588,7 +600,7 @@ LLFFFLFLFL";
 });
 /*
  * Third Party Dependency
- * https://github.com/millermedeiros/requirejs-plugins
+ * requirejs-plugins: https://github.com/millermedeiros/requirejs-plugins
  */
 
 require.config({

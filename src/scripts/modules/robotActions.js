@@ -1,3 +1,7 @@
+/*
+ * defines the movement of a robot across the grid
+ */
+
 define(["underscore", "common", "robot", "marsGrid"], function(_, common, robotObj, marsGrid) {
 	"use strict";
 
@@ -55,7 +59,7 @@ define(["underscore", "common", "robot", "marsGrid"], function(_, common, robotO
 			return bot.output();
 		}
 		else {
-			return "Failed to create '" + botName + "', please view logs.";
+			throw "Failed to create '" + botName + "', please view logs.";
 		}
 	};
 

@@ -1,6 +1,6 @@
 /*
  * Third Party Dependency
- * https://github.com/millermedeiros/requirejs-plugins
+ * requirejs-plugins: https://github.com/millermedeiros/requirejs-plugins
  */
 
 require.config({

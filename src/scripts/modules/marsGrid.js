@@ -30,10 +30,10 @@ define(['common', 'goog!visualization,1,packages:[corechart,geochart]'], functio
         easing: 'inAndOut',
         startup: true
       },
-      series: {'N': {color: 'red'},
-               'E': {color: 'yellow'},
-               'S': {color: 'blue'},
-               'W': {color: 'green'}
+      series: {'N': {color: '#fb0a2a'},
+               'E': {color: '#00aeef'},
+               'S': {color: '#062f3c'},
+               'W': {color: '#ffcc33'}
       },
       hAxis: {minValue: 0, maxValue: common.defaults.xBounds},
       vAxis: {minValue: 0, maxValue: common.defaults.yBounds}

@@ -1,3 +1,7 @@
+/*
+ * utilty functions
+ */
+
 define(function() {
 	"use strict";
 	

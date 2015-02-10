@@ -111,7 +111,7 @@ LLFFFLFLFL";
 					output += "<p>" + robotActions.instructBot("Bot #" + j, instruction[0], instruction[1]) + "</p>"; 
 				}
 				inputArea.value = "";
-				moveBotsBtn.setAttribute("disabled","");
+				moveBotsBtn.setAttribute("disabled",""); // disable move button
 			}
 			else {
 				outputArea.innerHTML = errorStr;

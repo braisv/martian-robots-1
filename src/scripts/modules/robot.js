@@ -1,3 +1,7 @@
+/*
+ * defines a robot and its current state
+ */
+
 define(["common"], function(common) {
 	"use strict";
 
