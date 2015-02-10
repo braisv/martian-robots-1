@@ -40,8 +40,8 @@ require(["robotActions"], function(robotActions) {
 	});
 
 	QUnit.test('instructBot()', function(assert) {
-		assert.strictEqual(robotActions.instructBot("bot1", "1 1 E", "RFRFRFRF"), "1 1 E", "Test: 1 1 E");
-		assert.strictEqual(robotActions.instructBot("bot2", "3 2 N", "FRRFLLFFRRFLL"), "3 3 N LOST", "Test: 3 2 N");
-		assert.strictEqual(robotActions.instructBot("bot3", "0 3 W", "LLFFFLFLFL"), "2 3 S", "Test: 0 3 W");
+		assert.strictEqual(robotActions.instructBot("bot1", "1 1 E", "RFRFRFRF").output(), "1 1 E", "Test: 1 1 E");
+		assert.strictEqual(robotActions.instructBot("bot2", "3 2 N", "FRRFLLFFRRFLL").output(), "3 3 N LOST", "Test: 3 2 N");
+		assert.strictEqual(robotActions.instructBot("bot3", "0 3 W", "LLFFFLFLFL").output(), "2 3 S", "Test: 0 3 W");
 	});
 });

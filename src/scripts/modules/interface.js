@@ -1,14 +1,24 @@
-define(["robotActions", "common"], function(robotActions, common) {
+/*
+ * Controls the UI
+ */
+
+define(["robotActions", "common", "marsGrid"], function(robotActions, common, marsGrid) {
 	"use strict";
 	
 	var errorStr = "Your instructions are incorrectly formatted. \n Please remember that the first line of input is used as the upper-right bounds.";
+	var instructionsQueue = [];
+	var initBotsBtn = document.getElementById("initialize-bots");
+	var inputArea = document.getElementById("input"), outputArea = document.getElementById("output");
+	var sampleInputBtn = document.getElementById("sample-input");
+	var moveBotsBtn = document.getElementById("move-bots");
 	
 	/*
-	 * this function does NOT validate instructions.
+	 * this function validates the format of instructions.
 	 * a readable instruction is one that has at least 3 lines. 
 	 * 1. upper bounds
 	 * 2. robot position
 	 * 3. robot movement instructions 
+	 * 
 	 */
 	
 	var isInstructionReadable = function(inputStr) {
@@ -26,7 +36,8 @@ define(["robotActions", "common"], function(robotActions, common) {
 		}
 	};
 	
-	var readTextArea = function(inputStr) {
+	var initializeBotPositions = function(inputStr) {
+		var setBots = [['ID', 'X', 'Y', 'Orientation']];
 		var inputArr = inputStr.split("\n\n");
 		var output;
 
@@ -34,22 +45,29 @@ define(["robotActions", "common"], function(robotActions, common) {
 			var currentInstructionSet = inputArr[i].split("\n");
 			// the first line of the first instruction sets the bounds
 			if (i === 0) {
-					var defaultsArr = currentInstructionSet[0].split(" ");
-					common.defaults.xBounds = common.isNumber(defaultsArr[0]) ? defaultsArr[0] : common.defaults.xBounds;
-					common.defaults.yBounds = common.isNumber(defaultsArr[1]) ? defaultsArr[1] : common.defaults.yBounds;
-					output = robotActions.instructBot("Bot ${i}", currentInstructionSet[1], currentInstructionSet[2]);
+				var defaultsArr = currentInstructionSet[0].split(" ");
+				common.defaults.xBounds = common.isNumber(defaultsArr[0]) ? defaultsArr[0] : common.defaults.xBounds;
+				common.defaults.yBounds = common.isNumber(defaultsArr[1]) ? defaultsArr[1] : common.defaults.yBounds;
+				var posArr = currentInstructionSet[1].trim().split(" ");
+				// args example ("1 1 E", 1, 1, "E")
+				setBots.push([currentInstructionSet[1], parseInt(posArr[0], 10), parseInt(posArr[1], 10), posArr[2]]); 
+				// args example (position string, instructions string)	
+				instructionsQueue.push([currentInstructionSet[1], currentInstructionSet[2]]); 
 			}
 			else {
-				output = robotActions.instructBot("Bot ${i}", currentInstructionSet[0], currentInstructionSet[1]);
+				var posArr = currentInstructionSet[0].trim().split(" ");
+				// args example ("1 1 E", 1, 1, "E")
+				setBots.push([currentInstructionSet[0], parseInt(posArr[0], 10), parseInt(posArr[1], 10), posArr[2]]);
+				// args example (position string, instructions string)	
+				instructionsQueue.push([currentInstructionSet[0], currentInstructionSet[1]]); 
 			}
-
-      document.getElementById("output").innerHTML += "<p>" + output + "</p>";
 		}
+		
+		marsGrid.updateBotState(setBots); 
 	};
 	
-	var sampleInput = function() {
-		var inputArea = document.getElementById("input");
-    var sampleInputStr = "5 3 \n\
+	var sampleInputBtnHandler = function() {
+    var sampleInputBtnStr = "5 3 \n\
 1 1 E \n\
 RFRFRFRF \n\n\
 3 2 N \n\
@@ -57,32 +75,58 @@ FRRFLLFFRRFLL \n\n\
 0 3 W \n\
 LLFFFLFLFL";
 		
-    document.getElementById("get-help").addEventListener("click", function(event) {
-			inputArea.value = sampleInputStr;
+    sampleInputBtn.addEventListener("click", function(event) {
+			inputArea.value = sampleInputBtnStr;
+			
     }, false);
 			
 	};
 	
-	var runBtn = function() {
-		var inputArea = document.getElementById("input");
-    
-    document.getElementById("read-instructions").addEventListener("click", function(event) {
-      document.getElementById("output").innerHTML = "";
+	var initBotsBtnHandler = function() {
+		initBotsBtn.addEventListener("click", function(event) {
+			outputArea.innerHTML = "";
       
       if(isInstructionReadable(inputArea.value)) {
-          readTextArea(inputArea.value);
-          inputArea.value = "";
-        }
-        else {
-          document.getElementById("output").innerHTML = errorStr;
-        }
+				initializeBotPositions(inputArea.value);
+				moveBotsBtn.removeAttribute("disabled"); // enable move button
+			}
+			else {
+				outputArea.innerHTML = errorStr;
+			}
+			
+			}, false);
+	};
+	
+	var moveBotsBtnHandler = function() {
+    moveBotsBtn.addEventListener("click", function(event) {
+		outputArea.innerHTML = "";
+    var output = "", bot;
+    var setBots = [['ID', 'X', 'Y', 'Orientation']]; 
+      
+      if(isInstructionReadable(inputArea.value)) {
+				for(var j = 0; j < instructionsQueue.length; j++) {
+					instruction = instructionsQueue[j];
+					// args: botName, initial position string, movement instructions
+					bot = robotActions.instructBot("Bot #" + j, instruction[0], instruction[1]); 
+					setBots.push([bot.output(), bot.xPos, bot.yPos, bot.orientation]);
+				}
+				inputArea.value = "";
+				marsGrid.updateBotState(setBots);
+				moveBotsBtn.setAttribute("disabled",""); // disable move button
+			}
+			else {
+				outputArea.innerHTML = errorStr;
+			}
+//		outputArea.innerHTML = output;
     }, false);
     
 	};
 	
 	var init = function() {
-		runBtn();
-		sampleInput();
+		marsGrid.initializeChart(document.getElementById('planet-mars'));
+		initBotsBtnHandler();
+		moveBotsBtnHandler();
+		sampleInputBtnHandler();
 	};
 		
 	return {

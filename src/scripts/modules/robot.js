@@ -1,3 +1,7 @@
+/*
+ * defines a robot and its current state
+ */
+
 define(["common"], function(common) {
 	"use strict";
 
@@ -21,6 +25,10 @@ define(["common"], function(common) {
 		this.output = function() {
 			var outputStr = this.xPos + " " + this.yPos + " " + this.orientation + this.isAliveStr();
 			return outputStr;
+		};
+		
+		this.id = function() {
+			return { name: this.name, output: this.output };
 		};
 		
 		this.isBotValid = function() {

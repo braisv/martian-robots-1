@@ -1,3 +1,7 @@
+/*
+ * defines the movement of a robot across the grid
+ */
+
 define(["underscore", "common", "robot"], function(_, common, robotObj) {
 	"use strict";
 
@@ -29,21 +33,21 @@ define(["underscore", "common", "robot"], function(_, common, robotObj) {
 		var posArr = positionStr.trim().split(" ");
 
 		var bot = new robotObj.robot(botName, posArr[0], posArr[1], posArr[2], true); // create a new robot based on instructions
-
+		
 		// only process instructions if the bot is valid
 		if (bot.isBotValid()) {
+			
 			instructionsStr = instructionsStr.trim().substring(0, common.defaults.maxInstruction);
-
+			
 			for (var i = 0; i < instructionsStr.length; i++) {
 				if(_processCommands(instructionsStr.charAt(i).toUpperCase(), bot) === false) {
 					break;
 				}
 			}
-
-			return bot.output();
+			return bot;
 		}
 		else {
-			return "Failed to create '" + botName + "', please view logs.";
+			throw "Failed to create '" + botName + "', please view logs.";
 		}
 	};
 

@@ -11,9 +11,9 @@
 /*	background: #0e83cd;*/
 	background: none;
 	cursor: pointer;
-	padding: 25px 80px;
+	padding: 10px;
 	display: inline-block;
-	margin: 15px 30px;
+	margin: 10px;
 	text-transform: uppercase;
 	letter-spacing: 1px;
 	font-weight: 700;
@@ -57,6 +57,18 @@
 .btn-1e:hover,
 .btn-1e:active {
 	color: #0e83cd;
+}
+
+.btn-1e[disabled] {
+	border-color: #0e83cd;	
+	color: #0e83cd;
+	
+	&:hover, &:active {
+		cursor: default;
+	}
+	&:hover:after {
+		opacity: 0;
+	}
 }
 
 .btn-1e:hover:after {
