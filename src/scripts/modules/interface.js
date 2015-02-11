@@ -15,6 +15,7 @@ define(["robotActions", "common", "marsGrid"], function(robotActions, common, ma
 	/*
 	 * this function validates the format of instructions.
 	 * a readable instruction is one that has at least 3 lines. 
+	 * Line: 
 	 * 1. upper bounds
 	 * 2. robot position
 	 * 3. robot movement instructions 
@@ -48,19 +49,14 @@ define(["robotActions", "common", "marsGrid"], function(robotActions, common, ma
 				var defaultsArr = currentInstructionSet[0].split(" ");
 				common.defaults.xBounds = common.isNumber(defaultsArr[0]) ? defaultsArr[0] : common.defaults.xBounds;
 				common.defaults.yBounds = common.isNumber(defaultsArr[1]) ? defaultsArr[1] : common.defaults.yBounds;
-				var posArr = currentInstructionSet[1].trim().split(" ");
-				// args example ("1 1 E", 1, 1, "E")
-				setBots.push([currentInstructionSet[1], parseInt(posArr[0], 10), parseInt(posArr[1], 10), posArr[2]]); 
-				// args example (position string, instructions string)	
-				instructionsQueue.push([currentInstructionSet[1], currentInstructionSet[2]]); 
+				currentInstructionSet.shift(); // after we get the bounds delete its element from the instruction array.  
 			}
-			else {
-				var posArr = currentInstructionSet[0].trim().split(" ");
-				// args example ("1 1 E", 1, 1, "E")
-				setBots.push([currentInstructionSet[0], parseInt(posArr[0], 10), parseInt(posArr[1], 10), posArr[2]]);
-				// args example (position string, instructions string)	
-				instructionsQueue.push([currentInstructionSet[0], currentInstructionSet[1]]); 
-			}
+				
+			var posArr = currentInstructionSet[0].trim().split(" ");
+			// args example ("1 1 E", 1, 1, "E")
+			setBots.push([currentInstructionSet[0], parseInt(posArr[0], 10), parseInt(posArr[1], 10), posArr[2]]);
+			// args example (position string, instructions string)	
+			instructionsQueue.push([currentInstructionSet[0], currentInstructionSet[1]]); 
 		}
 		
 		marsGrid.updateBotState(setBots); 
