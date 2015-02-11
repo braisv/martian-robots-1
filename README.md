@@ -1,6 +1,6 @@
 # Martian Robots #
 
-Martian Robots is a small app to demo some aspects of modern JavaScript development outside of typical jQuery styled DOM manipulation.  
+Martian Robots is a small app to demo some aspects of modern JavaScript development outside of typical jQuery styled DOM manipulation. Known bugs are listed on [Trello](https://trello.com/b/k5HmJlax/martian-robots).  
 Dependencies include:  
 - require.js + r optimizer  
 - underscore.js  
