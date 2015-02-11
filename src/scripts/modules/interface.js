@@ -2,7 +2,7 @@
  * Controls the UI
  */
 
-define(["robotActions", "common", "marsGrid"], function(robotActions, common, marsGrid) {
+define(["robot", "robotActions", "common", "marsGrid"], function(robotObj, robotActions, common, marsGrid) {
 	"use strict";
 	
 	var errorStr = "Your instructions are incorrectly formatted. \n Please remember that the first line of input is used as the upper-right bounds.";
@@ -38,9 +38,9 @@ define(["robotActions", "common", "marsGrid"], function(robotActions, common, ma
 	};
 	
 	var initializeBotPositions = function(inputStr) {
-		var setBots = [['ID', 'X', 'Y', 'Orientation']];
+		var bot, setBots = [['ID', 'X', 'Y', 'Orientation']];
 		var inputArr = inputStr.split("\n\n");
-		var output;
+		var output = "";
 
 		for(var i = 0; i < inputArr.length; i++) {
 			var currentInstructionSet = inputArr[i].split("\n");
@@ -53,12 +53,20 @@ define(["robotActions", "common", "marsGrid"], function(robotActions, common, ma
 			}
 				
 			var posArr = currentInstructionSet[0].trim().split(" ");
-			// args example ("1 1 E", 1, 1, "E")
-			setBots.push([currentInstructionSet[0], parseInt(posArr[0], 10), parseInt(posArr[1], 10), posArr[2]]);
-			// args example (position string, instructions string)	
-			instructionsQueue.push([currentInstructionSet[0], currentInstructionSet[1]]); 
+			var bot = new robotObj.robot("Bot #" + (i+1), posArr[0], posArr[1], posArr[2], true); //
+			
+			if(bot.isBotValid()) {
+				// args example ("1 1 E", 1, 1, "E")
+				setBots.push([currentInstructionSet[0], bot.xPos, bot.yPos, bot.orientation]);
+				// args example (position string, instructions string)	
+				instructionsQueue.push([bot, currentInstructionSet[1]]); 	
+			}
+			else {
+				output += "Failed to create '" + bot.name + "' with position '" + currentInstructionSet[0].trim() + "', please view logs. \n";
+			}
 		}
 		
+		outputArea.innerHTML = output;
 		marsGrid.updateBotState(setBots); 
 	};
 	
@@ -104,8 +112,8 @@ LLFFFLFLFL";
       if(isInstructionReadable(inputArea.value)) {
 				for(var j = 0; j < instructionsQueue.length; j++) {
 					instruction = instructionsQueue[j];
-					// args: botName, initial position string, movement instructions
-					bot = robotActions.instructBot("Bot #" + j, instruction[0], instruction[1]); 
+					// args: bot object, movement instructions
+					bot = robotActions.instructBot(instruction[0], instruction[1]); 
 					setBots.push([bot.output(), bot.xPos, bot.yPos, bot.orientation]);
 				}
 				inputArea.value = "";

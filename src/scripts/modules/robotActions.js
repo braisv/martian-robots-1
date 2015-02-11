@@ -8,26 +8,16 @@ define(["underscore", "common", "robot"], function(_, common, robotObj) {
 	var _lostList = []; //manages grid points of lost robots
 
 	// parse and process bot instructions
-	var instructBot = function (botName, positionStr, instructionsStr) {
-		var posArr = positionStr.trim().split(" ");
+	var instructBot = function (bot, instructionsStr) {
 
-		var bot = new robotObj.robot(botName, posArr[0], posArr[1], posArr[2], true); // create a new robot based on instructions
-		
-		// only process instructions if the bot is valid
-		if (bot.isBotValid()) {
-			
-			instructionsStr = instructionsStr.trim().substring(0, common.defaults.maxInstruction);
-			
-			for (var i = 0; i < instructionsStr.length; i++) {
-				if(_processCommands(instructionsStr.charAt(i).toUpperCase(), bot) === false) {
-					break;
-				}
+		instructionsStr = instructionsStr.trim().substring(0, common.defaults.maxInstruction); // limit instructions to defined limit
+
+		for (var i = 0; i < instructionsStr.length; i++) {
+			if(_processCommands(instructionsStr.charAt(i).toUpperCase(), bot) === false) {
+				break;
 			}
-			return bot;
 		}
-		else {
-			throw "Failed to create '" + botName + "', please view logs.";
-		}
+		return bot;
 	};
 
 	// determines which type of move to execute: L/R/F
