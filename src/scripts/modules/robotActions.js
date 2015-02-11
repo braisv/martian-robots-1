@@ -7,27 +7,6 @@ define(["underscore", "common", "robot"], function(_, common, robotObj) {
 
 	var _lostList = []; //manages grid points of lost robots
 
-	// cardinal points "map" with handy lookup methods
-	var _cardinalPoints = { 
-		points: { N:0, E:90, S:180, W:270 },
-
-		getPointName: function(findDegree) {
-			for (var p in this.points) {
-				if (findDegree === this.points[p]) {
-					return p;
-				}
-			}
-		},
-
-		getDegree: function(findPoint) {
-			for (var p in this.points) {
-				if (findPoint === p) {
-					return this.points[p];
-				}
-			}  
-		}
-	};
-
 	// parse and process bot instructions
 	var instructBot = function (botName, positionStr, instructionsStr) {
 		var posArr = positionStr.trim().split(" ");
@@ -81,7 +60,7 @@ define(["underscore", "common", "robot"], function(_, common, robotObj) {
 
 	// turn bot L/R and return new orientaion
 	var _turnBot = function(orientation, direction) {
-		var angle = _cardinalPoints.getDegree(orientation);
+		var angle = common.cardinalPoints.getDegree(orientation);
 
 		if(direction.toUpperCase() === "R") {
 			angle = (angle === 270) ? 0 : angle + 90; // make sure angle never becomes 360 since that value is not mapped
@@ -90,7 +69,7 @@ define(["underscore", "common", "robot"], function(_, common, robotObj) {
 			angle = (angle === 0) ? 270 : angle - 90; // make sure angle never becomes 360 since that value is not mapped
 		}
 
-		return _cardinalPoints.getPointName(angle); // orientation is defined in cardinal points so lets go back to that instead of angles
+		return common.cardinalPoints.getPointName(angle); // orientation is defined in cardinal points so lets go back to that instead of angles
 	};
 
 	var _processMotion = function(bot, tempPos, axis) {
