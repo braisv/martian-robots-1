@@ -12,6 +12,11 @@ require(["common"], function(common) {
 		assert.strictEqual(common.isNumber(16), true, "actual number");
 		assert.strictEqual(common.isNumber(0), false, "number less than one");
 	});
+	
+	QUnit.test('cardinal points', function(assert) {
+		assert.strictEqual(common.cardinalPoints.points["N"], 0, "N is a point");
+		assert.strictEqual(common.cardinalPoints.points["SE"], undefined, "SE is not a point");
+	});
 });
 
 require(["interface"], function(interface) {
