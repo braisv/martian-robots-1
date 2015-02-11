@@ -2,11 +2,11 @@
  * Controls the UI
  */
 
-define(["robotActions", "common", "marsGrid"], function(robotActions, common, marsGrid) {
+define(["robot", "robotActions", "common", "marsGrid"], function(robotObj, robotActions, common, marsGrid) {
 	"use strict";
 	
 	var errorStr = "Your instructions are incorrectly formatted. \n Please remember that the first line of input is used as the upper-right bounds.";
-	var instructionsQueue = [];
+	var instructionsQueue;
 	var initBotsBtn = document.getElementById("initialize-bots");
 	var inputArea = document.getElementById("input"), outputArea = document.getElementById("output");
 	var sampleInputBtn = document.getElementById("sample-input");
@@ -15,6 +15,7 @@ define(["robotActions", "common", "marsGrid"], function(robotActions, common, ma
 	/*
 	 * this function validates the format of instructions.
 	 * a readable instruction is one that has at least 3 lines. 
+	 * Line: 
 	 * 1. upper bounds
 	 * 2. robot position
 	 * 3. robot movement instructions 
@@ -37,9 +38,10 @@ define(["robotActions", "common", "marsGrid"], function(robotActions, common, ma
 	};
 	
 	var initializeBotPositions = function(inputStr) {
-		var setBots = [['ID', 'X', 'Y', 'Orientation']];
+		var bot, setBots = [['ID', 'X', 'Y', 'Orientation']];
 		var inputArr = inputStr.split("\n\n");
-		var output;
+		var output = "";
+		instructionsQueue = [];
 
 		for(var i = 0; i < inputArr.length; i++) {
 			var currentInstructionSet = inputArr[i].split("\n");
@@ -48,32 +50,35 @@ define(["robotActions", "common", "marsGrid"], function(robotActions, common, ma
 				var defaultsArr = currentInstructionSet[0].split(" ");
 				common.defaults.xBounds = common.isNumber(defaultsArr[0]) ? defaultsArr[0] : common.defaults.xBounds;
 				common.defaults.yBounds = common.isNumber(defaultsArr[1]) ? defaultsArr[1] : common.defaults.yBounds;
-				var posArr = currentInstructionSet[1].trim().split(" ");
+				currentInstructionSet.shift(); // after we get the bounds delete its element from the instruction array.  
+			}
+				
+			var posArr = currentInstructionSet[0].trim().split(" ");
+			var bot = new robotObj.robot("Bot #" + (i+1), posArr[0], posArr[1], posArr[2], true); //
+			
+			if(bot.isBotValid()) {
 				// args example ("1 1 E", 1, 1, "E")
-				setBots.push([currentInstructionSet[1], parseInt(posArr[0], 10), parseInt(posArr[1], 10), posArr[2]]); 
+				setBots.push([currentInstructionSet[0], bot.xPos, bot.yPos, bot.orientation]);
 				// args example (position string, instructions string)	
-				instructionsQueue.push([currentInstructionSet[1], currentInstructionSet[2]]); 
+				instructionsQueue.push([bot, currentInstructionSet[1]]); 	
 			}
 			else {
-				var posArr = currentInstructionSet[0].trim().split(" ");
-				// args example ("1 1 E", 1, 1, "E")
-				setBots.push([currentInstructionSet[0], parseInt(posArr[0], 10), parseInt(posArr[1], 10), posArr[2]]);
-				// args example (position string, instructions string)	
-				instructionsQueue.push([currentInstructionSet[0], currentInstructionSet[1]]); 
+				output += "Failed to create '" + bot.name + "' with position '" + currentInstructionSet[0].trim() + "', please view logs. \n";
 			}
 		}
 		
+		outputArea.innerHTML = output;
 		marsGrid.updateBotState(setBots); 
 	};
 	
 	var sampleInputBtnHandler = function() {
-    var sampleInputBtnStr = "5 3 \n\
-1 1 E \n\
-RFRFRFRF \n\n\
-3 2 N \n\
-FRRFLLFFRRFLL \n\n\
-0 3 W \n\
-LLFFFLFLFL";
+    var sampleInputBtnStr = "5 3 \n";
+				sampleInputBtnStr += "1 1 E \n";
+				sampleInputBtnStr += "RFRFRFRF \n\n";
+				sampleInputBtnStr += "3 2 N \n";
+				sampleInputBtnStr += "FRRFLLFFRRFLL \n\n";
+				sampleInputBtnStr += "0 3 W \n";
+				sampleInputBtnStr += "LLFFFLFLFL";
 		
     sampleInputBtn.addEventListener("click", function(event) {
 			inputArea.value = sampleInputBtnStr;
@@ -84,6 +89,7 @@ LLFFFLFLFL";
 	
 	var initBotsBtnHandler = function() {
 		initBotsBtn.addEventListener("click", function(event) {
+				
 			outputArea.innerHTML = "";
       
       if(isInstructionReadable(inputArea.value)) {
@@ -99,15 +105,15 @@ LLFFFLFLFL";
 	
 	var moveBotsBtnHandler = function() {
     moveBotsBtn.addEventListener("click", function(event) {
-		outputArea.innerHTML = "";
-    var output = "", bot;
-    var setBots = [['ID', 'X', 'Y', 'Orientation']]; 
+			outputArea.innerHTML = "";
+			var output = "", bot;
+    	var setBots = [['ID', 'X', 'Y', 'Orientation']]; 
       
       if(isInstructionReadable(inputArea.value)) {
 				for(var j = 0; j < instructionsQueue.length; j++) {
 					instruction = instructionsQueue[j];
-					// args: botName, initial position string, movement instructions
-					bot = robotActions.instructBot("Bot #" + j, instruction[0], instruction[1]); 
+					// args: bot object, movement instructions
+					bot = robotActions.instructBot(instruction[0], instruction[1]); 
 					setBots.push([bot.output(), bot.xPos, bot.yPos, bot.orientation]);
 				}
 				inputArea.value = "";

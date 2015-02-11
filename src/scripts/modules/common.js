@@ -19,11 +19,24 @@ define(function() {
 		return false;
 	};
 	
-	var defaultsObj = function(xBounds, yBounds, maxCoord, maxInstruction) {
-		this.xBounds = isNumber(xBounds) ? 5 : parseInt(xBounds, 10);
-		this.yBounds = isNumber(yBounds) ? 3 : parseInt(yBounds, 10);
-		this.maxCord = isNumber(maxCord) ? 50 : parseInt(maxCord, 10);
-		this.maxInstruction = isNumber(maxInstruction) ? 100 : parseInt(maxInstruction, 10);
+	var cardinalPoints = { 
+		points: { N:0, E:90, S:180, W:270 },
+
+		getPointName: function(findDegree) {
+			for (var p in this.points) {
+				if (findDegree === this.points[p]) {
+					return p;
+				}
+			}
+		},
+
+		getDegree: function(findPoint) {
+			for (var p in this.points) {
+				if (findPoint === p) {
+					return this.points[p];
+				}
+			}  
+		}
 	};
 	
 	var isPosSafe = function(pos, posBounds) {
@@ -35,9 +48,17 @@ define(function() {
 		}
 	};
 	
+	var defaultsObj = function(xBounds, yBounds, maxCoord, maxInstruction) {
+		this.xBounds = isNumber(xBounds) ? 5 : parseInt(xBounds, 10);
+		this.yBounds = isNumber(yBounds) ? 3 : parseInt(yBounds, 10);
+		this.maxCord = isNumber(maxCord) ? 50 : parseInt(maxCord, 10);
+		this.maxInstruction = isNumber(maxInstruction) ? 100 : parseInt(maxInstruction, 10);
+	};
+	
 	return {
-		isNumber: isNumber,
 		defaults: defaults,
+		isNumber: isNumber,
+		cardinalPoints: cardinalPoints,
 		isPosSafe: isPosSafe
 	};
 });

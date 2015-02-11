@@ -36,6 +36,10 @@ define(["common"], function(common) {
 				console.log("Error creating '%s'. A single coordinate must be a positive number less than %s!", this.name, common.defaults.maxCoord);
 				return false;
 			}
+			else if(common.cardinalPoints.points[this.orientation] === undefined) {
+				console.log("Error creating '%s'. This orientation '%s' is not supported.", this.name, this.orientation);
+				return false;
+			}
 			else {
 				return true;
 			}
