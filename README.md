@@ -4,8 +4,8 @@ Martian Robots is a small app to demo some aspects of modern JavaScript developm
 Dependencies include:  
 - require.js + r optimizer  
 - underscore.js  
-- google visualisation charts
-- grunt
+- google visualisation charts  
+- grunt  
 - qunit  
 
 ### How to run ###
