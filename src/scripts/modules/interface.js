@@ -6,7 +6,7 @@ define(["robot", "robotActions", "common", "marsGrid"], function(robotObj, robot
 	"use strict";
 	
 	var errorStr = "Your instructions are incorrectly formatted. \n Please remember that the first line of input is used as the upper-right bounds.";
-	var instructionsQueue = [];
+	var instructionsQueue;
 	var initBotsBtn = document.getElementById("initialize-bots");
 	var inputArea = document.getElementById("input"), outputArea = document.getElementById("output");
 	var sampleInputBtn = document.getElementById("sample-input");
@@ -41,6 +41,7 @@ define(["robot", "robotActions", "common", "marsGrid"], function(robotObj, robot
 		var bot, setBots = [['ID', 'X', 'Y', 'Orientation']];
 		var inputArr = inputStr.split("\n\n");
 		var output = "";
+		instructionsQueue = [];
 
 		for(var i = 0; i < inputArr.length; i++) {
 			var currentInstructionSet = inputArr[i].split("\n");
@@ -71,13 +72,13 @@ define(["robot", "robotActions", "common", "marsGrid"], function(robotObj, robot
 	};
 	
 	var sampleInputBtnHandler = function() {
-    var sampleInputBtnStr = "5 3 \n\
-1 1 E \n\
-RFRFRFRF \n\n\
-3 2 N \n\
-FRRFLLFFRRFLL \n\n\
-0 3 W \n\
-LLFFFLFLFL";
+    var sampleInputBtnStr = "5 3 \n";
+				sampleInputBtnStr += "1 1 E \n";
+				sampleInputBtnStr += "RFRFRFRF \n\n";
+				sampleInputBtnStr += "3 2 N \n";
+				sampleInputBtnStr += "FRRFLLFFRRFLL \n\n";
+				sampleInputBtnStr += "0 3 W \n";
+				sampleInputBtnStr += "LLFFFLFLFL";
 		
     sampleInputBtn.addEventListener("click", function(event) {
 			inputArea.value = sampleInputBtnStr;
@@ -103,11 +104,10 @@ LLFFFLFLFL";
 	};
 	
 	var moveBotsBtnHandler = function() {
-    var output = "", bot;
-    var setBots = [['ID', 'X', 'Y', 'Orientation']]; 
-		
     moveBotsBtn.addEventListener("click", function(event) {
-		outputArea.innerHTML = "";
+			outputArea.innerHTML = "";
+			var output = "", bot;
+    	var setBots = [['ID', 'X', 'Y', 'Orientation']]; 
       
       if(isInstructionReadable(inputArea.value)) {
 				for(var j = 0; j < instructionsQueue.length; j++) {
