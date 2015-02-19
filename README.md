@@ -15,7 +15,7 @@ A few tests are available a `../tests/index.html`.
 - Online: http://komplexb.bitbucket.org/martian-robots/index.html  
 
 ### How to use ###
-Instructions and associated values are valid for one session; i.e. only the values of the current session affect positions on the grid. A session is demarcated by clicking "Initialize Bots"; doing so clears all values from the previous session.    
+Instructions and associated values are valid for one session; i.e. only the values of the current session affect positions on the grid. A session is demarcated by clicking "Initialize Bots"; doing so clears all values from the previous session (except the 'lost' position values of previous robots).  
 1. Enter instructions or click "Sample Input" to insert instructions into the text area.  
 2. Click "Initialize Bots". This sets the robots to their initial positions on the planet. Valid instructions will enable the "Move Bots" button.  
 3. Click "Move Bots" to see the final position of the robots after processing the series of instructions.  

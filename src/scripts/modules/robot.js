@@ -10,25 +10,15 @@ define(["common"], function(common) {
 		this.name = name;
 		this.xPos = parseInt(xPos, 10);
 		this.yPos = parseInt(yPos, 10);
+		this.orientation = orientation.toUpperCase();
+		this.isAlive = (typeof isAlive === 'boolean') ? isAlive : true; // force anything non boolean values to be true
 		
 		this.coords = function() {
 			return this.xPos + ", " + this.yPos;
 		};
 		
-		this.orientation = orientation.toUpperCase();
-		this.isAlive = isAlive;
-		
 		this.isAliveStr = function() {
-			return (!this.isAlive) ? " LOST" : "";
-		};
-		
-		this.output = function() {
-			var outputStr = this.xPos + " " + this.yPos + " " + this.orientation + this.isAliveStr();
-			return outputStr;
-		};
-		
-		this.id = function() {
-			return { name: this.name, output: this.output };
+			return (!this.isAlive) ? " LOST" : ""; 
 		};
 		
 		this.isBotValid = function() {
@@ -40,10 +30,18 @@ define(["common"], function(common) {
 				console.log("Error creating '%s'. This orientation '%s' is not supported.", this.name, this.orientation);
 				return false;
 			}
+			else if(typeof this.isAlive !== 'boolean') {
+				console.log("Error creating '%s'. A robot can only be alive (true) or lost (false)", this.name);
+				return false;
+			}
 			else {
 				return true;
 			}
 		};
+	};
+	
+	robot.prototype.toString = function() {
+		return this.xPos + " " + this.yPos + " " + this.orientation + this.isAliveStr();
 	};
 	
 	return {
