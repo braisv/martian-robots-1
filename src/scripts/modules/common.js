@@ -48,13 +48,6 @@ define(function() {
 		}
 	};
 	
-	var defaultsObj = function(xBounds, yBounds, maxCoord, maxInstruction) {
-		this.xBounds = isNumber(xBounds) ? 5 : parseInt(xBounds, 10);
-		this.yBounds = isNumber(yBounds) ? 3 : parseInt(yBounds, 10);
-		this.maxCord = isNumber(maxCord) ? 50 : parseInt(maxCord, 10);
-		this.maxInstruction = isNumber(maxInstruction) ? 100 : parseInt(maxInstruction, 10);
-	};
-	
 	return {
 		defaults: defaults,
 		isNumber: isNumber,

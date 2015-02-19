@@ -34,7 +34,7 @@ define(["underscore", "common", "robot"], function(_, common, robotObj) {
 				console.log("Invalid command received while processing '" + bot.name + "', moving to next character.");
 		}
 
-		return bot.isAlive; // dealbreaking flag, halts looping on false
+		return bot.isAlive; // dealbreaking flag, halts looping on false (robot lost)
 	};
 
 	// store command types in this object; this should support "bolting" on future commands. 
@@ -53,30 +53,15 @@ define(["underscore", "common", "robot"], function(_, common, robotObj) {
 		var angle = common.cardinalPoints.getDegree(orientation);
 
 		if(direction.toUpperCase() === "R") {
-			angle = (angle === 270) ? 0 : angle + 90; // make sure angle never becomes 360 since that value is not mapped
+			angle = (angle === 270) ? 0 : angle + 90; // when turning right make sure angle never becomes 360 since that value is not mapped
 		}
 		else if (direction.toUpperCase() === "L") {
-			angle = (angle === 0) ? 270 : angle - 90; // make sure angle never becomes 360 since that value is not mapped
+			angle = (angle === 0) ? 270 : angle - 90; // when turning left make sure angle never becomes 360 since that value is not mapped
 		}
 
 		return common.cardinalPoints.getPointName(angle); // orientation is defined in cardinal points so lets go back to that instead of angles
 	};
 
-	var _processMotion = function(bot, tempPos, axis) {
-    axis = axis.toLowerCase();
-    switch (_hasScent(bot.coords(), tempPos, common.defaults[axis + "Bounds"])) {
-        case true:
-          break;
-        case false:
-          bot.isAlive = false;
-          _lostList.push(bot.xPos + ", " + bot.yPos);
-          break;
-        case null:
-          bot[axis + "Pos"] = tempPos;
-          break;
-      }
-  };
-  
   var _moveBot = function(bot) {
 
 		// orientation determines which axis to increment/decrement along
@@ -96,6 +81,21 @@ define(["underscore", "common", "robot"], function(_, common, robotObj) {
 		}
 
 	};
+	
+	var _processMotion = function(bot, tempPos, axis) {
+    axis = axis.toLowerCase();
+    switch (_hasScent(bot.coords(), tempPos, common.defaults[axis + "Bounds"])) {
+        case true:
+          break;
+        case false:
+          bot.isAlive = false;
+          _lostList.push(bot.xPos + ", " + bot.yPos);
+          break;
+        case null:
+          bot[axis + "Pos"] = tempPos;
+          break;
+      }
+  };
 
 	var _hasScent = function(posStr, tempPos, posBounds) {
 
@@ -118,7 +118,6 @@ define(["underscore", "common", "robot"], function(_, common, robotObj) {
 	};
 
 	return {
-		defaults: common.defaults,
 		instructBot: instructBot
 	};
 });

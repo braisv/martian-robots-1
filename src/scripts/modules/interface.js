@@ -114,7 +114,7 @@ define(["robot", "robotActions", "common", "marsGrid"], function(robotObj, robot
 					instruction = instructionsQueue[j];
 					// args: bot object, movement instructions
 					bot = robotActions.instructBot(instruction[0], instruction[1]); 
-					setBots.push([bot.output(), bot.xPos, bot.yPos, bot.orientation]);
+					setBots.push([bot.toString(), bot.xPos, bot.yPos, bot.orientation]);
 				}
 				inputArea.value = "";
 				marsGrid.updateBotState(setBots);
