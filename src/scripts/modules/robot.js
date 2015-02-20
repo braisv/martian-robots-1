@@ -22,8 +22,8 @@ define(["common"], function(common) {
 		};
 		
 		this.isBotValid = function() {
-			if(!common.isPosSafe(this.xPos , common.defaults.maxCoord) || !common.isPosSafe(this.yPos, common.defaults.maxCoord)) {
-				console.log("Error creating '%s'. A single coordinate must be a positive number less than %s!", this.name, common.defaults.maxCoord);
+			if(!common.isPosSafe(this.xPos , common.defaults.MAX_COORD) || !common.isPosSafe(this.yPos, common.defaults.MAX_COORD)) {
+				console.log("Error creating '%s'. A single coordinate must be a positive number less than %s!", this.name, common.defaults.MAX_COORD);
 				return false;
 			}
 			else if(common.cardinalPoints.points[this.orientation] === undefined) {

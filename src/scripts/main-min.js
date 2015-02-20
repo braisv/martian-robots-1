@@ -5,16 +5,39 @@
 define('common',[],function() {
 	
 	
-	var defaults = {
-		xBounds: 5, yBounds: 3, maxCoord: 50, maxInstruction: 100
+	var defaults = {};
+	var xBounds = 5, yBounds = 3;
+	Object.defineProperty(defaults, "xBounds", {
+		get: function() {
+			return xBounds;
+		},
+		set: function(value) {
+			xBounds = isPositiveNumber(value) ? value : xBounds;
+		}
+	});
+
+	Object.defineProperty(defaults, "yBounds", {
+		get: function() {
+			return yBounds;
+		},
+		set: function(value) {
+			yBounds = isPositiveNumber(value) ? value : yBounds;
+		}
+	});
+
+	Object.defineProperty(defaults, "MAX_COORD", { value: 50 });
+	Object.defineProperty(defaults, "MAX_INSTRUCTION", { value: 100 });
+	
+	
+	
+	var isNumber = function(value) {
+		if(/^(\-|\+)?([0-9]+|Infinity)$/.test(value))
+			return true;
+		return false;
 	};
 	
-	/* 
-	 * [1-9] check if value is a positive number 
-	 * [0-9] check if value greater than 0
-	 */
-	var isNumber = function(value) {
-		if(/^(\-|\+)?([1-9]+|Infinity)$/.test(value))
+	var isPositiveNumber = function(value) {
+		if (isNumber(value) && value > 0) 
 			return true;
 		return false;
 	};
@@ -79,8 +102,8 @@ define('robot',["common"], function(common) {
 		};
 		
 		this.isBotValid = function() {
-			if(!common.isPosSafe(this.xPos , common.defaults.maxCoord) || !common.isPosSafe(this.yPos, common.defaults.maxCoord)) {
-				console.log("Error creating '%s'. A single coordinate must be a positive number less than %s!", this.name, common.defaults.maxCoord);
+			if(!common.isPosSafe(this.xPos , common.defaults.MAX_COORD) || !common.isPosSafe(this.yPos, common.defaults.MAX_COORD)) {
+				console.log("Error creating '%s'. A single coordinate must be a positive number less than %s!", this.name, common.defaults.MAX_COORD);
 				return false;
 			}
 			else if(common.cardinalPoints.points[this.orientation] === undefined) {
@@ -132,7 +155,7 @@ define('robotActions',["underscore", "common", "robot"], function(_, common, rob
 	// parse and process bot instructions
 	var instructBot = function (bot, instructionsStr) {
 
-		instructionsStr = instructionsStr.trim().substring(0, common.defaults.maxInstruction); // limit instructions to defined limit
+		instructionsStr = instructionsStr.trim().substring(0, common.defaults.MAX_INSTRUCTION); // limit instructions to defined limit
 
 		for (var i = 0; i < instructionsStr.length; i++) {
 			if(_processCommands(instructionsStr.charAt(i).toUpperCase(), bot) === false) {
@@ -484,8 +507,8 @@ define('interface',["robot", "robotActions", "common", "marsGrid"], function(rob
 			// the first line of the first instruction sets the bounds
 			if (i === 0) {
 				var defaultsArr = currentInstructionSet[0].split(" ");
-				common.defaults.xBounds = common.isNumber(defaultsArr[0]) ? defaultsArr[0] : common.defaults.xBounds;
-				common.defaults.yBounds = common.isNumber(defaultsArr[1]) ? defaultsArr[1] : common.defaults.yBounds;
+				common.defaults.xBounds = defaultsArr[0];
+				common.defaults.yBounds = defaultsArr[1];
 				currentInstructionSet.shift(); // after we get the bounds delete its element from the instruction array.  
 			}
 				

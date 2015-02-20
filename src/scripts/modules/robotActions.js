@@ -10,7 +10,7 @@ define(["underscore", "common", "robot"], function(_, common, robotObj) {
 	// parse and process bot instructions
 	var instructBot = function (bot, instructionsStr) {
 
-		instructionsStr = instructionsStr.trim().substring(0, common.defaults.maxInstruction); // limit instructions to defined limit
+		instructionsStr = instructionsStr.trim().substring(0, common.defaults.MAX_INSTRUCTION); // limit instructions to defined limit
 
 		for (var i = 0; i < instructionsStr.length; i++) {
 			if(_processCommands(instructionsStr.charAt(i).toUpperCase(), bot) === false) {

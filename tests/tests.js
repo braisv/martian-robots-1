@@ -1,16 +1,26 @@
 require(["common"], function(common) {
 	QUnit.module('common', {
 		setup: function() {
-
+			common.defaults.xBounds = -1;
+			common.defaults.yBounds = 15;
+			common.defaults.MAX_COORD = 60;
+			common.defaults.MAX_INSTRUCTION = 60;
 		}
 	});
 
+	QUnit.test('defaults()', function(assert) {
+		assert.strictEqual(common.defaults.xBounds === 5, true, "assigning a negative number to bounds will return the default of 5");
+		assert.strictEqual(common.defaults.yBounds === 15, true, "assigning a positive number to bounds will return the number");
+		assert.strictEqual(common.defaults.MAX_COORD === 50, true, "assigning a value should fail thus returning the original value of 50");
+		assert.strictEqual(common.defaults.MAX_INSTRUCTION === 100, true, "assigning a value should fail thus returning the original value of 100");
+	});
+	
 	QUnit.test('isNumber()', function(assert) {
 		assert.strictEqual(common.isNumber(null), false, "Null test");
 		assert.strictEqual(common.isNumber(undefined), false, "undefined test");
 		assert.strictEqual(common.isNumber("undefined"), false, "string test");
 		assert.strictEqual(common.isNumber(16), true, "actual number");
-		assert.strictEqual(common.isNumber(0), false, "number less than one");
+		assert.strictEqual(common.isNumber(-1), true, "a negative number is still a number");
 	});
 	
 	QUnit.test("Verify that unmatched cardinal points return 'undefined'", function(assert) {
@@ -22,7 +32,7 @@ require(["common"], function(common) {
 require(["interface"], function(interface) {
 	QUnit.module('interface', {
 		setup: function() {
-
+			
 		}
 	});
 
@@ -33,11 +43,15 @@ require(["interface"], function(interface) {
 	});
 });
 
-require(["robotActions", "robot"], function(robotActions, robotObj) {
+require(["robotActions", "robot", "common"], function(robotActions, robotObj, common) {
 	var bot1, bot2, bot3, bot4, bot5;
 	
 	QUnit.module('robotActions', {
 		setup: function() {
+			// reset these defaults since we tested with them earlier
+			common.defaults.xBounds = 5;
+			common.defaults.yBounds = 3;
+			
 			bot1 = new robotObj.robot("bot 1", 1, 1, "E", true);
 			bot2 = new robotObj.robot("bot 2", 3, 2, "N", true);
 			bot3 = new robotObj.robot("bot 3", 0, 3, "W", true);
