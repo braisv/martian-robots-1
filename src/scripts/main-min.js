@@ -25,6 +25,9 @@ define('common',[],function() {
 		}
 	});
 
+	/**
+	 * ensure these constants for the defaults object can't be overwritten
+	 */
 	Object.defineProperty(defaults, "MAX_COORD", { value: 50 });
 	Object.defineProperty(defaults, "MAX_INSTRUCTION", { value: 100 });
 	
@@ -43,8 +46,8 @@ define('common',[],function() {
 	};
 	
 	var cardinalPoints = { 
-		points: { N:0, E:90, S:180, W:270 },
-
+		points: {},
+		
 		getPointName: function(findDegree) {
 			for (var p in this.points) {
 				if (findDegree === this.points[p]) {
@@ -61,6 +64,15 @@ define('common',[],function() {
 			}  
 		}
 	};
+	
+	
+	/**
+	 * ensure these cardinal points can't be overwritten
+	 */
+	Object.defineProperty(cardinalPoints.points, "N", { value: 0, enumerable: true });
+	Object.defineProperty(cardinalPoints.points, "E", { value: 90, enumerable: true });
+	Object.defineProperty(cardinalPoints.points, "S", { value: 180, enumerable: true });
+	Object.defineProperty(cardinalPoints.points, "W", { value: 270, enumerable: true });
 	
 	var isPosSafe = function(pos, posBounds) {
 		if(pos < 0 || pos > parseInt(posBounds, 10)) {

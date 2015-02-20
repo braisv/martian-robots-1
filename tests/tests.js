@@ -23,9 +23,11 @@ require(["common"], function(common) {
 		assert.strictEqual(common.isNumber(-1), true, "a negative number is still a number");
 	});
 	
-	QUnit.test("Verify that unmatched cardinal points return 'undefined'", function(assert) {
+	QUnit.test("cardinalPoints()", function(assert) {
 		assert.strictEqual(common.cardinalPoints.points["N"], 0, "N is a point");
 		assert.strictEqual(common.cardinalPoints.points["SE"], undefined, "SE is not a point");
+		common.cardinalPoints.points["N"] = 15;
+		assert.strictEqual(common.cardinalPoints.points["N"], 0, "assigning a value to a point should fail, as such this point value remains 0");
 	});
 });
 
