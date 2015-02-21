@@ -124,7 +124,8 @@ define('robot',["common"], function(common) {
 		this.isAlive = isAlive; // must be after the "isAlive" setter to utilize the validation in the setter
 		
 		this.isAliveStr = function() {
-			return aliveToString.call(this);
+//			return aliveToString.call(this);
+			return (this.isAlive === false) ? " LOST" : "";
 		};
 		
 		this.coords = function() {
@@ -147,11 +148,7 @@ define('robot',["common"], function(common) {
 	};
 	
 	robot.prototype.toString = function() {
-		return this.xPos + " " + this.yPos + " " + this.orientation + aliveToString.call(this);
-	};
-	
-	var aliveToString = function() {
-		return (this.isAlive === false) ? " LOST" : "";
+		return this.xPos + " " + this.yPos + " " + this.orientation + this.isAliveStr();
 	};
 	
 	return {
