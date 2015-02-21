@@ -11,14 +11,30 @@ define(["common"], function(common) {
 		this.xPos = parseInt(xPos, 10);
 		this.yPos = parseInt(yPos, 10);
 		this.orientation = orientation.toUpperCase();
-		this.isAlive = (typeof isAlive === 'boolean') ? isAlive : true; // force anything non boolean values to be true
+		
+		Object.defineProperty(this, "isAlive", {
+			get: function() {
+				return isAlive;
+			},
+			set: function(value) {
+				if(typeof value === 'boolean') {
+					isAlive = value;
+				}
+				else {
+					isAlive = true;
+					console.log("Warning while creating '%s'. A robot can only be alive (true) or lost (false). Invalid state value has been set to 'true'.", this.name);
+				}
+			}
+		});
+		
+		this.isAlive = isAlive; // must be after the "isAlive" setter to utilize the validation in the setter
+		
+		this.isAliveStr = function() {
+			return aliveToString.call(this);
+		};
 		
 		this.coords = function() {
 			return this.xPos + ", " + this.yPos;
-		};
-		
-		this.isAliveStr = function() {
-			return (!this.isAlive) ? " LOST" : ""; 
 		};
 		
 		this.isBotValid = function() {
@@ -30,10 +46,6 @@ define(["common"], function(common) {
 				console.log("Error creating '%s'. This orientation '%s' is not supported.", this.name, this.orientation);
 				return false;
 			}
-			else if(typeof this.isAlive !== 'boolean') {
-				console.log("Error creating '%s'. A robot can only be alive (true) or lost (false)", this.name);
-				return false;
-			}
 			else {
 				return true;
 			}
@@ -41,7 +53,11 @@ define(["common"], function(common) {
 	};
 	
 	robot.prototype.toString = function() {
-		return this.xPos + " " + this.yPos + " " + this.orientation + this.isAliveStr();
+		return this.xPos + " " + this.yPos + " " + this.orientation + aliveToString.call(this);
+	};
+	
+	var aliveToString = function() {
+		return (this.isAlive === false) ? " LOST" : "";
 	};
 	
 	return {

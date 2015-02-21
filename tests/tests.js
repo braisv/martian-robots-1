@@ -61,27 +61,34 @@ require(["robotActions", "robot", "common"], function(robotActions, robotObj, co
 	});
 
 	QUnit.test('instructBot()', function(assert) {
+		console.log("1. bot1: %s, %s", bot1.isAlive, bot1.isAliveStr());
 		assert.strictEqual(robotActions.instructBot(bot1, "RFRFRFRF").toString(), "1 1 E", "Test: 1 1 E");
+		console.log("2. bot1: %s, %s", bot1.isAlive, bot1.isAliveStr());
+		
+		console.log("1. bot2: %s, %s", bot2.isAlive, bot2.isAliveStr());
 		assert.strictEqual(robotActions.instructBot(bot2, "FRRFLLFFRRFLL").toString(), "3 3 N LOST", "Test: 3 2 N");
+		console.log("2. bot2: %s, %s", bot2.isAlive, bot2.isAliveStr());
+		
+		console.log("1. bot3: %s, %s", bot3.isAlive, bot3.isAliveStr());
 		assert.strictEqual(robotActions.instructBot(bot3, "LLFFFLFLFL").toString(), "2 3 S", "Test: 0 3 W");
+		console.log("2. bot3: %s, %s", bot3.isAlive, bot3.isAliveStr());
 	});
 	
-	QUnit.module('robot()', {
+	QUnit.module('robot', {
 		setup: function() {
 			bot4 = new robotObj.robot("bot 4", 0, 3, "W", true);
 			bot5 = new robotObj.robot("bot 5", 0, 3, "W", "random string");
 		}
 	});
 		
-	QUnit.test('Test Robot Object', function(assert) {
+	QUnit.test('Test Robot Object Methods/Properties', function(assert) {
 		assert.strictEqual(bot4.isAliveStr(), "", "If isAlive property is true then the isAliveStr property returns an empty string");
 		
 		bot4.isAlive = false;
 		assert.strictEqual(bot4.isAliveStr(), " LOST", "If isAlive property is false then the isAliveStr property returns 'LOST'");
 		
 		bot4.isAlive = "random string";
-		assert.strictEqual(bot4.isBotValid(), false, "Passing a string to 'isAlive' property should make the bot invalid");
-		
+		assert.strictEqual(bot4.isAlive, true, "Passing a string to 'isAlive' propertyshould default it to true");
 		assert.strictEqual(bot5.isAlive, true, "Passing a string to 'isAlive' in the constructor should default it to true");
 	});
 });

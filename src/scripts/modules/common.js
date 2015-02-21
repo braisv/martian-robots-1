@@ -32,7 +32,6 @@ define(function() {
 	Object.defineProperty(defaults, "MAX_INSTRUCTION", { value: 100 });
 	
 	
-	
 	var isNumber = function(value) {
 		if(/^(\-|\+)?([0-9]+|Infinity)$/.test(value))
 			return true;
@@ -67,12 +66,14 @@ define(function() {
 	
 	
 	/**
-	 * ensure these cardinal points can't be overwritten
+	 * ensure these cardinal points can't be overwritten but still show up in a for...in
 	 */
 	Object.defineProperty(cardinalPoints.points, "N", { value: 0, enumerable: true });
 	Object.defineProperty(cardinalPoints.points, "E", { value: 90, enumerable: true });
 	Object.defineProperty(cardinalPoints.points, "S", { value: 180, enumerable: true });
 	Object.defineProperty(cardinalPoints.points, "W", { value: 270, enumerable: true });
+	
+	
 	
 	var isPosSafe = function(pos, posBounds) {
 		if(pos < 0 || pos > parseInt(posBounds, 10)) {
@@ -86,6 +87,7 @@ define(function() {
 	return {
 		defaults: defaults,
 		isNumber: isNumber,
+		isPositiveNumber: isPositiveNumber,
 		cardinalPoints: cardinalPoints,
 		isPosSafe: isPosSafe
 	};
