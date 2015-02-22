@@ -38,14 +38,14 @@ define(["robot", "robotActions", "common", "marsGrid"], function(robotObj, robot
 	};
 	
 	var initializeBotPositions = function(inputStr) {
-		var bot, setBots = [['ID', 'X', 'Y', 'Orientation']];
+//		var bot;
+		var setBots = [['ID', 'X', 'Y', 'Orientation']]; // initialized with chart table headers 
 		var inputArr = inputStr.split("\n\n");
 		var output = "";
 		instructionsQueue = [];
 		
-		for(var i = 0; i < inputArr.length; i++) {
-			var currentInstructionSet = inputArr[i].split("\n");
-			// the first line of the first instruction sets the bounds
+		var bots = inputArr.map(function(instruction, i) {
+			var currentInstructionSet = instruction.split("\n");
 			if (i === 0) {
 				var defaultsArr = currentInstructionSet[0].split(" ");
 				common.defaults.xBounds = defaultsArr[0];
@@ -57,18 +57,19 @@ define(["robot", "robotActions", "common", "marsGrid"], function(robotObj, robot
 			var bot = new robotObj.robot("Bot #" + (i+1), posArr[0], posArr[1], posArr[2], true); //
 			
 			if(bot.isBotValid()) {
-				// args example ("1 1 E", 1, 1, "E")
-				setBots.push([currentInstructionSet[0], bot.xPos, bot.yPos, bot.orientation]);
 				// args example (position string, instructions string)	
-				instructionsQueue.push([bot, currentInstructionSet[1]]); 	
+				instructionsQueue.push([bot, currentInstructionSet[1]]);
+				// args example ("1 1 E", 1, 1, "E")
+				return [currentInstructionSet[0], bot.xPos, bot.yPos, bot.orientation];
 			}
 			else {
 				output += "Failed to create '" + bot.name + "' with position '" + currentInstructionSet[0].trim() + "', please view logs. \n";
+				return;
 			}
-		}
-		
+		});
+
 		outputArea.innerHTML = output;
-		marsGrid.updateBotState(setBots); 
+		marsGrid.updateBotState(setBots.concat(bots)); // add robots to header to populate grid
 	};
 	
 	var sampleInputBtnHandler = function() {
@@ -106,20 +107,19 @@ define(["robot", "robotActions", "common", "marsGrid"], function(robotObj, robot
 	var moveBotsBtnHandler = function() {
     moveBotsBtn.addEventListener("click", function(event) {
 			outputArea.innerHTML = "";
-			var output = "", bot;
-    	var setBots = [['ID', 'X', 'Y', 'Orientation']]; 
+			var output = "";
+    	var setBots = [['ID', 'X', 'Y', 'Orientation']]; // initialized with chart table headers 
       
       if(isInstructionReadable(inputArea.value)) {
 				
 				var bots = instructionsQueue.map(function(instruction) {
 					// args: bot object, movement instructions
-					bot = robotActions.instructBot(instruction[0], instruction[1]); 
+					var bot = robotActions.instructBot(instruction[0], instruction[1]); 
 					return [bot.toString(), bot.xPos, bot.yPos, bot.orientation];
 				});
-				setBots = setBots.concat(bots);
 				
 				inputArea.value = "";
-				marsGrid.updateBotState(setBots);
+				marsGrid.updateBotState(setBots.concat(bots)); // add robots to header to populate grid
 				moveBotsBtn.setAttribute("disabled",""); // disable move button
 			}
 			else {
