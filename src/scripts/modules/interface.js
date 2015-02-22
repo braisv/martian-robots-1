@@ -48,8 +48,8 @@ define(["robot", "robotActions", "common", "marsGrid"], function(robotObj, robot
 			// the first line of the first instruction sets the bounds
 			if (i === 0) {
 				var defaultsArr = currentInstructionSet[0].split(" ");
-				common.defaults.xBounds = common.isNumber(defaultsArr[0]) ? defaultsArr[0] : common.defaults.xBounds;
-				common.defaults.yBounds = common.isNumber(defaultsArr[1]) ? defaultsArr[1] : common.defaults.yBounds;
+				common.defaults.xBounds = defaultsArr[0];
+				common.defaults.yBounds = defaultsArr[1];
 				currentInstructionSet.shift(); // after we get the bounds delete its element from the instruction array.  
 			}
 				
