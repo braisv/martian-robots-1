@@ -42,7 +42,7 @@ define(["robot", "robotActions", "common", "marsGrid"], function(robotObj, robot
 		var inputArr = inputStr.split("\n\n");
 		var output = "";
 		instructionsQueue = [];
-
+		
 		for(var i = 0; i < inputArr.length; i++) {
 			var currentInstructionSet = inputArr[i].split("\n");
 			// the first line of the first instruction sets the bounds
@@ -110,12 +110,14 @@ define(["robot", "robotActions", "common", "marsGrid"], function(robotObj, robot
     	var setBots = [['ID', 'X', 'Y', 'Orientation']]; 
       
       if(isInstructionReadable(inputArea.value)) {
-				for(var j = 0; j < instructionsQueue.length; j++) {
-					instruction = instructionsQueue[j];
+				
+				var bots = instructionsQueue.map(function(instruction) {
 					// args: bot object, movement instructions
 					bot = robotActions.instructBot(instruction[0], instruction[1]); 
-					setBots.push([bot.toString(), bot.xPos, bot.yPos, bot.orientation]);
-				}
+					return [bot.toString(), bot.xPos, bot.yPos, bot.orientation];
+				});
+				setBots = setBots.concat(bots);
+				
 				inputArea.value = "";
 				marsGrid.updateBotState(setBots);
 				moveBotsBtn.setAttribute("disabled",""); // disable move button
