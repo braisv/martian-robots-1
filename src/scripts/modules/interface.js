@@ -56,9 +56,9 @@ define(["robot", "robotActions", "common", "marsGrid"], function(robotObj, robot
 			var bot = new robotObj.robot("Bot #" + (i+1), posArr[0], posArr[1], posArr[2], true); // create a robot with the line 1 of each instruction pair
 			
 			if(bot.isBotValid()) {
-				instructionsQueue.push([bot, currentInstructionSet[1]]); // add a robot and movement instructions for it to the queue
+				instructionsQueue.push({robot: bot, instruction: currentInstructionSet[1]}); 
 				// args example ("1 1 E", 1, 1, "E")
-				return [currentInstructionSet[0], bot.xPos, bot.yPos, bot.orientation]; // populate bot datatable of initial positions on the grid
+				return [bot.toString(), bot.xPos, bot.yPos, bot.orientation]; // populate bot datatable of initial positions on the grid
 			}
 			else {
 				output += "Failed to create '" + bot.name + "' with position '" + currentInstructionSet[0].trim() + "', please view logs. \n";
@@ -109,9 +109,8 @@ define(["robot", "robotActions", "common", "marsGrid"], function(robotObj, robot
       
       if(isInstructionReadable(inputArea.value)) {
 				
-				var botDataTableBody = instructionsQueue.map(function(instruction) {
-					// args: bot object, movement instructions
-					var bot = robotActions.instructBot(instruction[0], instruction[1]);
+				var botDataTableBody = instructionsQueue.map(function(item) {
+					var bot = robotActions.instructBot(item.robot, item.instruction);
 					return [bot.toString(), bot.xPos, bot.yPos, bot.orientation];
 				});
 				
