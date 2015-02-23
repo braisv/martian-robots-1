@@ -497,6 +497,7 @@ define('interface',["robot", "robotActions", "common", "marsGrid"], function(rob
 	var inputArea = document.getElementById("input"), outputArea = document.getElementById("output");
 	var sampleInputBtn = document.getElementById("sample-input");
 	var moveBotsBtn = document.getElementById("move-bots");
+	var botDataTableHeader = [['ID', 'X', 'Y', 'Orientation']]; // initialized with chart table headers 
 	
 	/*
 	 * this function validates the format of instructions.
@@ -524,13 +525,11 @@ define('interface',["robot", "robotActions", "common", "marsGrid"], function(rob
 	};
 	
 	var initializeBotPositions = function(inputStr) {
-//		var bot;
-		var setBots = [['ID', 'X', 'Y', 'Orientation']]; // initialized with chart table headers 
 		var inputArr = inputStr.split("\n\n");
 		var output = "";
 		instructionsQueue = [];
 		
-		var bots = inputArr.map(function(instruction, i) {
+		var botDataTableBody = inputArr.map(function(instruction, i) {
 			var currentInstructionSet = instruction.split("\n");
 			if (i === 0) {
 				var defaultsArr = currentInstructionSet[0].split(" ");
@@ -540,13 +539,12 @@ define('interface',["robot", "robotActions", "common", "marsGrid"], function(rob
 			}
 				
 			var posArr = currentInstructionSet[0].trim().split(" ");
-			var bot = new robotObj.robot("Bot #" + (i+1), posArr[0], posArr[1], posArr[2], true); //
+			var bot = new robotObj.robot("Bot #" + (i+1), posArr[0], posArr[1], posArr[2], true); // create a robot with the line 1 of each instruction pair
 			
 			if(bot.isBotValid()) {
-				// args example (position string, instructions string)	
-				instructionsQueue.push([bot, currentInstructionSet[1]]);
+				instructionsQueue.push([bot, currentInstructionSet[1]]); // add a robot and movement instructions for it to the queue
 				// args example ("1 1 E", 1, 1, "E")
-				return [currentInstructionSet[0], bot.xPos, bot.yPos, bot.orientation];
+				return [currentInstructionSet[0], bot.xPos, bot.yPos, bot.orientation]; // populate bot datatable of initial positions on the grid
 			}
 			else {
 				output += "Failed to create '" + bot.name + "' with position '" + currentInstructionSet[0].trim() + "', please view logs. \n";
@@ -555,7 +553,7 @@ define('interface',["robot", "robotActions", "common", "marsGrid"], function(rob
 		});
 
 		outputArea.innerHTML = output;
-		marsGrid.updateBotState(setBots.concat(bots)); // add robots to header to populate grid
+		marsGrid.updateBotState(botDataTableHeader.concat(botDataTableBody)); // the chart takes a datatable of robot properties
 	};
 	
 	var sampleInputBtnHandler = function() {
@@ -594,26 +592,23 @@ define('interface',["robot", "robotActions", "common", "marsGrid"], function(rob
     moveBotsBtn.addEventListener("click", function(event) {
 			outputArea.innerHTML = "";
 			var output = "";
-    	var setBots = [['ID', 'X', 'Y', 'Orientation']]; // initialized with chart table headers 
       
       if(isInstructionReadable(inputArea.value)) {
 				
-				var bots = instructionsQueue.map(function(instruction) {
+				var botDataTableBody = instructionsQueue.map(function(instruction) {
 					// args: bot object, movement instructions
-					var bot = robotActions.instructBot(instruction[0], instruction[1]); 
+					var bot = robotActions.instructBot(instruction[0], instruction[1]);
 					return [bot.toString(), bot.xPos, bot.yPos, bot.orientation];
 				});
 				
 				inputArea.value = "";
-				marsGrid.updateBotState(setBots.concat(bots)); // add robots to header to populate grid
+				marsGrid.updateBotState(botDataTableHeader.concat(botDataTableBody)); // the chart takes a datatable of robot properties
 				moveBotsBtn.setAttribute("disabled",""); // disable move button
 			}
 			else {
 				outputArea.innerHTML = errorStr;
 			}
-//		outputArea.innerHTML = output;
     }, false);
-    
 	};
 	
 	var init = function() {
