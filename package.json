@@ -1,6 +1,13 @@
 {
   "name": "martian-robots",
   "homepage": "https://bitbucket.org/komplexb/martian-robots",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "build": "webpack --progress --watch", 
+    "server": "browser-sync start --directory --server --files 'src/js/*.js, *.html, src/css/*.css'",
+    "deploy": "surge ./path/to/dist"
+  },
   "repository": {
     "type": "git",
     "url": "git@bitbucket.org:komplexb/martian-robots.git"
@@ -11,11 +18,10 @@
     "url": "http://byronbuckley.com/"
   },
   "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-contrib-requirejs": "^0.4.4",
-    "grunt-contrib-watch": "^0.6.1"
-  },
-  "engines": {
-    "node": ">=0.10.0"
+    "babel-core": "^6.17.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015-native-modules": "^6.9.4",
+    "browser-sync": "^2.17.0",
+    "webpack": "^2.1.0-beta.25"
   }
 }
