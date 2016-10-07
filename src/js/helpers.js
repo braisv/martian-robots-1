@@ -9,3 +9,18 @@ export function isPositiveNumber(value) {
         return true;
     return false;
 }
+
+/*
+ * Cardinal Points Object 
+ */
+
+export const Cardinal = {
+  points: new Map([["N", 0], ["E", 90], ["S", 180], ["W", 270]]), 
+  pointName: function(degree) {
+    for (const [key, value] of this.points) {
+     if(value === Number.parseInt(degree, 10)) {
+       return key;
+     }
+    }
+  }
+}
