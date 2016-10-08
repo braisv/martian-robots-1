@@ -10,7 +10,7 @@ console.log(cp.getDegree("E"));
 console.log(cp.getPointName(270));
 console.log(cp.points); 
 
-console.log(`x: ${bounds.x}`);
+console.log(`x: ${bounds.point.get("x")}`);
 bounds.x = -10;
 console.log(`x: ${bounds.point.get("x")}`);
 bounds.y = 6;
