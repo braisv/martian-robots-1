@@ -1,1 +1,1 @@
-  
+  export let lostList = ["10,12", "9,15"]; //manages grid points of lost robots

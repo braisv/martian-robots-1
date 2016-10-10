@@ -27,4 +27,7 @@ console.log(r.orientation);
 r.turn(r.orientation, "L");
 console.log(r.orientation);
 console.log(r.point);
-console.log(r.toString());
+/*var [x,y] = r.point;
+console.log(`${x[1]},${y[1]}`);*/
+
+r.move("9,15");

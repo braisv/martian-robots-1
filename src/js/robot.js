@@ -1,13 +1,17 @@
-import { isPositiveNumber } from './helpers';
+import { isPositiveNumber, isPosSafe } from './helpers';
 import { MAX_COORD, bounds } from './config';
 import CardinalPoints from './cardinalPoints';
+import { lostList } from './store.js';
+
+
+const cp = new CardinalPoints();
+const _processMotion = new WeakMap();
+const _hasScent = new WeakMap();
+
 
 /*
  * defines a robot and its current state
  */
-
-const cp = new CardinalPoints();
-const _processMotion = new WeakMap();
 export default class Robot {
   constructor(name, x, y, orientation, isAlive) {
     this._name = name;
@@ -39,6 +43,26 @@ export default class Robot {
             bot[axis] = tempPos;
             break;
         }*/
+    });
+    
+    /**
+     * Lost robots leave a robot “scent” which we store in `lostList[]`.
+     * The scent prohibits future robots from dropping off the world at the same grid point. 
+     * The scent is left at the last grid position the robot occupied before disappearing over the edge. 
+     * We ignore instructions to to move “off” the world from a grid point from which a robot has been lost.
+     */
+    _hasScent.set(this, (pointStr, newPos, axisBounds) => {
+      if(lostList.find((point => point == pointStr)) && !isPosSafe(newPos, axisBounds)) {
+        return true; 
+      }
+      else {
+        if(!isPosSafe(newPos, axisBounds)) {
+          return false; 
+        }
+        else {
+          return null;
+        }
+      }
     });
   }
 
@@ -96,7 +120,8 @@ export default class Robot {
   }
 
   get point() {
-    return new Map([["x", this._x], ["y", this._y]]);
+    return `${this._x},${this._y}`;
+//    return new Map([["x", this._x], ["y", this._y]]);
   }
 
   toString() {
@@ -117,8 +142,8 @@ export default class Robot {
     this._orientation = cp.getPointName(degree); // orientation is defined in cardinal points so lets go back to that instead of degrees
   };
   
-  move() {
-    let pm = _processMotion.get(this);
-    pm();
+  move(posStr) {
+    let hs = _hasScent.get(this);
+    hs(posStr, "", "");
   }
 }
