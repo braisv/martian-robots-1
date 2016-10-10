@@ -8,7 +8,6 @@ const cp = new CardinalPoints();
 const _processMotion = new WeakMap();
 const _hasScent = new WeakMap();
 
-
 /*
  * defines a robot and its current state
  */
@@ -31,18 +30,20 @@ export default class Robot {
      * Its making each instantiation more expensive; 
      * in my head these helpers should only exist once and be called on-demand. *shrugs*
      */
-    _processMotion.set(this, (bot, tempPos, axis) => {
-      /*switch (_hasScent(bot.point, tempPos, bounds.point.get(axis))) {
-          case true:
-            break;
-          case false:
-            bot.isAlive = false;
-            _lostList.push(bot.point);
-            break;
-          case null:
-            bot[axis] = tempPos;
-            break;
-        }*/
+    _processMotion.set(this, (newPos, axis) => {
+      const hs = _hasScent.get(this);
+      
+      switch (hs(this.point, newPos, bounds.point.get(axis))) {
+        case true:
+          break;
+        case false:
+          this.isAlive = false;
+          lostList.push(this.point);
+          break;
+        case null:
+          this[axis] = newPos;
+          break;
+      }
     });
     
     /**
@@ -50,6 +51,14 @@ export default class Robot {
      * The scent prohibits future robots from dropping off the world at the same grid point. 
      * The scent is left at the last grid position the robot occupied before disappearing over the edge. 
      * We ignore instructions to to move “off” the world from a grid point from which a robot has been lost.
+     *
+     * - true: check if location has scent by looking in the lost list
+     * then if the next move is fatal, don't move robot
+     * 
+     * - false: if location does NOT have a scent and the next move is fatal let it happen, 
+     * but add the location to the lost list and update the bot status to LOST
+     * 
+     * - null: if the next move is safe let it happen
      */
     _hasScent.set(this, (pointStr, newPos, axisBounds) => {
       if(lostList.find((point => point == pointStr)) && !isPosSafe(newPos, axisBounds)) {
@@ -67,7 +76,7 @@ export default class Robot {
   }
 
   set x(value) {
-    if(isPositiveNumber(value) && x <= bounds.point.get("x")) {
+    if(isPositiveNumber(value) && this._x <= bounds.point.get("x")) {
       this._x = value;
     }
     else {
@@ -80,7 +89,7 @@ export default class Robot {
   }
 
   set y(value) {
-    if(isPositiveNumber(value) && y <= bounds.point.get("y")) {
+    if(isPositiveNumber(value) && this._y <= bounds.point.get("y")) {
       this._y = value;
     }
     else {
@@ -129,8 +138,8 @@ export default class Robot {
       return `${this._x} ${this._y} ${this._orientation}${isAliveStr}`;
   }
   
-  turn(orientation, direction) {
-    var degree = cp.getDegree(orientation);
+  turn(direction) {
+    var degree = cp.getDegree(this._orientation);
 
     if(direction.toUpperCase() == "R") {
         degree = (degree == 270) ? 0 : degree + 90; // when turning right make sure degree never becomes 360 since that value is not mapped
@@ -139,11 +148,28 @@ export default class Robot {
         degree = (degree == 0) ? 270 : degree - 90; // when turning left make sure degree never becomes 360 since that value is not mapped
     }
 
-    this._orientation = cp.getPointName(degree); // orientation is defined in cardinal points so lets go back to that instead of degrees
+    this.orientation = cp.getPointName(degree); // orientation is defined in cardinal points so lets go back to that instead of degrees
   };
   
-  move(posStr) {
-    let hs = _hasScent.get(this);
-    hs(posStr, "", "");
+  /**
+   * orientation determines which axis to increment/decrement along
+   */
+  move() {
+    const pm = _processMotion.get(this);
+    
+    switch (this._orientation) {
+      case "N":
+          pm(++this._y, "y");
+          break;
+      case "S":
+          pm(--this._y, "y");
+          break;
+      case "E":
+          pm(++this._x, "x");
+          break;
+      case "W":
+          pm(--this._x, "x");
+        break;
+    }
   }
 }

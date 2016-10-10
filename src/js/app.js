@@ -21,13 +21,14 @@ console.log(bounds);
 
 let r = new Robot("test", 9, 15, "N", true);
 //console.log(r);
-console.log(r.orientation);
-r.turn(r.orientation, "R");
-console.log(r.orientation);
-r.turn(r.orientation, "L");
-console.log(r.orientation);
-console.log(r.point);
-/*var [x,y] = r.point;
-console.log(`${x[1]},${y[1]}`);*/
-
-r.move("9,15");
+console.log(r.toString());
+r.turn("R");
+r.move();
+console.log(r.toString());
+r.turn("L");
+r.move();
+console.log(r.toString());
+r.turn("L");
+r.move();
+r.move();
+console.log(r.toString());
