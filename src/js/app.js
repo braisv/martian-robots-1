@@ -19,8 +19,12 @@ console.log(`y: ${bounds.point.get("y")}`);
 console.log(bounds.point);
 console.log(bounds);
 
-let r = new Robot("test", 9, 15, "o", true);
-console.log(r);
+let r = new Robot("test", 9, 15, "N", true);
+//console.log(r);
+console.log(r.orientation);
+r.turn(r.orientation, "R");
+console.log(r.orientation);
+r.turn(r.orientation, "L");
 console.log(r.orientation);
 console.log(r.point);
 console.log(r.toString());
