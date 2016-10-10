@@ -10,7 +10,7 @@ export default class CardinalPoints {
   
   getDegree(point) {
     const points = _points.get(this);
-    return points.get(point.toString());
+    return points.get(point.toString().toUpperCase());
   }
     
   getPointName(degree) {
@@ -20,5 +20,10 @@ export default class CardinalPoints {
        return key;
      }
     }
+  }
+  
+  isValidPoint(point) {
+    const points = _points.get(this);
+    return points.has(point.toString().toUpperCase());
   }
 }
