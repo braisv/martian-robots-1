@@ -1,6 +1,7 @@
 import { isNumber, isPositiveNumber } from './helpers';
 import CardinalPoints from './cardinalPoints';
 import { MAX_COORD, MAX_INSTRUCTION, bounds } from './config.js'
+import Robot from './robot.js';
 
 console.log(isNumber('2'));
 console.log(isPositiveNumber('-2'));
@@ -11,9 +12,15 @@ console.log(cp.getPointName(270));
 console.log(cp.points); 
 
 console.log(`x: ${bounds.point.get("x")}`);
-bounds.x = -10;
+bounds.x = 25;
 console.log(`x: ${bounds.point.get("x")}`);
-bounds.y = 6;
+bounds.y = 25;
 console.log(`y: ${bounds.point.get("y")}`);
 console.log(bounds.point);
 console.log(bounds);
+
+let r = new Robot("test", 9, 15, "o", true);
+console.log(r);
+console.log(r.orientation);
+console.log(r.point);
+console.log(r.toString());
