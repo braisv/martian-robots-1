@@ -13,7 +13,7 @@ const _hasScent = new WeakMap();
  */
 export default class Robot {
   constructor(name, x, y, orientation, isAlive) {
-    this._name = name;
+    this._name = (name.length == 0) ? Date.now().toString() : `${name}-${Date.now()}`;
     this._x = (isPositiveNumber(x) && x <= bounds.point.get("x")) ? x : 0; // default to zero
     this._y = (isPositiveNumber(y) && y <= bounds.point.get("y")) ? y : 0; // default to zero
     this._orientation = (cp.isValidPoint(orientation)) ? orientation.toUpperCase() : "N"; // default to north
@@ -73,6 +73,10 @@ export default class Robot {
         }
       }
     });
+  }
+  
+  get name() {
+    return this._name; 
   }
 
   set x(value) {
