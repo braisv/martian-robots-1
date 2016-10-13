@@ -23,9 +23,9 @@ export function isPosSafe(pos, posBounds) {
 /*
  * auto pick from my emoji map instead of me formatting the string
  */
-export function toEmoji(botStr) {
+export function botAsEmoji(bot) {
   const regex = /N|S|E|W|(\bLOST\b)/g;
-  return `🤖 ${botStr.toString().replace(regex, strToEmoji)}`;
+  return `${emoji.get(bot.type())} ${bot.toString().replace(regex, strToEmoji)}`;
 }
 
 export function strToEmoji(match) {
@@ -38,3 +38,5 @@ emoji.set("N", "⬆️");
 emoji.set("S", "⬇️");
 emoji.set("E", "➡️");
 emoji.set("W", "⬅️");
+emoji.set("Martian", "👾");
+emoji.set("Robot", "🤖");
