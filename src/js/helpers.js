@@ -18,3 +18,16 @@ export function isPosSafe(pos, posBounds) {
         return true;
     }
 }
+
+export const emoji = new Map();
+emoji.set(":sos:", "🆘");
+emoji.set("N", "⬆️");
+emoji.set("S", "⬇️");
+emoji.set("E", "➡️");
+emoji.set("W", "⬅️");
+
+export function toEmoji(bot) {
+  const sos = (bot.isAlive === false) ? " 🆘" : "";
+  // emoji.get(bot.orientation)
+  return `🤖 ${bot.x} ${bot.y} ${emoji.get(bot.orientation)}${sos}`;
+}
