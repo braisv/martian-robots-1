@@ -30,10 +30,10 @@ export default class Robot {
      * Its making each instantiation more expensive; 
      * in my head these helpers should only exist once and be called on-demand. *shrugs*
      */
-    _processMotion.set(this, (newPos, axis) => {
+    _processMotion.set(this, (tempPos, axis) => {
       const hs = _hasScent.get(this);
       
-      switch (hs(this.point, newPos, bounds.point.get(axis))) {
+      switch (hs(this.point, tempPos, bounds.point.get(axis))) {
         case true:
           break;
         case false:
@@ -41,7 +41,7 @@ export default class Robot {
           lostList.push(this.point);
           break;
         case null:
-          this[axis] = newPos;
+          this[axis] = tempPos;
           break;
       }
     });
@@ -60,12 +60,12 @@ export default class Robot {
      * 
      * - null: if the next move is safe let it happen
      */
-    _hasScent.set(this, (pointStr, newPos, axisBounds) => {
-      if(lostList.find((point => point == pointStr)) && !isPosSafe(newPos, axisBounds)) {
+    _hasScent.set(this, (pointStr, tempPos, axisBounds) => {
+      if(lostList.find((point => point == pointStr)) && !isPosSafe(tempPos, axisBounds)) {
         return true; 
       }
       else {
-        if(!isPosSafe(newPos, axisBounds)) {
+        if(!isPosSafe(tempPos, axisBounds)) {
           return false; 
         }
         else {
@@ -80,12 +80,13 @@ export default class Robot {
   }
 
   set x(value) {
-    if(isPositiveNumber(value) && this._x <= bounds.point.get("x")) {
+    this._x = value;
+    /*if(isPositiveNumber(value) && this._x <= bounds.point.get("x")) {
       this._x = value;
     }
     else {
-      throw new Error(`Please use a value between 0 and ${bounds.point.get("x")}`);
-    }
+      throw new Error(`Please use a 'x' value between 0 and ${bounds.point.get("x")}.`);
+    }*/
   }
 
   get x() {
@@ -93,12 +94,13 @@ export default class Robot {
   }
 
   set y(value) {
-    if(isPositiveNumber(value) && this._y <= bounds.point.get("y")) {
+    this._y = value;
+    /*if(isPositiveNumber(value) && this._y <= bounds.point.get("y")) {
       this._y = value;
     }
     else {
-      throw new Error(`Please use a value between 0 and ${bounds.point.get("y")}`);
-    }
+      throw new Error(`Please use a 'y' value between 0 and ${bounds.point.get("y")}.`);
+    }*/
   }
 
   get y() {
@@ -138,8 +140,8 @@ export default class Robot {
   }
 
   toString() {
-      const isAliveStr = (this._isAlive === false) ? " LOST" : "";
-      return `${this._x} ${this._y} ${this._orientation}${isAliveStr}`;
+    const isAliveStr = (this._isAlive === false) ? " LOST" : "";
+    return `${this._x} ${this._y} ${this._orientation}${isAliveStr}`;
   }
   
   turn(direction) {
@@ -163,16 +165,16 @@ export default class Robot {
     
     switch (this._orientation) {
       case "N":
-          pm(++this._y, "y");
+          pm((this._y + 1), "y");
           break;
       case "S":
-          pm(--this._y, "y");
+          pm((this._y - 1), "y");
           break;
       case "E":
-          pm(++this._x, "x");
+          pm((this._x + 1), "x");
           break;
       case "W":
-          pm(--this._x, "x");
+          pm((this._x - 1), "x");
         break;
     }
   }
