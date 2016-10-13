@@ -19,15 +19,22 @@ export function isPosSafe(pos, posBounds) {
     }
 }
 
-export const emoji = new Map();
-emoji.set(":sos:", "🆘");
+
+/*
+ * auto pick from my emoji map instead of me formatting the string
+ */
+export function toEmoji(botStr) {
+  const regex = /N|S|E|W|(\bLOST\b)/g;
+  return `🤖 ${botStr.toString().replace(regex, strToEmoji)}`;
+}
+
+export function strToEmoji(match) {
+  return emoji.get(match);
+}
+
+const emoji = new Map();
+emoji.set("LOST", "🆘");
 emoji.set("N", "⬆️");
 emoji.set("S", "⬇️");
 emoji.set("E", "➡️");
 emoji.set("W", "⬅️");
-
-export function toEmoji(bot) {
-  const sos = (bot.isAlive === false) ? " 🆘" : "";
-  // emoji.get(bot.orientation)
-  return `🤖 ${bot.x} ${bot.y} ${emoji.get(bot.orientation)}${sos}`;
-}

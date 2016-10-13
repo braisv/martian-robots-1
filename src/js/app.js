@@ -1,4 +1,4 @@
-import { isNumber, isPositiveNumber, emoji, toEmoji } from './helpers';
+import { isNumber, isPositiveNumber, toEmoji } from './helpers';
 import CardinalPoints from './cardinalPoints';
 import { MAX_COORD, MAX_INSTRUCTION, bounds } from './config.js';
 import Robot from './robot';
@@ -32,6 +32,7 @@ console.log(bots.getAll());
 
 for(const [key, value] of bots.getAll()) {
   console.log(value.toString());
-  console.log(toEmoji(value));
+  console.log(toEmoji(value.toString()));
+//  console.log(toEmoji(value));
 }
 //console.log(emoji.get("N"));
