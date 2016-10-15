@@ -1,14 +1,20 @@
 const webpack = require('webpack');
 const nodeEnv = process.env.NODE_ENV || 'production';
 
+/*
+ * entry, output pattern via: 
+ * https://github.com/webpack/webpack/issues/1189#issuecomment-156576084
+ */
+
 module.exports = {
   devtool: 'source-map',
   entry: {
-    app: './src/js/app.js', 
-    tests: './tests/tests.js'
+    '_build/js/app': './src/js/app', 
+    'tests/tests': './tests/tests'
   },
   output: {
-    filename: '_build/js/[name]-bundle.js'
+    path: './', 
+    filename: '[name]-bundle.js'
   },
   module: {
     loaders: [
