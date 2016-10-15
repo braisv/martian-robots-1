@@ -4,20 +4,18 @@ const nodeEnv = process.env.NODE_ENV || 'production';
 module.exports = {
   devtool: 'source-map',
   entry: {
-    filename: './src/js/app.js'
+    app: './src/js/app.js', 
+    tests: './tests/tests.js'
   },
   output: {
-    filename: '_build/js/bundle.js'
+    filename: '_build/js/[name]-bundle.js'
   },
   module: {
     loaders: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel',
-        query: {
-          presets: ['es2015-native-modules']
-        }
+        loader: 'babel'
       }
     ]
   },
