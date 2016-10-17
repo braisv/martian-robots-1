@@ -4,7 +4,8 @@ import { MAX_COORD, MAX_INSTRUCTION, bounds } from './config.js';
 import Martian from './martian';
 import Robot from './martianRobot';
 import { default as Robots } from './store';
-import { instructBot } from './controller';
+import { instruct } from './controller';
+import { lostList } from './store.js';
 
 bounds.x = 5; bounds.y = 3;
 console.log("Bounds");
@@ -22,17 +23,18 @@ bots.add(c);
 bots.add(aM);
 console.log(bots.getAll());
 
-let tempBot = instructBot(bots.get(a.name), "RFRFRFRF");
+let tempBot = instruct(bots.get(a.name), "RFRFRFRF");
 bots.update(tempBot);
 //console.log(tempBot.toString());
 
-tempBot = instructBot(bots.get(b.name), "FRRFLLFFRRFLL");
+tempBot = instruct(bots.get(b.name), "FRRFLLFFRRFLL");
 bots.update(tempBot);
 
-tempBot = instructBot(bots.get(c.name), "LLFFFLFLFL");
+tempBot = instruct(bots.get(c.name), "LLFFFLFLFL");
+console.log(lostList);
 bots.update(tempBot);
 
-tempBot = instructBot(bots.get(aM.name), "FRRFLLFFRRFLLFFF");
+tempBot = instruct(bots.get(aM.name), "FRRFLLFFRRFLLFFF");
 bots.update(tempBot);
 
 console.log(bots.getAll());

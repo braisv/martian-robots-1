@@ -6,6 +6,7 @@
   "scripts": {
     "start": "concurrently --names 'webpack, mocha, browser-sync' --prefix name 'npm run build' 'npm run server'",
     "build": "webpack --progress --watch",
+    "server_": "browser-sync start --config 'browsersync.config.js'",
     "server": "browser-sync start --no-open --directory --server --files '*.html, ./_build' --startPath '/index.html'",
     "deploy": "surge ./path/to/dist",
     "watch:test": "npm t -- -w",

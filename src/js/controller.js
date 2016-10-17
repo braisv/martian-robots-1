@@ -1,6 +1,6 @@
 import { MAX_INSTRUCTION } from './config.js';
 
-export function instructBot(bot, instructionsStr) {
+export function instruct(bot, instructionsStr) {
 
   instructionsStr = instructionsStr.trim().substring(0, MAX_INSTRUCTION); // limit instructions to defined limit
 

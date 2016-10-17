@@ -1,4 +1,4 @@
-export const lostList = ["10,12", "9,15"]; //manages grid points of lost robots
+export const lostList = []; //manages grid points of lost robots
 
 const _robots = new WeakMap();
 export default class Store {
