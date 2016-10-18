@@ -1,15 +1,17 @@
+/** module config */
+
 import { isPositiveNumber } from './helpers';
 
+/*
+ * Default values
+ */
 export const MAX_COORD = 50;
 export const MAX_INSTRUCTION = 100;
 const X_BOUNDS = 5, Y_BOUNDS = 3;
 
-/*
- * set boundaries for mars
- * as a object literal, but we wanna control how values are set
+/**
+ * set boundaries for mars as object literal
  * and return a boundaries a map with our points
- * 
- * es6 class syntax has 
  */
 let x, y;
 export const bounds = {

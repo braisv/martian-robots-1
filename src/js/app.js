@@ -1,4 +1,4 @@
-import { isNumber, isPositiveNumber, botAsEmoji } from './helpers';
+import { isNumber, isPositiveNumber, beingAsEmoji } from './helpers';
 import CardinalPoints from './cardinalPoints';
 import { MAX_COORD, MAX_INSTRUCTION, bounds } from './config.js';
 import Martian from './martian';
@@ -42,5 +42,5 @@ console.log(bots.getAll());
 
 for(const [key, value] of bots.getAll()) {
   console.log(value.toString());
-  console.log(botAsEmoji(value));
+  console.log(beingAsEmoji(value.toString(true)));
 }

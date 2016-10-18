@@ -2,7 +2,7 @@ const chai = require('chai');
 const expect = chai.expect, assert = chai.assert;
 
 import { MAX_INSTRUCTION, bounds } from '../src/js/config';
-import { isNumber, isPositiveNumber, botAsEmoji } from '../src/js/helpers';
+import { isNumber, isPositiveNumber, beingAsEmoji } from '../src/js/helpers';
 import CardinalPoints from '../src/js/cardinalPoints';
 import { instruct } from '../src/js/controller';
 import Martian from '../src/js/martian';
@@ -106,7 +106,18 @@ describe('controller.js', function() {
   });
 });
 
-describe('config.js', function() {
+describe('cardinalPoints.js', function() {
+  it("CardinalPoints{}", function() {
+      const cp = new CardinalPoints();
+      assert.strictEqual(cp.getDegree("N"), 0, "N is a point");
+      assert.strictEqual(cp.getDegree("SE"), undefined, "SE is not a point");
+      assert.strictEqual(cp.getPointName(270), "W", "W = 270°");
+      assert.strictEqual(cp.getPointName(271), undefined, "271 doesnt correspond a point");
+      assert.strictEqual(cp.isValidPoint("SE"), false, "SE is not a point");
+  });
+});
+
+describe('Config & Helpers', function() {
   before(function() {
     bounds.x = -1;
     bounds.y = 15;
@@ -123,14 +134,5 @@ describe('config.js', function() {
     assert.strictEqual(isNumber("undefined"), false, "string test");
     assert.strictEqual(isNumber(16), true, "actual number");
     assert.strictEqual(isNumber(-1), true, "a negative number is still a number");
-  });
-  
-  it("CardinalPoints{}", function() {
-      const cp = new CardinalPoints();
-      assert.strictEqual(cp.getDegree("N"), 0, "N is a point");
-      assert.strictEqual(cp.getDegree("SE"), undefined, "SE is not a point");
-      assert.strictEqual(cp.getPointName(270), "W", "W = 270°");
-      assert.strictEqual(cp.getPointName(271), undefined, "271 doesnt correspond a point");
-      assert.strictEqual(cp.isValidPoint("SE"), false, "SE is not a point");
   });
 });

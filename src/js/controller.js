@@ -1,29 +1,45 @@
+/** @module Controller */
+
 import { MAX_INSTRUCTION } from './config.js';
 
-export function instruct(bot, instructionsStr) {
+/**
+ * 
+ * @param   {object} being: robot or martian
+ * @param   {string} instructionsStr: intructions for moving a robot or martian
+ * @returns {object} returns a updated martian or robot
+ */
+export function instruct(being, instructionsStr) {
 
   instructionsStr = instructionsStr.trim().substring(0, MAX_INSTRUCTION); // limit instructions to defined limit
 
   for (var i = 0; i < instructionsStr.length; i++) {
-      if(_processCommands(instructionsStr.charAt(i).toUpperCase(), bot) === false) {
+      if(_processCommands(instructionsStr.charAt(i).toUpperCase(), being) === false) {
           break;
       }
   }
-  return bot;
+  return being;
 }
 
-function _processCommands(char, bot) {
+/**
+ * Calls the approrpriate action
+ * 
+ * @private
+ * @param {string} char  Left/Right/Forward
+ * @param {object} being: the object we're acting on
+ * @return {boolean} is being lost?
+ */
+function _processCommands(char, being) {
   switch (char) {
     case "L":
     case "R":
-        bot.turn(char);
+        being.turn(char);
         break;
     case "F":
-        bot.move();
+        being.move();
         break;
     default: 
-        console.log("Invalid command received while processing '" + bot.name + "', moving to next character.");
+        console.log("Invalid command received while processing '" + being.name + "', moving to next character.");
   }
 
-  return bot.isAlive; // dealbreaking flag, halts looping on false (robot lost)
+  return being.isAlive; // dealbreaking flag, halts looping on false (robot lost)
 }
