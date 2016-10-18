@@ -1,48 +1,79 @@
+/** @module Store */
+
 export const lostList = []; //manages grid points of lost robots
 
-const _robots = new WeakMap();
+const _mars = new WeakMap();
+
+/**
+ * Storage object and methods
+ */
 export default class Store {
   constructor() {
-    _robots.set(this, new Map());
+    _mars.set(this, new Map());
   }
   
-  add(...robot) {
-    const robots = _robots.get(this);
+  /**
+   * 
+   * @throws {Error} only add martians or robots
+   * @param   {Array} ...martian: add one... or add many
+   * @returns {number} size of mars Map
+   */
+  add(...martian) {
+    const mars = _mars.get(this);
     
-    robot.forEach(r => {
+    martian.forEach(m => {
       try {
-        if(["Martian", "Robot"].includes(r.type()))
-          robots.set(r.name, r);
+        if(["Martian", "Robot"].includes(m.type()))
+          mars.set(m.name, m);
       }
       catch(e) {
-        throw new Error("Can only store Martians and Robots.");
+        throw new Error("Can only store Martians and mars.");
       }
     });
     
-    return robots.size;
+    return mars.size;
   }
   
-  update(robot){
-    const robots = _robots.get(this);
+  /**
+   * 
+   * @param   {object}   martian to act on
+   * @returns {boolean} reflect if boolean was successful
+   */
+  update(martian){
+    const mars = _mars.get(this);
     
-    if(robots.has(robot.name))
-      robots.set(robot.name, robot);
+    if(mars.has(martian.name))
+      mars.set(martian.name, martian);
     
-    return robots.has(robot.name);
+    return mars.has(martian.name);
   }
   
-  remove(robotName) {
-    const robots = _robots.get(this);
-    return robots.delete(robotName);
+  /**
+   * 
+   * @param   {string} martianName: use as key to delete from mars
+   * @returns {boolean} confirm deletion
+   */
+  remove(martianName) {
+    const mars = _mars.get(this);
+    return mars.delete(martianName);
   }
   
-  get(robotName) {
-    const robots = _robots.get(this);
-    return robots.get(robotName);
+  /**
+   * 
+   * @param   {string} martianName: key to retrieve
+   * @returns {object} martian/robot or undefined
+   */
+  get(martianName) {
+    const mars = _mars.get(this);
+    return mars.get(martianName);
   }
   
+  /**
+   * 
+   * @returns {Map} return all mars contents
+   */
   getAll() {
-    const robots = _robots.get(this);
-    return robots;
+    const mars = _mars.get(this);
+    return mars;
   }
 }
