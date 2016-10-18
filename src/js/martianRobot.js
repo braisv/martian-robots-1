@@ -1,3 +1,5 @@
+/** @module Martian Robot **/
+
 import Martian from './martian';
 import { isPositiveNumber, isPosSafe } from './helpers';
 import { MAX_COORD, bounds } from './config';
@@ -13,8 +15,20 @@ const _hasScent = new WeakMap();
  * defines a martian robot and its current state
  * a martian robot will "fall off" the boundaries of mars
  * or be inhibited from falling off where another robot has fallen off
+ * 
+ * @extends Martian
  */
 export default class MartianRobot extends Martian {
+  /**
+   * 
+   /**
+   * 
+   * @param {string}   name        robot name: defaults to time string
+   * @param {number} x           robot x coordinate: default to zero
+   * @param {number} y           robot y coordinate: default to zero
+   * @param {string}   orientation robot orientation, must be a valid CardinalPoint or will default to north
+   * @param {boolean} isAlive     robot status, defaults to true
+   */
   constructor(name, x, y, orientation, isAlive) {
     super(name, x, y, orientation, isAlive)
     
@@ -28,6 +42,9 @@ export default class MartianRobot extends Martian {
      * This method works well, but the internets also says its a bit of a memory hog.
      * Its making each instantiation more expensive; 
      * in my head these helpers should only exist once and be called on-demand. *shrugs*
+     * 
+     * @param {number} tempPos: position to move to if valid
+     * @param {string} axis: x or y axis to move along
      */
     _processMotion.set(this, (tempPos, axis) => {
       const hs = _hasScent.get(this);
@@ -50,7 +67,11 @@ export default class MartianRobot extends Martian {
      * The scent prohibits future robots from dropping off the world at the same grid point. 
      * The scent is left at the last grid position the robot occupied before disappearing over the edge. 
      * We ignore instructions to to move “off” the world from a grid point from which a robot has been lost.
-     *
+     * 
+     * @param {string} pointStr: 'x,y' coords
+     * @param {number} tempPos: instructed position
+     * @param {number} axisBounds: intructed boundary axis
+     * @returns {boolean || null}: 
      * - true: check if location has scent by looking in the lost list
      * then if the next move is fatal, don't move robot
      * 

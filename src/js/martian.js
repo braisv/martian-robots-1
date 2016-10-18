@@ -1,20 +1,30 @@
+/** @module Martian */
+
 import { isPositiveNumber } from './helpers';
 import { bounds } from './config';
 import CardinalPoints from './cardinalPoints';
 
 const cp = new CardinalPoints();
 
-/*
+/**
  * defines a martian and its current state
  * a martian can move anywhere AFTER initialization
  */
 export default class Martian {
+  /**
+   * 
+   * @param {string}   name        martian name: defaults to time string
+   * @param {number} x           martian x coordinate: default to zero
+   * @param {number} y           martian y coordinate: default to zero
+   * @param {string}   orientation martian orientation, must be a valid CardinalPoint or will default to north
+   * @param {boolean} isAlive     martian status, defaults to true
+   */
   constructor(name, x, y, orientation, isAlive) {
-    this._name = (name.trim().length == 0) ? Date.now().toString() : `${name}-${Date.now()}`; // defaults to time string
-    this._x = (isPositiveNumber(x) && x <= bounds.point.get("x")) ? x : 0; // default to zero
-    this._y = (isPositiveNumber(y) && y <= bounds.point.get("y")) ? y : 0; // default to zero
-    this._orientation = (cp.isValidPoint(orientation)) ? orientation.toUpperCase() : "N"; // default to north
-    this._isAlive = (typeof isAlive === 'boolean') ? isAlive : true; // default to true
+    this._name = (name.trim().length == 0) ? Date.now().toString() : `${name}-${Date.now()}`;
+    this._x = (isPositiveNumber(x) && x <= bounds.point.get("x")) ? x : 0;
+    this._y = (isPositiveNumber(y) && y <= bounds.point.get("y")) ? y : 0;
+    this._orientation = (cp.isValidPoint(orientation)) ? orientation.toUpperCase() : "N";
+    this._isAlive = (typeof isAlive === 'boolean') ? isAlive : true;
   }
   
   get name() {
@@ -68,6 +78,11 @@ export default class Martian {
     return `${this._x},${this._y}`;
   }
 
+  /**
+   * 
+   * @param   {boolean} withType = false; include object type or nah?
+   * @returns {string} being string description
+   */
   toString(withType = false) {
     const isAliveStr = (this._isAlive === false) ? " LOST" : "";
     if(withType) {
@@ -78,6 +93,10 @@ export default class Martian {
     }
   }
   
+  /**
+   * 
+   * @param {string} direction: sets new orientation based on L/R direction
+   */
   turn(direction) {
     var degree = cp.getDegree(this._orientation);
 
