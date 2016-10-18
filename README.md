@@ -1,17 +1,16 @@
 # Martian Robots #
 
 ### How to run ###
-The app can be ran locally or at the provided URL.  
-- Locally: [Download](https://bitbucket.org/komplexb/martian-robots/downloads) the repo and run `../src/index.html`. 
-A few tests are available a `../tests/index.html`.  
-- Online: http://komplexb.bitbucket.org/martian-robots/index.html  
-
-### How to use ###
-Instructions and associated values are valid for one session; i.e. only the values of the current session affect positions on the grid. A session is demarcated by clicking "Initialize Bots"; doing so clears all values from the previous session (except the 'lost' position values of previous robots).  
+<!--Instructions and associated values are valid for one session; i.e. only the values of the current session affect positions on the grid. A session is demarcated by clicking "Initialize Bots"; doing so clears all values from the previous session (except the 'lost' position values of previous robots).  
 1. Enter instructions or click "Sample Input" to insert instructions into the text area.  
 2. Click "Initialize Bots". This sets the robots to their initial positions on the planet. Valid instructions will enable the "Move Bots" button.  
 3. Click "Move Bots" to see the final position of the robots after processing the series of instructions.  
-4. To validate app functionality, read the extract below to come up with valid instructions. Manually trace your instructions on along the grid to determine the final position and output. Insert these instructions into the app and test the output against your manual output.  
+4. To validate app functionality, read the extract below to come up with valid instructions. Manually trace your instructions on along the grid to determine the final position and output. Insert these instructions into the app and test the output against your manual output.  -->
+
+- `npm install`  
+- `npm start`  
+- Go to: http://localhost:3000/index.html and check console.  
+- Tests: http://localhost:3000/tests/index.html
 
 ## About ##
 
@@ -39,6 +38,7 @@ the last grid position the robot occupied before disappearing over the edge. An 
 move “off” the world from a grid point from which a robot has been previously lost is simply
 ignored by the current robot.  
 
+<!--
 ### The Input ###
 The first line of input is the upper-right coordinates of the rectangular world, the lower-left
 coordinates are assumed to be 0, 0.  
@@ -54,6 +54,7 @@ next robot begins execution.
 The maximum value for any coordinate is 50.  
 
 All instruction strings will be less than 100 characters in length.
+-->
 
 ### The Output ###
 For each robot position/instruction in the input, the output should indicate the final grid
@@ -61,7 +62,8 @@ position and orientation of the robot. If a robot falls off the edge of the grid
 should be printed after the position and orientation.  
 
 #### Sample Input ####
-5 3  
+Bounds: x: 5, y: 3  
+
 1 1 E  
 RFRFRFRF  
 
