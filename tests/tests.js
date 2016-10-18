@@ -9,6 +9,8 @@ import Martian from '../src/js/martian';
 import Robot from '../src/js/martianRobot';
 import { lostList } from '../src/js/store.js';
 
+
+
 describe('Martians & Robots', function() {
   before(function() {
     bounds.x = 5; bounds.y = 3;
@@ -51,7 +53,7 @@ describe('Martians & Robots', function() {
   
   it('Robots', function() {
     const r = new Martian(" ", 4, 2, "E", true);
-    assert.isAbove(m.name.length, 0, "Name can't be blank, should have been defaulted to Date.now().");
+    assert.isAbove(r.name.length, 0, "Name can't be blank, should have been defaulted to Date.now().");
   });
 });
 
