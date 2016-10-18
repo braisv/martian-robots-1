@@ -12,7 +12,7 @@ const _hasScent = new WeakMap();
 /*
  * defines a martian robot and its current state
  * a martian robot will "fall off" the boundaries of mars
- * or be inhibted from falling off where another robot has fallen off
+ * or be inhibited from falling off where another robot has fallen off
  */
 export default class MartianRobot extends Martian {
   constructor(name, x, y, orientation, isAlive) {

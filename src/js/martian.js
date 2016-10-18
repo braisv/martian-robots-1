@@ -6,11 +6,11 @@ const cp = new CardinalPoints();
 
 /*
  * defines a martian and its current state
- * a martian can move anywhere
+ * a martian can move anywhere AFTER initialization
  */
 export default class Martian {
   constructor(name, x, y, orientation, isAlive) {
-    this._name = (name.trim().length == 0) ? Date.now().toString() : `${name}-${Date.now()}`;
+    this._name = (name.trim().length == 0) ? Date.now().toString() : `${name}-${Date.now()}`; // defaults to time string
     this._x = (isPositiveNumber(x) && x <= bounds.point.get("x")) ? x : 0; // default to zero
     this._y = (isPositiveNumber(y) && y <= bounds.point.get("y")) ? y : 0; // default to zero
     this._orientation = (cp.isValidPoint(orientation)) ? orientation.toUpperCase() : "N"; // default to north
@@ -66,7 +66,6 @@ export default class Martian {
 
   get point() {
     return `${this._x},${this._y}`;
-//    return new Map([["x", this._x], ["y", this._y]]);
   }
 
   toString() {

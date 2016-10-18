@@ -46,12 +46,12 @@ describe('Martians & Robots', function() {
     catch(e) {
       console.log(e);
     }
-    
     assert.strictEqual(m.isAlive, true, "Invalid live status will fail on assignment, thus leaving the previous value.");
   });
   
   it('Robots', function() {
-    
+    const r = new Martian(" ", 4, 2, "E", true);
+    assert.isAbove(m.name.length, 0, "Name can't be blank, should have been defaulted to Date.now().");
   });
 });
 
