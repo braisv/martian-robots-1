@@ -17,10 +17,11 @@ const c = new Robot("c", 0, 3, "W", true);
 const aM = new Martian("aM", 3, 2, "N", true);
 
 let bots = new Robots();
-bots.add(a);
-bots.add(b);
+console.log(`a: ${bots.add(a)}`);
+console.log(bots.add(b, c, aM));
+/*bots.add(b);
 bots.add(c);
-bots.add(aM);
+bots.add(aM);*/
 console.log(bots.getAll());
 
 let tempBot = instruct(bots.get(a.name), "RFRFRFRF");
