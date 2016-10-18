@@ -1,12 +1,6 @@
 # Martian Robots #
 
 ### How to run ###
-<!--Instructions and associated values are valid for one session; i.e. only the values of the current session affect positions on the grid. A session is demarcated by clicking "Initialize Bots"; doing so clears all values from the previous session (except the 'lost' position values of previous robots).  
-1. Enter instructions or click "Sample Input" to insert instructions into the text area.  
-2. Click "Initialize Bots". This sets the robots to their initial positions on the planet. Valid instructions will enable the "Move Bots" button.  
-3. Click "Move Bots" to see the final position of the robots after processing the series of instructions.  
-4. To validate app functionality, read the extract below to come up with valid instructions. Manually trace your instructions on along the grid to determine the final position and output. Insert these instructions into the app and test the output against your manual output.  -->
-
 - `npm install`  
 - `npm start`  
 - Go to: http://localhost:3000/index.html and check console.  
@@ -37,24 +31,6 @@ prohibits future robots from dropping off the world at the same grid point. The 
 the last grid position the robot occupied before disappearing over the edge. An instruction to
 move “off” the world from a grid point from which a robot has been previously lost is simply
 ignored by the current robot.  
-
-<!--
-### The Input ###
-The first line of input is the upper-right coordinates of the rectangular world, the lower-left
-coordinates are assumed to be 0, 0.  
-
-The remaining input consists of a sequence of robot positions and instructions (two lines per
-robot). A position consists of two integers specifying the initial coordinates of the robot and
-an orientation (N, S, E, W), all separated by whitespace on one line. A robot instruction is a
-string of the letters “L”, “R”, and “F” on one line.  
-
-Each robot is processed sequentially, i.e., finishes executing the robot instructions before the
-next robot begins execution.  
-
-The maximum value for any coordinate is 50.  
-
-All instruction strings will be less than 100 characters in length.
--->
 
 ### The Output ###
 For each robot position/instruction in the input, the output should indicate the final grid
