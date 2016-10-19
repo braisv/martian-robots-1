@@ -134,7 +134,7 @@ export default class Martian {
     }
   }
 
-  static type() {
+  type() {
     return 'Martian';
   }
 }

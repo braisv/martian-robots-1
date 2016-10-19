@@ -28,7 +28,7 @@ export default class Store {
         }
       }
       catch (e) {
-        throw new Error('Can only store Martians and mars.');
+        throw new Error('Can only store Martians and Robots.');
       }
     });
 

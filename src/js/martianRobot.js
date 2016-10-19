@@ -118,7 +118,7 @@ export default class MartianRobot extends Martian {
     }
   }
 
-  static type() {
+  type() {
     return 'Robot';
   }
 }
