@@ -12,23 +12,24 @@ const cp = new CardinalPoints();
  */
 export default class Martian {
   /**
-   * 
+   *
    * @param {string}   name        martian name: defaults to time string
    * @param {number} x           martian x coordinate: default to zero
    * @param {number} y           martian y coordinate: default to zero
-   * @param {string}   orientation martian orientation, must be a valid CardinalPoint or will default to north
+   * @param {string}   orientation
+   * martian orientation, must be a valid CardinalPoint or will default to north
    * @param {boolean} isAlive     martian status, defaults to true
    */
   constructor(name, x, y, orientation, isAlive) {
-    this._name = (name.trim().length == 0) ? Date.now().toString() : `${name}-${Date.now()}`;
-    this._x = (isPositiveNumber(x) && x <= bounds.point.get("x")) ? x : 0;
-    this._y = (isPositiveNumber(y) && y <= bounds.point.get("y")) ? y : 0;
-    this._orientation = (cp.isValidPoint(orientation)) ? orientation.toUpperCase() : "N";
+    this._name = (name.trim().length === 0) ? Date.now().toString() : `${name}-${Date.now()}`;
+    this._x = (isPositiveNumber(x) && x <= bounds.point.get('x')) ? x : 0;
+    this._y = (isPositiveNumber(y) && y <= bounds.point.get('y')) ? y : 0;
+    this._orientation = (cp.isValidPoint(orientation)) ? orientation.toUpperCase() : 'N';
     this._isAlive = (typeof isAlive === 'boolean') ? isAlive : true;
   }
-  
+
   get name() {
-    return this._name; 
+    return this._name;
   }
 
   set x(value) {
@@ -61,13 +62,13 @@ export default class Martian {
   }
 
   set isAlive(value) {
-    if(typeof value === 'boolean') {
-        this._isAlive = value;
-      }
-      else {
+    if (typeof value === 'boolean') {
+      this._isAlive = value;
+    }
+    else {
 //          this._isAlive = true;
-        throw new Error("A robot can only be alive (true) or lost (false).");
-      }
+      throw new Error('A robot can only be alive (true) or lost (false).');
+    }
   }
 
   get isAlive() {
@@ -79,58 +80,61 @@ export default class Martian {
   }
 
   /**
-   * 
+   *
    * @param   {boolean} withType = false; include object type or nah?
    * @returns {string} being string description
    */
   toString(withType = false) {
-    const isAliveStr = (this._isAlive === false) ? " LOST" : "";
-    if(withType) {
+    const isAliveStr = (this._isAlive === false) ? ' LOST' : '';
+    if (withType) {
       return `${this.type()} ${this._x} ${this._y} ${this._orientation}${isAliveStr}`;
     }
-    else {
-      return `${this._x} ${this._y} ${this._orientation}${isAliveStr}`;
-    }
+    return `${this._x} ${this._y} ${this._orientation}${isAliveStr}`;
   }
-  
+
   /**
-   * 
+   *
    * @param {string} direction: sets new orientation based on L/R direction
    */
   turn(direction) {
-    var degree = cp.getDegree(this._orientation);
+    let degree = cp.getDegree(this._orientation);
 
-    if(direction.toUpperCase() == "R") {
-        degree = (degree == 270) ? 0 : degree + 90; // when turning right make sure degree never becomes 360 since that value is not mapped
+    if (direction.toUpperCase() === 'R') {
+      // when turning right make sure degree never becomes 360 since that value is not mapped
+      degree = (degree === 270) ? 0 : degree + 90;
     }
-    else if (direction.toUpperCase() == "L") {
-        degree = (degree == 0) ? 270 : degree - 90; // when turning left make sure degree never becomes 360 since that value is not mapped
+    else if (direction.toUpperCase() === 'L') {
+      // when turning left make sure degree never becomes 360 since that value is not mapped
+      degree = (degree === 0) ? 270 : degree - 90;
     }
 
-    this.orientation = cp.getPointName(degree); // orientation is defined in cardinal points so lets go back to that instead of degrees
-  };
-  
+    // orientation is defined in cardinal points so lets go back to that instead of degrees
+    this.orientation = cp.getPointName(degree);
+  }
+
   /**
    * orientation determines which axis to increment/decrement along
    */
   move() {
     switch (this._orientation) {
-      case "N":
-          ++this._y;
-          break;
-      case "S":
-          --this._y;
-          break;
-      case "E":
-          ++this._x;
-          break;
-      case "W":
-          --this._x;
+      case 'N':
+        this._y += 1;
         break;
+      case 'S':
+        this._y -= 1;
+        break;
+      case 'E':
+        this._x += 1;
+        break;
+      case 'W':
+        this._x -= 1;
+        break;
+      default:
+        // do nothing
     }
   }
-  
-  type() {
-    return "Martian";
+
+  static type() {
+    return 'Martian';
   }
 }

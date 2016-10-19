@@ -10,14 +10,14 @@ const _points = new WeakMap();
 export default class CardinalPoints {
   constructor() {
     /*
-     * Private data via WeakMaps: 
+     * Private data via WeakMaps:
      * http://exploringjs.com/es6/ch_classes.html#_private-data-via-weakmaps
      */
-    _points.set(this, new Map([["N", 0], ["E", 90], ["S", 180], ["W", 270]]))
+    _points.set(this, new Map([['N', 0], ['E', 90], ['S', 180], ['W', 270]]));
   }
-  
+
   /**
-   * 
+   *
    * @param   {string} Cardinal Point
    * @returns {number} Corresponding degree for cardinal point
    */
@@ -25,23 +25,24 @@ export default class CardinalPoints {
     const points = _points.get(this);
     return points.get(point.toString().toUpperCase());
   }
-  
+
   /**
-   * 
+   *
    * @param   {number} degree
    * @returns {string} Corresponding cardinal point for degree
    */
   getPointName(degree) {
     const points = _points.get(this);
     for (const [key, value] of points) {
-     if(value === Number.parseInt(degree, 10)) {
-       return key;
-     }
+      if (value === Number.parseInt(degree, 10)) {
+        return key;
+      }
     }
+    return undefined;
   }
-  
+
   /**
-   * 
+   *
    * @param   {string} Cardinal point
    * @returns {boolean} True if point exists in Cardinal Points map
    */

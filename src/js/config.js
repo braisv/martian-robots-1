@@ -17,11 +17,11 @@ let x, y;
 export const bounds = {
   set x(value) {
     x = (isPositiveNumber(value) && value <= MAX_COORD) ? value : X_BOUNDS;
-  }, 
+  },
   set y(value) {
     y = (isPositiveNumber(value) && value <= MAX_COORD) ? value : Y_BOUNDS;
-  }, 
+  },
   get point() {
-    return new Map([["x", x], ["y", y]]);
+    return new Map([['x', x], ['y', y]]);
   }
 };
