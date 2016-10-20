@@ -5,7 +5,7 @@
   },
   "extends": "airbnb",
   "rules": {
-    "no-console": 0,
+    "no-console": 1,
     "no-underscore-dangle": 0,
     "comma-dangle": 0,
     "one-var": 0,
@@ -14,7 +14,7 @@
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
     "prefer-default-export": 0,
     "brace-style": ["error", "stroustrup"],
-    "max-len": ["error", { "ignoreComments": true }], 
-    "class-methods-use-this": 0
+    "max-len": [1, { "ignoreComments": true, "ignoreTrailingComments": true }],
+    "class-methods-use-this": 1
   }
 }

@@ -36,3 +36,10 @@ console.log(bots.getAll());
 for (const [, value] of bots.getAll()) {
   console.log(`${value.toString()} => ${beingAsEmoji(value.toString(true))}`);
 }
+
+/*
+sooo apparently destructuring doesn't
+only work on object literals
+*/
+const { name, x, y, orientation, isAlive, type } = a;
+console.log(name, x, y, orientation, isAlive, type);

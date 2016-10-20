@@ -23,7 +23,7 @@ export default class Store {
 
     martian.forEach((m) => {
       try {
-        if (['Martian', 'Robot'].includes(m.type())) {
+        if (['Martian', 'Robot'].includes(m.type)) {
           mars.set(m.name, m);
         }
       }

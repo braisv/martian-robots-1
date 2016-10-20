@@ -85,11 +85,12 @@ export default class Martian {
    * @returns {string} being string description
    */
   toString(withType = false) {
-    const isAliveStr = (this._isAlive === false) ? ' LOST' : '';
+    const str = `${this._x} ${this._y} ${this._orientation}${(this._isAlive ? '' : ' LOST')}`;
+
     if (withType) {
-      return `${this.type()} ${this._x} ${this._y} ${this._orientation}${isAliveStr}`;
+      return `${this.type} ${str}`;
     }
-    return `${this._x} ${this._y} ${this._orientation}${isAliveStr}`;
+    return str;
   }
 
   /**
@@ -134,7 +135,7 @@ export default class Martian {
     }
   }
 
-  type() {
+  get type() {
     return 'Martian';
   }
 }

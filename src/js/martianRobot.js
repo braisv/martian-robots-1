@@ -47,13 +47,13 @@ export default class MartianRobot extends Martian {
       const hs = _hasScent.get(this);
 
       switch (hs(this.point, tempPos, bounds.point.get(axis))) {
-        case true:
+        case 0:
           break;
-        case false:
+        case 1:
           this.isAlive = false;
           lostList.push(this.point);
           break;
-        case null:
+        case 2:
           this[axis] = tempPos;
           break;
         default:
@@ -71,25 +71,24 @@ export default class MartianRobot extends Martian {
      * @param {number} tempPos: instructed position
      * @param {number} axisBounds: intructed boundary axis
      * @returns {boolean || null}:
-     * - true: check if location has scent by looking in the lost list
+     * - 0: check if location has scent by looking in the lost list
      * then if the next move is fatal, don't move robot
      *
-     * - false: if location does NOT have a scent and the next move is fatal let it happen,
+     * - 1: if location does NOT have a scent and the next move is fatal let it happen,
      * but add the location to the lost list and update the bot status to LOST
      *
-     * - null: if the next move is safe let it happen
+     * - 2: if the next move is safe let it happen
      */
     _hasScent.set(this, (pointStr, tempPos, axisBounds) => {
       if (lostList.find((point => point === pointStr)) &&
         !isPosSafe(tempPos, axisBounds)) {
-        return true;
+        return 0;
       }
       else if (!isPosSafe(tempPos, axisBounds)) {
-        return false;
+        return 1;
       }
-      else {
-        return null;
-      }
+
+      return 2;
     });
   }
 
@@ -118,7 +117,7 @@ export default class MartianRobot extends Martian {
     }
   }
 
-  type() {
+  get type() {
     return 'Robot';
   }
 }
