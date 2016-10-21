@@ -42,4 +42,11 @@ sooo apparently destructuring doesn't
 only work on object literals
 */
 const { name, x, y, orientation, isAlive, type } = a;
-console.log(name, x, y, orientation, isAlive, type);
+console.log(type, name, x, y, orientation, isAlive);
+const obj = {
+  type, name, x, y, orientation, isAlive
+};
+
+console.log(a);
+console.log(JSON.stringify(a));
+console.log(JSON.stringify(obj));
