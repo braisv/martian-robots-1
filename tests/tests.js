@@ -92,10 +92,10 @@ describe('controller.js', function() {
   });
 
   it('instruct()', function() {
-    const bot1 = new Robot("bot 1", 1, 1, "E");
-    const bot2 = new Robot("bot 2", 3, 2, "N");
-    const bot3 = new Robot("bot 3", 0, 3, "W");
-    const aMartian = new Martian("aMartian", 3, 2, "N"); // initialized the same as bot 2
+    const bot1 = new Robot("bot 1", 1, 1, "E"); // 1 1 E RFRFRFRF
+    const bot2 = new Robot("bot 2", 3, 2, "N"); // 3 2 N FRRFLLFFRRFLL
+    const bot3 = new Robot("bot 3", 0, 3, "W"); // 0 3 W LLFFFLFLFL
+    const aMartian = new Martian("aMartian", 3, 2, "N"); // 3 2 N FRRFLLFFRRFLLFFF
 
     assert.strictEqual(instruct(bot1, "RFRFRFRF").toString(), "1 1 E", "Test: 1 1 E");
     assert.strictEqual(instruct(bot2, "FRRFLLFFRRFLL").toString(), "3 3 N LOST", "Test: 3 2 N");
