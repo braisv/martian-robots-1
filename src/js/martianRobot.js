@@ -26,8 +26,9 @@ export default class MartianRobot extends Martian {
    * robot orientation, must be a valid CardinalPoint or will default to north
    * @param {boolean} isAlive     robot status, defaults to true
    */
-  constructor(name, x, y, orientation, isAlive) {
-    super(name, x, y, orientation, isAlive);
+  constructor(name, x, y, orientation) {
+    super(name, x, y, orientation);
+    this._isAlive = true;
 
     /**
      * Private methods via WeakMaps:
@@ -50,7 +51,7 @@ export default class MartianRobot extends Martian {
         case 0:
           break;
         case 1:
-          this.isAlive = false;
+          this._isAlive = false;
           lostList.push(this.point);
           break;
         case 2:
@@ -92,6 +93,23 @@ export default class MartianRobot extends Martian {
     });
   }
 
+  set isAlive(value) {
+    if (typeof value === 'boolean') {
+      this._isAlive = value;
+    }
+    else {
+//          this._isAlive = true;
+      throw new Error('A robot can only be alive (true) or lost (false).');
+    }
+  }
+
+  get isAlive() {
+    return this._isAlive;
+  }
+
+  get type() {
+    return 'Robot';
+  }
 
   /**
    * orientation determines which axis to increment/decrement along
@@ -115,9 +133,5 @@ export default class MartianRobot extends Martian {
       default:
         // do nothing
     }
-  }
-
-  get type() {
-    return 'Robot';
   }
 }

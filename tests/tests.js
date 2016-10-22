@@ -15,10 +15,10 @@ describe('Store', function() {
   });
 
   it('Storage Methods', function() {
-    const a = new Robot("a", 1, 1, "E", true);
-    const b = new Robot("b", 3, 2, "N", true);
-    const c = new Robot("c", 0, 3, "W", true);
-    const aM = new Martian("aM", 3, 2, "N", true);
+    const a = new Robot("a", 1, 1, "E");
+    const b = new Robot("b", 3, 2, "N");
+    const c = new Robot("c", 0, 3, "W");
+    const aM = new Martian("aM", 3, 2, "N");
 
     const mars = new Store();
     assert.strictEqual(mars.getAll().size, 0, 'Should be zero since its just been made.');
@@ -46,7 +46,7 @@ describe('Martians & Robots', function() {
   });
 
   it('Martians', function() {
-    const m = new Martian("", -1, 4, "sw", "lost");
+    const m = new Martian("", -1, 4, "sw");
     assert.isAbove(m.name.length, 0, "Name can't be blank, should have been defaulted to Date.now().");
     try {
       m.name = "Byron";
@@ -81,7 +81,7 @@ describe('Martians & Robots', function() {
   });
 
   it('Robots', function() {
-    const r = new Martian(" ", 4, 2, "E", true);
+    const r = new Martian(" ", 4, 2, "E");
     assert.isAbove(r.name.length, 0, "Name can't be blank, should have been defaulted to Date.now().");
   });
 });
@@ -92,10 +92,10 @@ describe('controller.js', function() {
   });
 
   it('instruct()', function() {
-    const bot1 = new Robot("bot 1", 1, 1, "E", true);
-    const bot2 = new Robot("bot 2", 3, 2, "N", true);
-    const bot3 = new Robot("bot 3", 0, 3, "W", true);
-    const aMartian = new Martian("aMartian", 3, 2, "N", true); // initialized the same as bot 2
+    const bot1 = new Robot("bot 1", 1, 1, "E");
+    const bot2 = new Robot("bot 2", 3, 2, "N");
+    const bot3 = new Robot("bot 3", 0, 3, "W");
+    const aMartian = new Martian("aMartian", 3, 2, "N"); // initialized the same as bot 2
 
     assert.strictEqual(instruct(bot1, "RFRFRFRF").toString(), "1 1 E", "Test: 1 1 E");
     assert.strictEqual(instruct(bot2, "FRRFLLFFRRFLL").toString(), "3 3 N LOST", "Test: 3 2 N");

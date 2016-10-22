@@ -20,12 +20,11 @@ export default class Martian {
    * martian orientation, must be a valid CardinalPoint or will default to north
    * @param {boolean} isAlive     martian status, defaults to true
    */
-  constructor(name, x, y, orientation, isAlive) {
+  constructor(name, x, y, orientation) {
     this._name = (name.trim().length === 0) ? Date.now().toString() : `${name}-${Date.now()}`;
     this._x = (isPositiveNumber(x) && x <= bounds.point.get('x')) ? x : 0;
     this._y = (isPositiveNumber(y) && y <= bounds.point.get('y')) ? y : 0;
     this._orientation = (cp.isValidPoint(orientation)) ? orientation.toUpperCase() : 'N';
-    this._isAlive = (typeof isAlive === 'boolean') ? isAlive : true;
   }
 
   get name() {
@@ -61,18 +60,8 @@ export default class Martian {
     return this._orientation;
   }
 
-  set isAlive(value) {
-    if (typeof value === 'boolean') {
-      this._isAlive = value;
-    }
-    else {
-//          this._isAlive = true;
-      throw new Error('A robot can only be alive (true) or lost (false).');
-    }
-  }
-
   get isAlive() {
-    return this._isAlive;
+    return true;
   }
 
   get point() {
@@ -85,7 +74,7 @@ export default class Martian {
    * @returns {string} being string description
    */
   toString(withType = false) {
-    const str = `${this._x} ${this._y} ${this._orientation}${(this._isAlive ? '' : ' LOST')}`;
+    const str = `${this._x} ${this._y} ${this._orientation}${(this.isAlive ? '' : ' LOST')}`;
 
     if (withType) {
       return `${this.type} ${str}`;
