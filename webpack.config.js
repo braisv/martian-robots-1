@@ -2,18 +2,18 @@ const webpack = require('webpack');
 const nodeEnv = process.env.NODE_ENV || 'production';
 
 /*
- * entry, output pattern via: 
+ * entry, output pattern via:
  * https://github.com/webpack/webpack/issues/1189#issuecomment-156576084
  */
 
 module.exports = {
   devtool: 'source-map',
   entry: {
-    '_build/js/app': './src/js/app', 
+    '_build/js/app': './src/js/app',
     'tests/tests': './tests/tests'
   },
   output: {
-    path: './', 
+    path: './',
     filename: '[name]-bundle.js'
   },
   module: {
@@ -25,6 +25,7 @@ module.exports = {
       }
     ]
   },
+  target: 'node', 
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
       compress: {
