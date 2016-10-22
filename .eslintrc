@@ -15,6 +15,7 @@
     "prefer-default-export": 0,
     "brace-style": ["error", "stroustrup"],
     "max-len": [1, { "ignoreComments": true, "ignoreTrailingComments": true }],
-    "class-methods-use-this": 1
+    "class-methods-use-this": 1,
+    "space-before-function-paren": ["error", "never"]
   }
 }

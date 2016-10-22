@@ -77,7 +77,7 @@ export default class Martian {
     const str = `${this._x} ${this._y} ${this._orientation}${(this.isAlive ? '' : ' LOST')}`;
 
     if (withType) {
-      return `${this.type} ${str}`;
+      return `${this.type} - ${str}`;
     }
     return str;
   }
