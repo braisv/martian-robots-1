@@ -10,8 +10,6 @@ const vorpal = require('vorpal')();
 const mars = new Store();
 let isBound = false;
 
-// bounds.x = 5; bounds.y = 3;
-
 function boundsPrompt(self, callback) {
   const boundary = [
     {
@@ -49,6 +47,8 @@ function boundsPrompt(self, callback) {
 
 vorpal
   .command('instruct <x> <y> <orientation> <instructions> [name]')
+  .option('-x [xBounds]', 'Set x bounds.')
+  .option('-y [yBounds]', 'Set y bounds.')
   .option('-m, --martian', 'Make a Martian, otherwise make a Robot.')
   .description('Make a Martian or a Robot and tell it what to do.')
   .action(function(args, callback) {
@@ -56,28 +56,24 @@ vorpal
     const name = (args.name) ? args.name : '';
     let tempMartian, newMartian;
 
-    boundsPrompt(self, function(answers) {
-      self.log(answers);
-      const { x_axis, y_axis } = answers;
-      bounds.x = x_axis; bounds.y = y_axis;
-      self.log(bounds.point);
+    if(bounds.x === undefined || bounds.y === undefined) {
+      bounds.x = (args.options.xBounds) ? args.options.xBounds : X_BOUNDS;
+      bounds.y = (args.options.yBounds) ? args.options.yBounds : Y_BOUNDS;
+    }
 
-      if (args.options.martian) {
-        tempMartian = new Martian(name, args.x, args.y, args.orientation);
-      }
-      else {
-        tempMartian = new Robot(name, args.x, args.y, args.orientation);
-      }
+    if (args.options.martian) {
+      tempMartian = new Martian(name, args.x, args.y, args.orientation);
+    }
+    else {
+      tempMartian = new Robot(name, args.x, args.y, args.orientation);
+    }
 
-      newMartian = instruct(tempMartian, args.instructions);
-      mars.add(newMartian);
+    newMartian = instruct(tempMartian, args.instructions);
+    mars.add(newMartian);
 
-      for (const [, value] of mars.getAll()) {
-        self.log(`${value.toString()} => ${beingAsEmoji(value.toString(true))}`);
-      }
-
-      return callback;
-    });
+    for (const [, value] of mars.getAll()) {
+      self.log(`${value.toString()} => ${beingAsEmoji(value.toString(true))}`);
+    }
 
     callback();
   });

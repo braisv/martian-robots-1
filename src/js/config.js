@@ -19,8 +19,14 @@ export const bounds = {
   set x(value) {
     x = (isPositiveNumber(value) && value <= MAX_COORD) ? value : X_BOUNDS;
   },
+  get x() {
+    return x;
+  },
   set y(value) {
     y = (isPositiveNumber(value) && value <= MAX_COORD) ? value : Y_BOUNDS;
+  },
+  get y() {
+    return y;
   },
   get point() {
     return new Map([['x', x], ['y', y]]);
