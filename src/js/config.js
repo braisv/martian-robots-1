@@ -7,7 +7,8 @@ import { isPositiveNumber } from './helpers';
  */
 export const MAX_COORD = 50;
 export const MAX_INSTRUCTION = 100;
-const X_BOUNDS = 5, Y_BOUNDS = 3;
+export const X_BOUNDS = 5;
+export const Y_BOUNDS = 3;
 
 /**
  * set boundaries for mars as object literal
