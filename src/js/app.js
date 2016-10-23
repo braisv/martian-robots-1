@@ -3,52 +3,16 @@ import { bounds, X_BOUNDS, Y_BOUNDS } from './config';
 import Martian from './martian';
 import Robot from './martianRobot';
 import { default as Store } from './store';
-import { instruct } from './controller';
+import { instruct, printMars, getMartians } from './controller';
 
 const vorpal = require('vorpal')();
 
 const mars = new Store();
-let isBound = false;
-
-function boundsPrompt(self, callback) {
-  const boundary = [
-    {
-      type: 'input',
-      name: 'x_axis',
-      message: 'Enter x boundary: ',
-      // when: (bounds.point.get('x') === undefined),
-      validate: function( value ) {
-        if (value.length) {
-          // self.log(`1: ${value}`);
-          return true;
-        } else {
-          return 'Enter x boundary: ';
-        }
-      }
-    },
-    {
-      type: 'input',
-      name: 'y_ayis',
-      message: 'Enter y boundary: ',
-      // when: (bounds.point.get('y') === undefined),
-      validate: function( value ) {
-        if (value.length) {
-          // self.log(`2: ${value}`);
-          return true;
-        } else {
-          return 'Enter y boundary: ';
-        }
-      }
-    }
-  ];
-
-  self.prompt(boundary, callback);
-}
 
 vorpal
   .command('instruct <x> <y> <orientation> <instructions> [name]')
-  .option('-x [xBounds]', 'Set x bounds.')
-  .option('-y [yBounds]', 'Set y bounds.')
+  .option('-x [xBounds]', `Set x bounds > 0 && <= 50. Invalid entries default to ${X_BOUNDS}`)
+  .option('-y [yBounds]', `Set y bounds > 0 && <= 50. Invalid entries default to ${Y_BOUNDS}`)
   .option('-m, --martian', 'Make a Martian, otherwise make a Robot.')
   .description('Make a Martian or a Robot and tell it what to do.')
   .action(function(args, callback) {
@@ -71,32 +35,34 @@ vorpal
     newMartian = instruct(tempMartian, args.instructions);
     mars.add(newMartian);
 
-    for (const [, value] of mars.getAll()) {
+    for (const value of mars.getAll().values()) {
       self.log(`${value.toString()} => ${beingAsEmoji(value.toString(true))}`);
     }
+    this.log(...mars.getAll());
 
     callback();
   });
 
 vorpal
-  .command('make <x> <y> <orientation> [name]')
-  .option('-m, --martian', 'Make a Martian, otherwise make a Robot.')
-  .description('Make a Martian or a Robot.')
+  .command('test')
+  .description('Testing 1 3')
   .action(function(args, callback) {
-    const self = this;
+    bounds.x = X_BOUNDS;
+    bounds.y = Y_BOUNDS;
+    const a = new Robot('a', 1, 1, 'E');
+    const b = new Robot('b', 3, 2, 'N');
+    const c = new Robot('c', 0, 3, 'W');
+    const aM = new Martian('aM', 3, 2, 'N');
 
-    if (args.options.martian) {
-      mars.add(new Martian(args.name, args.x, args.y, args.orientation));
-    }
-    else {
-      mars.add(new Robot(args.name, args.x, args.y, args.orientation));
-    }
+    mars.add(instruct(a, 'RFRFRFRF'));
+    mars.add(instruct(b, 'FRRFLLFFRRFLL'));
+    mars.add(instruct(c, 'LLFFFLFLFL'));
+    mars.add(instruct(aM, 'FRRFLLFFRRFLLFFF'));
 
-    for (const [, value] of mars.getAll()) {
-      self.log(`${value.toString()} => ${beingAsEmoji(value.toString(true))}`);
-    }
-    self.log(args);
-    self.log(mars.getAll());
+    const marsArr = [...mars.getAll().values()];
+    this.log(`Martian\n${getMartians(marsArr, 'Martian')}`);
+    this.log(`Robot\n${getMartians(marsArr, 'Robot')}`);
+    this.log(`Lost\n${getMartians(marsArr, false, 'isAlive')}`);
 
     callback();
   });

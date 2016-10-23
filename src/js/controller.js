@@ -1,6 +1,7 @@
 /** @module Controller */
 
 import { MAX_INSTRUCTION } from './config';
+import { beingAsEmoji } from './helpers';
 
 /**
  * Calls the approrpriate action
@@ -41,4 +42,10 @@ export function instruct(being, instructionsStr) {
     }
   }
   return being;
+}
+
+export function getMartians(mars, condition, property = 'type') {
+  return mars.filter(value => value[property] === condition)
+  .map(value => `${value.toString()} => ${beingAsEmoji(value.toString(true))}`)
+  .toString().replace(/,/g, '\n');
 }
