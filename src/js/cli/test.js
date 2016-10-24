@@ -1,6 +1,6 @@
 import { bounds, X_BOUNDS, Y_BOUNDS } from '../config';
-import Martian from '../martian';
-import Robot from '../martianRobot';
+import Martian from '../classes/martian';
+import Robot from '../classes/martianRobot';
 import { instruct, getMartians } from '../controller';
 
 function test(args, callback) {

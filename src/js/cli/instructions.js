@@ -1,7 +1,7 @@
 import { beingAsEmoji } from '../helpers';
 import { bounds, X_BOUNDS, Y_BOUNDS } from '../config';
-import Martian from '../martian';
-import Robot from '../martianRobot';
+import Martian from '../classes/martian';
+import Robot from '../classes/martianRobot';
 import { instruct } from '../controller';
 
 function instructions(args, callback) {

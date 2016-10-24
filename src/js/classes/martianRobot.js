@@ -1,9 +1,9 @@
 /** @module Martian Robot **/
 
 import Martian from './martian';
-import { isPosSafe } from './helpers';
-import { bounds } from './config';
-import { lostList } from './store';
+import { isPosSafe } from '../helpers';
+import { bounds } from '../config';
+import { lostList } from '../store';
 
 const _processMotion = new WeakMap();
 const _hasScent = new WeakMap();

@@ -3,10 +3,10 @@ const expect = chai.expect, assert = chai.assert;
 
 import { MAX_INSTRUCTION, bounds } from '../src/js/config';
 import { isNumber, isPositiveNumber, beingAsEmoji } from '../src/js/helpers';
-import CardinalPoints from '../src/js/cardinalPoints';
+import CardinalPoints from '../src/js/classes/cardinalPoints';
 import { instruct } from '../src/js/controller';
-import Martian from '../src/js/martian';
-import Robot from '../src/js/martianRobot';
+import Martian from '../src/js/classes/martian';
+import Robot from '../src/js/classes/martianRobot';
 import { default as Store, lostList } from '../src/js/store.js';
 
 describe('Store', function() {
