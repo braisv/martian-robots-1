@@ -16,6 +16,6 @@
     "brace-style": ["error", "stroustrup"],
     "max-len": [1, { "ignoreComments": true, "ignoreTrailingComments": true }],
     "class-methods-use-this": 1,
-    "space-before-function-paren": ["error", "never"]
+    "space-before-function-paren": ["error", "never"],
   }
 }
