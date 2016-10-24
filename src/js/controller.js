@@ -48,14 +48,16 @@ export function instruct(being, instructionsStr) {
 
 
 /**
- * 
+ *
  * @param   {Array}    mars      collection of martians and robots to filter
  * @param   {string|binary} condition value to filter against
  * @param   {string} property  = 'type' martian or robot property to compare condition
- * @returns {Array} filtered array with formatted filtered results
+ * @returns {Array & String} filtered array with formatted filtered results
  */
 export function getMartians(mars, condition, property = 'type') {
-  return mars.filter(value => value[property] === condition)
-  .map(value => `${value.toString()} => ${beingAsEmoji(value.toString(true))}`)
-  .toString().replace(/,/g, '\n');
+  const arr = mars.filter(value => value[property] === condition)
+    .map(value => `${value.toString()} => ${beingAsEmoji(value.toString(true))}`);
+
+  const arrStr = arr.toString().replace(/,/g, '\n');
+  return { array: arr, string: arrStr };
 }

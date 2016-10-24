@@ -5,10 +5,10 @@ const mars = global.mars;
 
 
 /**
- * 
- * Validates `show` command before the action is fired. 
+ *
+ * Validates `show` command before the action is fired.
  * If invalid, the command is not executed.
- * 
+ *
  * @returns {string|boolean}
  * https://github.com/dthree/vorpal/wiki/api-%7C-vorpal.command#commandvalidatefunction
  */
@@ -21,18 +21,18 @@ function isMarsInhabited() {
 
 
 /**
- * 
+ *
  * Action execution function of `show` command
  * Not passing an option shows everything on mars
- * 
- * @param {object} args     
- * @param {function} callback 
+ *
+ * @param {object} args
+ * @param {function} callback
  * https://github.com/dthree/vorpal/wiki/API-%7C-vorpal.command#commandactionfunction
  */
 function show(args, callback) {
   const self = this;
 
-  
+
   /**
    * show everything on mars
    */
@@ -42,19 +42,19 @@ function show(args, callback) {
     }
   }
 
-  
+
   /**
    * show the right array based on options passed
    */
   const marsArr = [...mars.getAll().values()];
   if (args.options.l) {
-    self.log(getMartians(marsArr, false, 'isAlive'));
+    self.log(getMartians(marsArr, false, 'isAlive').string);
   }
   if (args.options.r) {
-    self.log(getMartians(marsArr, 'Robot'));
+    self.log(getMartians(marsArr, 'Robot').string);
   }
   if (args.options.m) {
-    self.log(getMartians(marsArr, 'Martian'));
+    self.log(getMartians(marsArr, 'Martian').string);
   }
 
   callback();
