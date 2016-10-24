@@ -8,85 +8,11 @@ import Martian from '../src/js/classes/martian';
 import Robot from '../src/js/classes/martianRobot';
 import { default as Store, lostList } from '../src/js/store';
 
-const assert = require('chai').assert;
+require('./store.js');
+require('./martians.js');
+require('./controller.js');
 
-
-describe('Store', () => {
-  before(() => {
-    bounds.x = 5; bounds.y = 3;
-  });
-
-  it('Storage Methods', () => {
-    const a = new Robot('a', 1, 1, 'E');
-    const b = new Robot('b', 3, 2, 'N');
-    const c = new Robot('c', 0, 3, 'W');
-    const aM = new Martian('aM', 3, 2, 'N');
-
-    const mars = new Store();
-    assert.strictEqual(mars.getAll().size, 0, 'Should be zero since its just been made.');
-
-    assert.strictEqual(mars.add(a), 1, 'Should be 1 since we just added a robot.');
-    try {
-      assert.strictEqual(mars.add('a', 1, [2]), 1, 'Try to add something other than a robot or martian, should fail and return last size of 1.');
-    }
-    catch (e) {
-      console.log(e);
-    }
-
-    assert.strictEqual(mars.add(b, c, aM), 4, 'Try to add multiple robots or martians, should succeed and return size 4.');
-    assert.strictEqual(mars.update(a), true, 'Return true if successfully updated.');
-    assert.strictEqual(mars.update('a'), false, "Return false because it doesn't exist.");
-    assert.strictEqual(mars.remove(b.name), true, 'Successfully removed');
-    assert.strictEqual(mars.get(b.name), undefined, 'We just deleted this so this should be undefined.');
-    assert.strictEqual(mars.getAll().size, 3, 'Should be 3 since we just tossed one.');
-  });
-});
-
-describe('Martians & Robots', () => {
-  before(() => {
-    bounds.x = 5; bounds.y = 3;
-  });
-
-  it('Martians', () => {
-    const m = new Martian('', -1, 4, 'sw');
-    assert.isAbove(m.name.length, 0, "Name can't be blank, should have been defaulted to Date.now().");
-    try {
-      m.name = 'Byron';
-    }
-    catch (e) {
-      console.log(e);
-    }
-    assert.notEqual(m.name, 'Byron', "Can't set the name after initialization.");
-
-
-    assert.strictEqual(m.x, 0, 'Negative values are invalid for initialization, defaults to zero.');
-    assert.strictEqual(m.y, 0, 'Values above the boundary are invalid for initialization, defaults to zero.');
-    assert.strictEqual(m.point, '0,0', 'Invalid x,y values defaults to zero.');
-
-    assert.strictEqual(m.orientation, 'N', 'Invalid orientations will be set to north on initialization.');
-    try {
-      m.orientation = 'se';
-    }
-    catch (e) {
-      console.log(e);
-    }
-    assert.strictEqual(m.orientation, 'N', 'Invalid orientations will fail on assignment, thus leaving the previous value.');
-
-    assert.strictEqual(m.isAlive, true, 'Invalid live status will be set to true on initialization.');
-    try {
-      m.isAlive = 'fL';
-    }
-    catch (e) {
-      console.log(e);
-    }
-    assert.strictEqual(m.isAlive, true, 'Invalid live status will fail on assignment, thus leaving the previous value.');
-  });
-
-  it('Robots', () => {
-    const r = new Martian(' ', 4, 2, 'E');
-    assert.isAbove(r.name.length, 0, "Name can't be blank, should have been defaulted to Date.now().");
-  });
-});
+/*
 
 describe('controller.js', () => {
   before(() => {
@@ -137,4 +63,4 @@ describe('Config & Helpers', () => {
     assert.strictEqual(isNumber(16), true, 'actual number');
     assert.strictEqual(isNumber(-1), true, 'a negative number is still a number');
   });
-});
+});*/
