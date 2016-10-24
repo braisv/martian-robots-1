@@ -1,3 +1,4 @@
+/*
 function boundsPrompt(self, callback) {
   const boundary = [
     {
@@ -32,3 +33,4 @@ function boundsPrompt(self, callback) {
 
   self.prompt(boundary, callback);
 }
+*/

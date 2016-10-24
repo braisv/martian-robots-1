@@ -3,6 +3,7 @@
 import { MAX_INSTRUCTION } from './config';
 import { beingAsEmoji } from './helpers';
 
+
 /**
  * Calls the approrpriate action
  *
@@ -27,6 +28,7 @@ function _processCommands(char, being) {
   return being.isAlive; // dealbreaking flag, halts looping on false (robot lost)
 }
 
+
 /**
  *
  * @param   {object} being: robot or martian
@@ -44,6 +46,14 @@ export function instruct(being, instructionsStr) {
   return being;
 }
 
+
+/**
+ * 
+ * @param   {Array}    mars      collection of martians and robots to filter
+ * @param   {string|binary} condition value to filter against
+ * @param   {string} property  = 'type' martian or robot property to compare condition
+ * @returns {Array} filtered array with formatted filtered results
+ */
 export function getMartians(mars, condition, property = 'type') {
   return mars.filter(value => value[property] === condition)
   .map(value => `${value.toString()} => ${beingAsEmoji(value.toString(true))}`)

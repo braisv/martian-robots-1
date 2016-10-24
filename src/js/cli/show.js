@@ -32,6 +32,7 @@ function isMarsInhabited() {
 function show(args, callback) {
   const self = this;
 
+  
   /**
    * show everything on mars
    */
@@ -41,6 +42,7 @@ function show(args, callback) {
     }
   }
 
+  
   /**
    * show the right array based on options passed
    */

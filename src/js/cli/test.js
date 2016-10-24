@@ -1,3 +1,5 @@
+/* used to test stuff */
+
 import { bounds, X_BOUNDS, Y_BOUNDS } from '../config';
 import Martian from '../classes/martian';
 import Robot from '../classes/martianRobot';
