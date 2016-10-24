@@ -8,7 +8,7 @@ function instructions(args, callback) {
   const self = this;
   const mars = global.mars;
   const name = (args.name) ? args.name : '';
-  let tempMartian, newMartian;
+  let tempMartian;
 
   if (bounds.x === undefined || bounds.y === undefined) {
     bounds.x = (args.options.xBounds) ? args.options.xBounds : X_BOUNDS;
@@ -22,8 +22,7 @@ function instructions(args, callback) {
     tempMartian = new Robot(name, args.x, args.y, args.orientation);
   }
 
-  newMartian = instruct(tempMartian, args.instructions);
-  mars.add(newMartian);
+  mars.add(instruct(tempMartian, args.instructions));
 
   for (const value of mars.getAll().values()) {
     self.log(`${value.toString()} => ${beingAsEmoji(value.toString(true))}`);
