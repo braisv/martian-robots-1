@@ -30,5 +30,8 @@ export const bounds = {
   },
   get point() {
     return new Map([['x', x], ['y', y]]);
+  },
+  get isSet() {
+    return (x > 0 && y > 0);
   }
 };

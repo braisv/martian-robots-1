@@ -4,6 +4,17 @@ import Martian from '../classes/martian';
 import Robot from '../classes/martianRobot';
 import { instruct } from '../controller';
 
+/**
+ * 
+ * Action execution function of 'instruct' command
+ * Example: 
+ * Set bounds on first run with -x -y: `instruct -x 6 -y 5 1 1 E RFRFRFRF`
+ * Or use default bounds: `instruct 3 2 N FRRFLLFFRRFLL`
+ * 
+ * @param {object} args     
+ * @param {function} callback 
+ * https://github.com/dthree/vorpal/wiki/API-%7C-vorpal.command#commandactionfunction
+ */
 function instructions(args, callback) {
   const self = this;
   const mars = global.mars;
@@ -34,9 +45,9 @@ function instructions(args, callback) {
 module.exports = function(vorpal) {
   vorpal
     .command('instruct <x> <y> <orientation> <instructions> [name]')
+    .description('Make a Martian or a Robot and tell it what to do.')
     .option('-x [xBounds]', `Set x bounds > 0 && <= 50. Invalid entries default to ${X_BOUNDS}`)
     .option('-y [yBounds]', `Set y bounds > 0 && <= 50. Invalid entries default to ${Y_BOUNDS}`)
     .option('-m, --martian', 'Make a Martian, otherwise make a Robot.')
-    .description('Make a Martian or a Robot and tell it what to do.')
     .action(instructions);
 };

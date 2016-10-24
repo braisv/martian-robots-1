@@ -4,6 +4,14 @@ import Martian from '../classes/martian';
 import Robot from '../classes/martianRobot';
 import { instruct } from '../controller';
 
+/**
+ * 
+ * Action execution function of `demo` command
+ * 
+ * @param {object} args     
+ * @param {function} callback 
+ * https://github.com/dthree/vorpal/wiki/API-%7C-vorpal.command#commandactionfunction
+ */
 function demo(args, callback) {
   const self = this;
   const mars = global.mars;
@@ -30,6 +38,6 @@ function demo(args, callback) {
 module.exports = function(vorpal) {
   vorpal
     .command('demo')
-    .description('Demo readme instructions.')
+    .description('Demo app using test instructions from readme.')
     .action(demo);
 };
