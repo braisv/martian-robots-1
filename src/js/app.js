@@ -81,31 +81,7 @@ vorpal
   });
 
 vorpal
-  .command('test')
-  .description('Testing 1 3')
-  .hidden()
-  .action(function(args, callback) {
-    bounds.x = X_BOUNDS;
-    bounds.y = Y_BOUNDS;
-    const a = new Robot('a', 1, 1, 'E');
-    const b = new Robot('b', 3, 2, 'N');
-    const c = new Robot('c', 0, 3, 'W');
-    const aM = new Martian('aM', 3, 2, 'N');
-
-    mars.add(instruct(a, 'RFRFRFRF'));
-    mars.add(instruct(b, 'FRRFLLFFRRFLL'));
-    mars.add(instruct(c, 'LLFFFLFLFL'));
-    mars.add(instruct(aM, 'FRRFLLFFRRFLLFFF'));
-
-    const marsArr = [...mars.getAll().values()];
-    this.log(`Martian\n${getMartians(marsArr, 'Martian')}`);
-    this.log(`Robot\n${getMartians(marsArr, 'Robot')}`);
-    this.log(`Lost\n${getMartians(marsArr, false, 'isAlive')}`);
-
-    callback();
-  });
-
-vorpal
   .use(require('./cli/demo.js'))
+  .use(require('./cli/test.js'))
   .delimiter('martian-robots$')
   .show();
