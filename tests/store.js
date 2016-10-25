@@ -7,7 +7,7 @@ import { default as Store } from '../src/js/store';
 
 const assert = require('chai').assert;
 
-describe('Store', () => {
+describe('store.js', () => {
   before(() => {
     bounds.x = 5; bounds.y = 3;
   });

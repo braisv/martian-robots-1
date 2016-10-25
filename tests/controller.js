@@ -8,7 +8,7 @@ import { default as Store, lostList } from '../src/js/store';
 
 const assert = require('chai').assert;
 
-describe('controller', () => {
+describe('controller.js', () => {
   before(() => {
     bounds.x = 5; bounds.y = 3;
   });
