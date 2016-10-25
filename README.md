@@ -1,12 +1,17 @@
 # Martian Robots #
 
 ### How to run ###
-- `npm install`  
-- `npm start`  
-- Go to: http://localhost:3000/index.html and check console.  
-- Tests: http://localhost:3000/tests/index.html
+- install: `npm install -g`  
+- run: `martian-robots`
+- help: `help`
+- Run app with sample inputs below: `demo`
 
-## About ##
+### Tests ###
+- `npm start`  
+- Go to: http://localhost:3000/tests/index.html  
+OR
+- `npm watch:test`
+
 
 ### The Problem ###
 The surface of Mars can be modelled by a rectangular grid around which robots are able to
@@ -32,24 +37,23 @@ the last grid position the robot occupied before disappearing over the edge. An 
 move “off” the world from a grid point from which a robot has been previously lost is simply
 ignored by the current robot.  
 
+Martians do not have the same limitations as robots;  they can go off the grid, i.e. not get lost. You can test this by instructing a martian to go beyond the location of a lost robot.
+
 ### The Output ###
-For each robot position/instruction in the input, the output should indicate the final grid
-position and orientation of the robot. If a robot falls off the edge of the grid the word “LOST”
+For each martian/robot position/instruction in the input, the output should indicate the final grid
+position and orientation of the martian/robot. If a robot falls off the edge of the grid the word “LOST”
 should be printed after the position and orientation.  
 
 #### Sample Input ####
 Bounds: x: 5, y: 3  
 
-1 1 E  
-RFRFRFRF  
-
-3 2 N  
-FRRFLLFFRRFLL  
-
-0 3 W  
-LLFFFLFLFL  
+- `instruct 1 1 E RFRFRFRF`
+- `instruct 3 2 N FRRFLLFFRRFLL`
+- `instruct 0 3 W LLFFFLFLFL`
+- `instruct -m 3 2 N FRRFLLFFRRFLLFFF`
 
 #### Sample Output ####
-1 1 E  
-3 3 N LOST  
-2 3 S
+- 1 1 E => 🤖 1 1 ➡️
+- 3 3 N LOST => 🤖 3 3 ⬆️ 🆘
+- 2 3 S => 🤖 2 3 ⬇️
+- 3 6 N => 👾 3 6 ⬆️
