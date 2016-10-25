@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Test Martian Robots | Byron Buckley</title>
-	<link rel="stylesheet" href="qunit/qunit-1.16.0.css">
-	<script src="qunit/qunit-1.16.0.js"></script>
-	<script src="../src/scripts/third-party/require.js"></script>
-	<script src="require-config.js"></script>
-	<script src="tests.js"></script>
-</head>
-<body>
-	<id id="qunit">
-		<div id="planet-mars" style="display:none"></div>
-	</id>
-	<id id="qunit-fixture"></id>
-</body>
+<html>
+  <head>
+    <title>Test Martian Robots | Byron Buckley</title>
+    <link rel="stylesheet" href="../node_modules/mocha/mocha.css">
+  </head>
+  <body>
+    <div id="mocha"></div>
+    <script src="../node_modules/mocha/mocha.js"></script>
+    <script src="../node_modules/chai/chai.js"></script>
+    <script>mocha.setup('bdd')</script>
+
+    <script src="tests-bundle.js"></script>
+
+    <script>
+      mocha.run();
+    </script>
+  </body>
 </html>

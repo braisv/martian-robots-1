@@ -1,30 +1,21 @@
 # Martian Robots #
 
-Martian Robots is a small app to demo some aspects of modern JavaScript development outside of typical jQuery styled DOM manipulation.  Known bugs are listed on [Trello](https://trello.com/b/k5HmJlax/martian-robots).    
-Dependencies include:  
-- require.js + r optimizer  
-- underscore.js  
-- google visualisation charts  
-- grunt  
-- qunit  
-
 ### How to run ###
-The app can be ran locally or at the provided URL.  
-- Locally: [Download](https://bitbucket.org/komplexb/martian-robots/downloads) the repo and run `../src/index.html`. 
-A few tests are available a `../tests/index.html`.  
-- Online: http://komplexb.bitbucket.org/martian-robots/index.html  
+- install: `npm install -g`  
+- run: `martian-robots`
+- help: `help`
 
-### How to use ###
-Instructions and associated values are valid for one session; i.e. only the values of the current session affect positions on the grid. A session is demarcated by clicking "Initialize Bots"; doing so clears all values from the previous session (except the 'lost' position values of previous robots).  
-1. Enter instructions or click "Sample Input" to insert instructions into the text area.  
-2. Click "Initialize Bots". This sets the robots to their initial positions on the planet. Valid instructions will enable the "Move Bots" button.  
-3. Click "Move Bots" to see the final position of the robots after processing the series of instructions.  
-4. To validate app functionality, read the extract below to come up with valid instructions. Manually trace your instructions on along the grid to determine the final position and output. Insert these instructions into the app and test the output against your manual output.  
+![Screenshot 2016-10-25 11.11.00.png](https://bitbucket.org/repo/zedyk9/images/4143475014-Screenshot%202016-10-25%2011.11.00.png)
 
-## About ##
+### Tests ###
+- `npm start`  
+- Go to: http://localhost:3000/tests/index.html  
+OR
+- `npm watch:test`
+
 
 ### The Problem ###
-The surface of Mars can be modelled by a rectangular grid around which robots are able to
+The surface of Mars can be modeled by a rectangular grid around which robots are able to
 move according to instructions provided from Earth. You are to write a program that
 determines each sequence of robot positions and reports the final position of the robot.  
 
@@ -47,39 +38,25 @@ the last grid position the robot occupied before disappearing over the edge. An 
 move “off” the world from a grid point from which a robot has been previously lost is simply
 ignored by the current robot.  
 
-### The Input ###
-The first line of input is the upper-right coordinates of the rectangular world, the lower-left
-coordinates are assumed to be 0, 0.  
-
-The remaining input consists of a sequence of robot positions and instructions (two lines per
-robot). A position consists of two integers specifying the initial coordinates of the robot and
-an orientation (N, S, E, W), all separated by whitespace on one line. A robot instruction is a
-string of the letters “L”, “R”, and “F” on one line.  
-
-Each robot is processed sequentially, i.e., finishes executing the robot instructions before the
-next robot begins execution.  
-
-The maximum value for any coordinate is 50.  
-
-All instruction strings will be less than 100 characters in length.
+Martians do not have the same limitations as robots;  they can go off the grid, i.e. not get lost. You can test this by instructing a martian to go beyond the location of a lost robot.
 
 ### The Output ###
-For each robot position/instruction in the input, the output should indicate the final grid
-position and orientation of the robot. If a robot falls off the edge of the grid the word “LOST”
+For each martian/robot position/instruction in the input, the output should indicate the final grid
+position and orientation of the martian/robot. If a robot falls off the edge of the grid the word “LOST”
 should be printed after the position and orientation.  
 
 #### Sample Input ####
-5 3  
-1 1 E  
-RFRFRFRF  
+**Run `demo` to automatically run sample input below.**
 
-3 2 N  
-FRRFLLFFRRFLL  
+Bounds: x: 5, y: 3  
 
-0 3 W  
-LLFFFLFLFL  
+- `instruct 1 1 E RFRFRFRF`
+- `instruct 3 2 N FRRFLLFFRRFLL`
+- `instruct 0 3 W LLFFFLFLFL`
+- `instruct -m 3 2 N FRRFLLFFRRFLLFFF`
 
 #### Sample Output ####
-1 1 E  
-3 3 N LOST  
-2 3 S
+- 1 1 E => 🤖 1 1 ➡️
+- 3 3 N LOST => 🤖 3 3 ⬆️ 🆘
+- 2 3 S => 🤖 2 3 ⬇️
+- 3 6 N => 👾 3 6 ⬆️
