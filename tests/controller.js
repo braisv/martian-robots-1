@@ -8,7 +8,7 @@ import { default as Store, lostList } from '../src/js/store';
 
 const assert = require('chai').assert;
 
-describe('controller.js', () => {
+describe('controller', () => {
   before(() => {
     bounds.x = 5; bounds.y = 3;
   });
@@ -28,15 +28,17 @@ describe('controller.js', () => {
   });
 
   it('getMartians()', () => {
-    const bot1 = instruct(new Robot('bot 1', 1, 1, 'E'), 'RFRFRFRF');
-    const bot2 = instruct(new Robot('bot 2', 3, 2, 'N'), 'FRRFLLFFRRFLL');
-    const bot3 = instruct(new Robot('bot 3', 0, 3, 'W'), 'LLFFFLFLFL');
-    const aMartian = instruct(new Martian('aMartian', 3, 2, 'N'), 'FRRFLLFFRRFLLFFF');
+    const a = instruct(new Robot('bot 1', 1, 1, 'E'), 'RFRFRFRFFFFFF');
+    const b = instruct(new Robot('bot 2', 3, 2, 'N'), 'FRRFLLFFRRFLL');
+    const c = instruct(new Robot('bot 3', 0, 3, 'W'), 'LLFFFLFLFL');
+    const m = instruct(new Martian('aMartian', 3, 2, 'N'), 'FRRFLLFFRRFLLFFF');
     const mars = new Store();
 
-    mars.add(bot1, bot2, bot3, aMartian);
+    mars.add(a, b, c, m);
     const marsArr = [...mars.getAll().values()];
 
-    assert.deepEqual(getMartians(marsArr, false, 'isAlive').array, ['3 3 N LOST => 🤖 3 3 ⬆️ 🆘']);
+    assert.deepEqual(getMartians(marsArr, false, 'isAlive').array, ['5 1 E LOST => 🤖 5 1 ➡️ 🆘'], 'Show lost Robots.');
+    assert.deepEqual(getMartians(marsArr, 'Robot').array, ['5 1 E LOST => 🤖 5 1 ➡️ 🆘', '3 2 N => 🤖 3 2 ⬆️', '2 3 S => 🤖 2 3 ⬇️'], 'Show all Robots.');
+    assert.deepEqual(getMartians(marsArr, 'Martian').array, ['3 6 N => 👾 3 6 ⬆️'], 'Show all Martians');
   });
 });

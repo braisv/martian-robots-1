@@ -22,9 +22,9 @@ function test(args, callback) {
   mars.add(instruct(aM, 'FRRFLLFFRRFLLFFF'));
 
   const marsArr = [...mars.getAll().values()];
-  self.log(getMartians(marsArr, 'Martian').array);
-  self.log(getMartians(marsArr, 'Robot').array);
-  self.log(getMartians(marsArr, false, 'isAlive').array);
+  self.log(getMartians(marsArr, 'Martian').array.toString());
+  self.log(getMartians(marsArr, 'Robot').array.toString());
+  self.log(getMartians(marsArr, false, 'isAlive').array.toString());
 
   callback();
 }
