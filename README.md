@@ -6,6 +6,8 @@
 - help: `help`
 - Run app with sample inputs below: `demo`
 
+![Screenshot 2016-10-25 11.11.00.png](https://bitbucket.org/repo/zedyk9/images/4143475014-Screenshot%202016-10-25%2011.11.00.png)
+
 ### Tests ###
 - `npm start`  
 - Go to: http://localhost:3000/tests/index.html  
