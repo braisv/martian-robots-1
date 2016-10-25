@@ -1,8 +1,11 @@
 {
   "name": "martian-robots",
-  "homepage": "https://bitbucket.org/komplexb/martian-robots",
-  "description": "",
-  "main": "app.js",
+  "version": "1.0.0",
+  "description": "A CLI tool to demo Martian Robots",
+  "main": "./_build/js/app-bundle.js",
+  "bin": {
+    "martian-robots": "./_build/js/app-bundle.js"
+  },
   "scripts": {
     "start": "concurrently --names 'webpack, mocha, browser-sync' --prefix name 'npm run build' 'npm run server'",
     "build": "webpack --progress --watch",
@@ -36,10 +39,12 @@
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.4.1",
     "mocha": "^3.1.2",
+    "shebang-loader": "0.0.1",
     "webpack": "^2.1.0-beta.25"
   },
   "dependencies": {
     "chai": "^3.5.0",
+    "chalk": "^1.1.3",
     "vorpal": "^1.11.4"
   }
 }

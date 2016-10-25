@@ -21,11 +21,11 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel'
+        loader: ['shebang', 'babel'],
       }
     ]
   },
-  target: 'node', 
+  target: 'node',
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
       compress: {
@@ -38,6 +38,10 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env': { NODE_ENV: JSON.stringify(nodeEnv) }
+    }),
+    new webpack.BannerPlugin({
+      banner: '#!/usr/bin/env node --harmony',
+      raw: true
     })
   ]
 };

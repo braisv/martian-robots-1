@@ -5,6 +5,9 @@ import Martian from '../classes/martian';
 import Robot from '../classes/martianRobot';
 import { instruct, getMartians } from '../controller';
 
+const vorpal = require('vorpal')();
+const chalk = vorpal.chalk;
+
 function test(args, callback) {
   const self = this;
   const mars = global.mars;
@@ -22,7 +25,7 @@ function test(args, callback) {
   mars.add(instruct(aM, 'FRRFLLFFRRFLLFFF'));
 
   const marsArr = [...mars.getAll().values()];
-  self.log(getMartians(marsArr, 'Martian').array.toString());
+  self.log(chalk.bold.cyan(getMartians(marsArr, 'Martian').array.toString()));
   self.log(getMartians(marsArr, 'Robot').array.toString());
   self.log(getMartians(marsArr, false, 'isAlive').array.toString());
 
