@@ -57,7 +57,7 @@ export function instruct(being, instructionsStr) {
  */
 export function searchMars(mars, condition, property = 'type') {
   const arr = [...mars].filter(value => value[property] === condition)
-    .map(value => `${(os.type() !== 'Darwin') ? beingAsEmoji(value.toString(true)) : value.toString(true)}`);
+    .map(value => `${(os.type() === 'Darwin') ? beingAsEmoji(value.toString(true)) : value.toString(true)}`);
 
   const arrStr = arr.toString().replace(/,/g, '\n');
   return { array: arr, string: arrStr };
