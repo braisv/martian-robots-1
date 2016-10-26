@@ -34,7 +34,7 @@ function instructions(args, callback) {
 
   mars.add(instruct(tempMartian, args.instructions));
 
-  self.log(printMars(mars.getAll().values()));
+  self.log(printMars([...mars.getAll().values()]).string);
 
   callback();
 }
