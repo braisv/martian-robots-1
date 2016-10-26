@@ -1,5 +1,5 @@
-import { beingAsEmoji } from '../helpers';
-import { getMartians } from '../controller';
+import { searchMars } from '../controller';
+import { printMars } from '../controller';
 
 const mars = global.mars;
 
@@ -37,24 +37,21 @@ function show(args, callback) {
    * show everything on mars
    */
   if (!args.options.l && !args.options.r && !args.options.m) {
-    for (const value of mars.getAll().values()) {
-      self.log(`${value.toString()} => ${beingAsEmoji(value.toString(true))}`);
-    }
+    self.log(printMars(mars.getAll().values()));
   }
 
 
   /**
    * show the right array based on options passed
    */
-  const marsArr = [...mars.getAll().values()];
   if (args.options.l) {
-    self.log(getMartians(marsArr, false, 'isAlive').string);
+    self.log(searchMars(mars.getAll().values(), false, 'isAlive').string);
   }
   if (args.options.r) {
-    self.log(getMartians(marsArr, 'Robot').string);
+    self.log(searchMars(mars.getAll().values(), 'Robot').string);
   }
   if (args.options.m) {
-    self.log(getMartians(marsArr, 'Martian').string);
+    self.log(searchMars(mars.getAll().values(), 'Martian').string);
   }
 
   callback();

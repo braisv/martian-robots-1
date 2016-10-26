@@ -1,15 +1,14 @@
-import { beingAsEmoji } from '../helpers';
 import { bounds, X_BOUNDS, Y_BOUNDS } from '../config';
 import Martian from '../classes/martian';
 import Robot from '../classes/martianRobot';
-import { instruct } from '../controller';
+import { instruct, printMars } from '../controller';
 
 /**
- * 
+ *
  * Action execution function of `demo` command
- * 
- * @param {object} args     
- * @param {function} callback 
+ *
+ * @param {object} args
+ * @param {function} callback
  * https://github.com/dthree/vorpal/wiki/API-%7C-vorpal.command#commandactionfunction
  */
 function demo(args, callback) {
@@ -28,9 +27,7 @@ function demo(args, callback) {
   mars.add(instruct(c, 'LLFFFLFLFL'));
   mars.add(instruct(aM, 'FRRFLLFFRRFLLFFF'));
 
-  for (const value of mars.getAll().values()) {
-    self.log(`${value.toString()} => ${beingAsEmoji(value.toString(true))}`);
-  }
+  self.log(printMars(mars.getAll().values()));
 
   callback();
 }

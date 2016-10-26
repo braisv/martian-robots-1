@@ -3,10 +3,7 @@
 import { bounds, X_BOUNDS, Y_BOUNDS } from '../config';
 import Martian from '../classes/martian';
 import Robot from '../classes/martianRobot';
-import { instruct, getMartians } from '../controller';
-
-const vorpal = require('vorpal')();
-const chalk = vorpal.chalk;
+import { instruct, searchMars } from '../controller';
 
 function test(args, callback) {
   const self = this;
@@ -25,9 +22,9 @@ function test(args, callback) {
   mars.add(instruct(aM, 'FRRFLLFFRRFLLFFF'));
 
   const marsArr = [...mars.getAll().values()];
-  self.log(chalk.bold.cyan(getMartians(marsArr, 'Martian').array.toString()));
-  self.log(getMartians(marsArr, 'Robot').array.toString());
-  self.log(getMartians(marsArr, false, 'isAlive').array.toString());
+  self.log(searchMars(marsArr, 'Martian').array.toString());
+  self.log(searchMars(marsArr, 'Robot').array.toString());
+  self.log(searchMars(marsArr, false, 'isAlive').array.toString());
 
   callback();
 }

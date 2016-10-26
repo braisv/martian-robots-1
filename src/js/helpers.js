@@ -38,19 +38,19 @@ export function isPosSafe(pos, posBounds) {
 }
 
 const emoji = new Map();
-emoji.set('LOST', '🆘');
-emoji.set('N', '⬆️');
-emoji.set('S', '⬇️');
-emoji.set('E', '➡️');
-emoji.set('W', '⬅️');
-emoji.set('Martian', '👾');
-emoji.set('Robot', '🤖');
+emoji.set('LOST', ['🆘', ':sos:']);
+emoji.set('N', ['⬆️', ':arrow_up:']);
+emoji.set('S', ['⬇️', ':arrow_down:']);
+emoji.set('E', ['➡️', ':arrow_right:']);
+emoji.set('W', ['⬅️', ':arrow_left:']);
+emoji.set('Martian', ['👾', ':space_invader:']);
+emoji.set('Robot', ['🤖', ':robot_face:']);
 
 /*
  * matcher for str.replace
  */
 export function strToEmoji(match) {
-  return emoji.get(match);
+  return emoji.get(match)[0];
 }
 
 /**

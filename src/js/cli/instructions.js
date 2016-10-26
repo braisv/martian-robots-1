@@ -1,8 +1,7 @@
-import { beingAsEmoji } from '../helpers';
 import { bounds, X_BOUNDS, Y_BOUNDS } from '../config';
 import Martian from '../classes/martian';
 import Robot from '../classes/martianRobot';
-import { instruct } from '../controller';
+import { instruct, printMars } from '../controller';
 
 /**
  *
@@ -35,9 +34,7 @@ function instructions(args, callback) {
 
   mars.add(instruct(tempMartian, args.instructions));
 
-  for (const value of mars.getAll().values()) {
-    self.log(`${value.toString()} => ${beingAsEmoji(value.toString(true))}`);
-  }
+  self.log(printMars(mars.getAll().values()));
 
   callback();
 }

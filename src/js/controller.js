@@ -2,7 +2,7 @@
 
 import { MAX_INSTRUCTION } from './config';
 import { beingAsEmoji } from './helpers';
-
+import os from 'os';
 
 /**
  * Calls the approrpriate action
@@ -49,15 +49,29 @@ export function instruct(being, instructionsStr) {
 
 /**
  *
- * @param   {Array}    mars      collection of martians and robots to filter
+ * @param   {Map.values}    mars      collection of martians and robots to filter
  * @param   {string|binary} condition value to filter against
  * @param   {string} property  = 'type' martian or robot property to compare condition
  * @returns {Array & String} filtered array with formatted filtered results
+ * returns string with emoji if OSX (Darwin)
  */
-export function getMartians(mars, condition, property = 'type') {
-  const arr = mars.filter(value => value[property] === condition)
-    .map(value => `${value.toString()} => ${beingAsEmoji(value.toString(true))}`);
+export function searchMars(mars, condition, property = 'type') {
+  const arr = [...mars].filter(value => value[property] === condition)
+    .map(value => `${(os.type() !== 'Darwin') ? beingAsEmoji(value.toString(true)) : value.toString(true)}`);
 
   const arrStr = arr.toString().replace(/,/g, '\n');
   return { array: arr, string: arrStr };
+}
+
+
+/**
+ *
+ * @param   {Map.values}    mars      collection of martians and robots to print
+ * @returns {String}    formatted string
+ */
+export function printMars(mars) {
+  return [...mars]
+    .map(value => `${(os.type() === 'Darwin') ? beingAsEmoji(value.toString(true)) : value.toString(true)}`)
+    .toString()
+    .replace(/,/g, '\n');
 }
