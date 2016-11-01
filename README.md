@@ -2,7 +2,7 @@
 
 ### Purpose ###
 *A do nothing demo/learning app to show that I can write all the codez.*  
-Jokes aside, I wanted to build something small to apply some of my learnings from the www.es6.io course.  
+Jokes aside, I wanted to build something small to apply some of my learnings from the [es6.io](https://goo.gl/CAHYi0) course.  
 P.S. https://leanpub.com/exploring-es6/ is a great companion for the course.
 
 ### How to run ###
