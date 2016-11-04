@@ -37,7 +37,7 @@ function show(args, callback) {
    * show everything on mars
    */
   if (!args.options.l && !args.options.r && !args.options.m) {
-    self.log(printMars(mars.getAll().values()));
+    self.log(printMars([...mars.getAll().values()]).string);
   }
 
 

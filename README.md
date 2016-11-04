@@ -5,7 +5,7 @@
 - run: `martian-robots`
 - help: `help`
 
-![Screenshot 2016-10-25 11.11.00.png](https://bitbucket.org/repo/zedyk9/images/4143475014-Screenshot%202016-10-25%2011.11.00.png)
+![Screenshot 2016-10-25 11.11.00.png](http://g.recordit.co/mr9kdcxDX0.gif)
 
 ### Tests ###
 - `npm start`  
@@ -48,12 +48,12 @@ should be printed after the position and orientation.
 #### Sample Input ####
 **Run `demo` to automatically run sample input below.**
 
-Bounds: x: 5, y: 3  
-
-- `instruct 1 1 E RFRFRFRF`
-- `instruct 3 2 N FRRFLLFFRRFLL`
-- `instruct 0 3 W LLFFFLFLFL`
-- `instruct -m 3 2 N FRRFLLFFRRFLLFFF`
+```
+instruct -x 5 -y 3 1 1 E RFRFRFRF   \\ Sets bounds at `5,3` before running first instructions
+instruct 3 2 N FRRFLLFFRRFLL  \\ Creates a robot to run instructions against
+instruct 0 3 W LLFFFLFLFL   \\ Creates a robot to run instructions against
+instruct -m 3 2 N FRRFLLFFRRFLLFFF  \\ Creates a martian to run instructions against
+```
 
 #### Sample Output ####
 - 1 1 E => 🤖 1 1 ➡️

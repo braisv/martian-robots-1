@@ -27,7 +27,7 @@ function demo(args, callback) {
   mars.add(instruct(c, 'LLFFFLFLFL'));
   mars.add(instruct(aM, 'FRRFLLFFRRFLLFFF'));
 
-  self.log(printMars(mars.getAll().values()));
+  self.log(printMars([...mars.getAll().values()]).string);
 
   callback();
 }

@@ -49,14 +49,11 @@ export function instruct(being, instructionsStr) {
 
 /**
  *
- * @param   {Map.values}    mars      collection of martians and robots to filter
- * @param   {string|binary} condition value to filter against
- * @param   {string} property  = 'type' martian or robot property to compare condition
- * @returns {Array & String} filtered array with formatted filtered results
- * returns string with emoji if OSX (Darwin)
+ * @param   {Map.values}    mars      collection of martians and robots to print
+ * @returns {String}    formatted string
  */
-export function searchMars(mars, condition, property = 'type') {
-  const arr = [...mars].filter(value => value[property] === condition)
+export function printMars(mars) {
+  const arr = mars
     .map(value => `${(os.type() === 'Darwin') ? beingAsEmoji(value.toString(true)) : value.toString(true)}`);
 
   const arrStr = arr.toString().replace(/,/g, '\n');
@@ -66,12 +63,14 @@ export function searchMars(mars, condition, property = 'type') {
 
 /**
  *
- * @param   {Map.values}    mars      collection of martians and robots to print
- * @returns {String}    formatted string
+ * @param   {Map.values}    mars      collection of martians and robots to filter
+ * @param   {string|binary} condition value to filter against
+ * @param   {string} property  = 'type' martian or robot property to compare condition
+ * @returns {Array & String} filtered array with formatted filtered results
+ * returns string with emoji if OSX (Darwin)
  */
-export function printMars(mars) {
-  return [...mars]
-    .map(value => `${(os.type() === 'Darwin') ? beingAsEmoji(value.toString(true)) : value.toString(true)}`)
-    .toString()
-    .replace(/,/g, '\n');
+export function searchMars(mars, condition, property = 'type') {
+  const arr = printMars([...mars].filter(value => value[property] === condition));
+
+  return { array: arr.array, string: arr.string };
 }

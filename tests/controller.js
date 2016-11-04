@@ -1,11 +1,11 @@
 /* global describe:false, before:false, it:false */
 
+import os from 'os';
 import { bounds } from '../src/js/config';
 import Martian from '../src/js/classes/martian';
 import Robot from '../src/js/classes/martianRobot';
 import { instruct, searchMars } from '../src/js/controller';
 import { default as Store, lostList } from '../src/js/store';
-import os from 'os';
 
 const assert = require('chai').assert;
 
@@ -38,7 +38,7 @@ describe('controller.js', () => {
     mars.add(a, b, c, m);
     // const marsArr = mars.getAll().values();
 
-    if(os.type() === 'Darwin') {
+    if (os.type() === 'Darwin') {
       assert.deepEqual(searchMars(mars.getAll().values(), false, 'isAlive').array, ['🤖 5 1 ➡️ 🆘'], 'Show lost Robots.');
       assert.deepEqual(searchMars(mars.getAll().values(), 'Robot').array, ['🤖 5 1 ➡️ 🆘', '🤖 3 2 ⬆️', '🤖 2 3 ⬇️'], 'Show all Robots.');
       assert.deepEqual(searchMars(mars.getAll().values(), 'Martian').array, ['👾 3 6 ⬆️'], 'Show all Martians');
@@ -48,6 +48,5 @@ describe('controller.js', () => {
       assert.deepEqual(searchMars(mars.getAll().values(), 'Robot').array, ['Robot 5 1 E LOST', 'Robot 3 2 N', 'Robot 2 3 S'], 'Show all Robots.');
       assert.deepEqual(searchMars(mars.getAll().values(), 'Martian').array, ['Martian 3 6 N'], 'Show all Martians');
     }
-
   });
 });
