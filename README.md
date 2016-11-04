@@ -1,9 +1,15 @@
 # Martian Robots #
 
+### Purpose ###
+*A do nothing demo/learning app to show that I can write all the codez.*  
+Jokes aside, I wanted to build something small to apply some of my learnings from the [es6.io](https://goo.gl/CAHYi0) course.  
+P.S. https://leanpub.com/exploring-es6/ is a great companion for the course.  
+
 ### How to run ###
 - install: `npm install -g`  
 - run: `martian-robots`
 - help: `help`
+- Or try the Web version: http://clumsy-year.surge.sh  | [GitHub](https://github.com/komplexb/martian-robots-web) 
 
 ![Screenshot 2016-10-25 11.11.00.png](http://g.recordit.co/mr9kdcxDX0.gif)
 
